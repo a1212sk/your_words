@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/setsFragment">
+
+    <fragment
+        android:id="@+id/setsFragment"
+        android:name="alexander.skornyakov.yourwords.ui.sets.SetsFragment"
+        android:label="sets_fragment"
+        tools:layout="@layout/sets_fragment" >
+        <action
+            android:id="@+id/action_setsFragment_to_wordsList_Fragment"
+            app:destination="@id/wordsList_Fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/setsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wordsList_Fragment"
+        android:name="alexander.skornyakov.yourwords.ui.wordslist.WordsListFragment"
+        android:label="WordsList_Fragment" />
+</navigation>
