@@ -22,5 +22,18 @@
     <fragment
         android:id="@+id/wordsList_Fragment"
         android:name="alexander.skornyakov.yourwords.ui.wordslist.WordsListFragment"
-        android:label="WordsList_Fragment" />
+        android:label="WordsList_Fragment" >
+        <action
+            android:id="@+id/action_wordsList_Fragment_to_cardsFragment"
+            app:destination="@id/cardsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/wordsList_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="alexander.skornyakov.yourwords.ui.cards.CardsFragment"
+        android:label="CardsFragment" />
 </navigation>

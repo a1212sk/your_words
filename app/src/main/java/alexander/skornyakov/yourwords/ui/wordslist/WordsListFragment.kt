@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 
 class WordsListFragment : Fragment() {
 
@@ -27,9 +29,19 @@ class WordsListFragment : Fragment() {
             R.layout.wordslist_fragment,
             container,
             false)
+        binding.lifecycleOwner = this
+
         viewModel = ViewModelProviders.of(this).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
-        binding.lifecycleOwner = this
+
+        viewModel.navigateToCards.observe(this, Observer {
+            if(it == true){
+                findNavController().navigate(R.id.action_wordsList_Fragment_to_cardsFragment)
+                viewModel.goToCardsCompleted()
+            }
+        })
+
+
         return binding.root
     }
 
