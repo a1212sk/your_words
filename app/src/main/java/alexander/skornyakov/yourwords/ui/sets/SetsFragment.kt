@@ -7,6 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 class SetsFragment : Fragment() {
 
@@ -14,19 +18,27 @@ class SetsFragment : Fragment() {
         fun newInstance() = SetsFragment()
     }
 
-    private lateinit var viewModel: SetsViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.sets_fragment, container, false)
+        //Inflate xml
+        val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
+            inflater, R.layout.sets_fragment,container,false)
+        binding.lifecycleOwner = this
+        //Set data.ViewModel var from xml
+        val vm: SetsViewModel = ViewModelProviders.of(this).get(SetsViewModel::class.java)
+        binding.setsViewModel = vm
+        //Observing navigation variable inside ViewModel
+        vm.navigateToWordsList.observe(this, Observer {
+            if(it == true){
+                findNavController().navigate(R.id.action_setsFragment_to_wordsList_Fragment)
+                vm.goToWordsListCompleted()
+            }
+        })
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SetsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
