@@ -24,15 +24,14 @@ class SetsRecyclerViewAdapter : ListAdapter<WordsSet, SetsRecyclerViewAdapter.Wo
 
     class WordViewHolder private constructor(val binding: SetsItemBinding) : ViewHolder(binding.root){
         fun bind(item: WordsSet) {
-            binding.wordTextView.text = item.word
+            binding.wordTextView.text = item.name
             binding.executePendingBindings()
         }
         companion object {
             fun from(parent: ViewGroup): WordViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = SetsItemBinding.inflate(layoutInflater,parent,false)
-                val view = layoutInflater
-                    .inflate(R.layout.sets_item, parent, false)
+                layoutInflater.inflate(R.layout.sets_item, parent, false)
                 return WordViewHolder(binding)
             }
         }

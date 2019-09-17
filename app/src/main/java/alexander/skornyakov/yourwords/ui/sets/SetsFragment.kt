@@ -7,15 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.data.WordsDatabase
 import alexander.skornyakov.yourwords.data.WordsSet
+import alexander.skornyakov.yourwords.data.WordsSetsDatabaseDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
+import android.app.Application
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-private val SPAN_COUNT = 2
+private const val SPAN_COUNT = 2
 
 class SetsFragment : Fragment() {
 
@@ -28,8 +31,13 @@ class SetsFragment : Fragment() {
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
             inflater, R.layout.sets_fragment,container,false)
         binding.lifecycleOwner = this
+
+        val app: Application = requireNotNull(this.activity).application
+        val wordsSetsDao: WordsSetsDatabaseDao = WordsDatabase.getInstance(app).wordsSetsDatabaseDao
+
         //Set data.ViewModel var from xml
-        val vm: SetsViewModel = ViewModelProviders.of(this).get(SetsViewModel::class.java)
+        val setsViewModelFactory = SetsViewModelFactory(wordsSetsDao,app)
+        val vm: SetsViewModel = ViewModelProviders.of(this, setsViewModelFactory).get(SetsViewModel::class.java)
         binding.setsViewModel = vm
         //Observing navigation variable inside ViewModel
         vm.navigateToWordsList.observe(this, Observer {
@@ -43,7 +51,6 @@ class SetsFragment : Fragment() {
         binding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, SPAN_COUNT)
-
             adapter = setsRecyclerViewAdapter
         }
 
@@ -53,14 +60,9 @@ class SetsFragment : Fragment() {
             }
         })
 
-        vm.wordsSetList.value = mutableListOf<WordsSet>(
-            WordsSet(1,"Nouns"),
-            WordsSet(2,"Verbs"),
-            WordsSet(3,"Phrasal Verbs"),
-            WordsSet(4,"Greetings"))
-//        for (i in 0..10){
-//            (vm.wordsSetList.value as MutableList<WordsSet>).addAll(vm.wordsSetList.value as MutableList<WordsSet>)
-//        }
+
+
+
         return binding.root
     }
 

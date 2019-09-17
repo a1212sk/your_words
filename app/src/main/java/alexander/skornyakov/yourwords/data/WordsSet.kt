@@ -1,11 +1,14 @@
 package alexander.skornyakov.yourwords.data
 
-class WordsSet constructor(val _id: Int?,val _word: String) {
-    val id: Int? = _id
-    val word: String? = _word
-    val meaning: String? = ""
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    override fun equals(other: Any?): Boolean {
-        return super.equals(other)
-    }
-}
+@Entity(tableName = "words_sets_table")
+data class WordsSet (
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0L,
+
+    @ColumnInfo(name = "name")
+    var name: String = ""
+)
