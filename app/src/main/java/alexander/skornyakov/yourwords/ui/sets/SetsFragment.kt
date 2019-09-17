@@ -7,16 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.data.WordsSet
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+private val SPAN_COUNT = 2
 
 class SetsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SetsFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,28 @@ class SetsFragment : Fragment() {
             }
         })
 
+        val setsRecyclerViewAdapter = SetsRecyclerViewAdapter()
+        binding.recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context, SPAN_COUNT)
+
+            adapter = setsRecyclerViewAdapter
+        }
+
+        vm.wordsSetList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                setsRecyclerViewAdapter.submitList(it)
+            }
+        })
+
+        vm.wordsSetList.value = mutableListOf<WordsSet>(
+            WordsSet(1,"Nouns"),
+            WordsSet(2,"Verbs"),
+            WordsSet(3,"Phrasal Verbs"),
+            WordsSet(4,"Greetings"))
+//        for (i in 0..10){
+//            (vm.wordsSetList.value as MutableList<WordsSet>).addAll(vm.wordsSetList.value as MutableList<WordsSet>)
+//        }
         return binding.root
     }
 

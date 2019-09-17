@@ -14,10 +14,6 @@ import androidx.navigation.fragment.findNavController
 
 class WordsListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = WordsListFragment()
-    }
-
     private lateinit var viewModel: WordsListViewModel
 
     override fun onCreateView(
