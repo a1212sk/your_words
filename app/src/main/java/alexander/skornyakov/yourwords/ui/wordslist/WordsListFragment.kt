@@ -18,8 +18,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import java.text.FieldPosition
 
-class WordsListFragment : Fragment() {
+class WordsListFragment : Fragment(){
 
     private lateinit var viewModel: WordsListViewModel
 
@@ -34,9 +35,12 @@ class WordsListFragment : Fragment() {
             false)
         binding.lifecycleOwner = this
 
+        val selectedWordsSet = arguments?.getLong("setId")
+
+
         val app: Application = requireNotNull(this.activity).application
         val wordsDao: WordsDao = WordsDatabase.getInstance(app).wordsDao
-        val vmFactory = WordsListViewModelFactory(wordsDao,app)
+        val vmFactory = WordsListViewModelFactory(wordsDao, app, selectedWordsSet!!)
         viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 
@@ -52,6 +56,9 @@ class WordsListFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = wordsListRecyclerViewAdapter
+            setOnClickListener {
+
+            }
         }
 
         viewModel.words.observe(viewLifecycleOwner, Observer {
@@ -67,3 +74,4 @@ class WordsListFragment : Fragment() {
 
 
 }
+

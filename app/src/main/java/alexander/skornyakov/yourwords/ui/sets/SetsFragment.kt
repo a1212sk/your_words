@@ -37,15 +37,17 @@ class SetsFragment : Fragment() {
         val setsViewModelFactory = SetsViewModelFactory(wordsSetsDao,app)
         val vm: SetsViewModel = ViewModelProviders.of(this, setsViewModelFactory).get(SetsViewModel::class.java)
         binding.setsViewModel = vm
-        //Observing navigation variable inside ViewModel
-        vm.navigateToWordsList.observe(this, Observer {
-            if(it == true){
-                findNavController().navigate(R.id.action_setsFragment_to_wordsList_Fragment)
-                vm.goToWordsListCompleted()
-            }
-        })
 
-        val setsRecyclerViewAdapter = SetsRecyclerViewAdapter()
+        val setsRecyclerViewAdapter = SetsRecyclerViewAdapter(
+            SetsClickListener{ setID ->
+                setID?.let {
+                    findNavController().navigate(SetsFragmentDirections.actionSetsFragmentToWordsListFragment(it))
+                    vm.goToWordsListCompleted()
+                }
+
+            }
+        )
+
         binding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, SPAN_COUNT)
@@ -57,9 +59,6 @@ class SetsFragment : Fragment() {
                 setsRecyclerViewAdapter.submitList(it)
             }
         })
-
-
-
 
         return binding.root
     }

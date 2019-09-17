@@ -28,7 +28,7 @@ class DbHelper {
                 "a mouse" to "a small animal with fur and a long, thin tail"
             )
             for (a in animals){
-                val w = Word(0,a.key,a.value,1)
+                val w = Word(0,a.key,a.value,2)
                 dao.insert(w)
             }
         }

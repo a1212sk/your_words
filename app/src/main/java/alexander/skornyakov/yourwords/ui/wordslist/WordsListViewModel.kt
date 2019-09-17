@@ -10,7 +10,8 @@ import androidx.lifecycle.MutableLiveData
 
 class WordsListViewModel(
     val db: WordsDao,
-    app: Application
+    app: Application,
+    selectedWordsSet: Long
 ): AndroidViewModel(app){
 
     private val _navigateToCards = MutableLiveData<Boolean>()
@@ -25,7 +26,7 @@ class WordsListViewModel(
         _navigateToCards.value = false
     }
 
-    private val _words = db.getAll() //TODO key from previous fragment for getWordsBySetId
+    private val _words = db.getWordsBySetId(selectedWordsSet)
     val words : LiveData<List<Word>>
         get() = _words
 }

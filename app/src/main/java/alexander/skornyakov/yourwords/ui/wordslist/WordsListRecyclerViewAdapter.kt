@@ -7,11 +7,13 @@ import alexander.skornyakov.yourwords.databinding.SetsItemBinding
 import alexander.skornyakov.yourwords.ui.sets.SetsRecyclerViewAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class WordsListRecyclerViewAdapter : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
+class WordsListRecyclerViewAdapter
+    : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         return WordViewHolder.from(parent)
@@ -22,11 +24,13 @@ class WordsListRecyclerViewAdapter : ListAdapter<Word, WordsListRecyclerViewAdap
         holder.bind(item)
     }
 
-    class WordViewHolder private constructor(val binding: SetsItemBinding) : RecyclerView.ViewHolder(binding.root){
+        class WordViewHolder private constructor(val binding: SetsItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: Word) {
             binding.wordTextView.text = item.word
             binding.executePendingBindings()
+
         }
+
         companion object {
             fun from(parent: ViewGroup): WordViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)

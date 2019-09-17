@@ -5,26 +5,26 @@ import alexander.skornyakov.yourwords.data.WordsSet
 import alexander.skornyakov.yourwords.databinding.SetsItemBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class SetsRecyclerViewAdapter : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
+class SetsRecyclerViewAdapter(val clickListener: SetsClickListener) : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         return WordViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        val item = getItem(position)!!
+        holder.bind(clickListener,item)
     }
 
     class WordViewHolder private constructor(val binding: SetsItemBinding) : ViewHolder(binding.root){
-        fun bind(item: WordsSet) {
+        fun bind(clickListener: SetsClickListener, item: WordsSet) {
+            binding.wordsSet = item
             binding.wordTextView.text = item.name
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
         companion object {
@@ -49,3 +49,10 @@ class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
 
 }
 
+class SetsClickListener(val clickListener: (setId: Long) -> Unit) {
+    fun onClick(set: WordsSet?){
+        set?.let {
+            clickListener(it.setId)
+        }
+    }
+}
