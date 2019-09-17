@@ -1,15 +1,13 @@
 package alexander.skornyakov.yourwords.ui.sets
 
-import alexander.skornyakov.yourwords.data.WordsDatabase
 import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.data.WordsSetsDatabaseDao
+import alexander.skornyakov.yourwords.data.WordsSetsDao
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 
-class SetsViewModel (val db: WordsSetsDatabaseDao,
+class SetsViewModel (val db: WordsSetsDao,
                      app: Application): AndroidViewModel(app) {
 
     private val _navigateToWordsList = MutableLiveData<Boolean?>()

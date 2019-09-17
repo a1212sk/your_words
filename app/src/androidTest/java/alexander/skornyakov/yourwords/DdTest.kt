@@ -2,7 +2,7 @@ package alexander.skornyakov.yourwords
 
 import alexander.skornyakov.yourwords.data.WordsDatabase
 import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.data.WordsSetsDatabaseDao
+import alexander.skornyakov.yourwords.data.WordsSetsDao
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -11,7 +11,6 @@ import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
 import org.junit.Before
 import java.io.IOException
 import java.lang.Exception
@@ -25,7 +24,7 @@ import java.lang.Exception
 class DdTest {
 
     private lateinit var db: WordsDatabase
-    private lateinit var setsDao: WordsSetsDatabaseDao
+    private lateinit var setsDao: WordsSetsDao
 
 
 
@@ -35,7 +34,7 @@ class DdTest {
         db = Room.inMemoryDatabaseBuilder(appContext,WordsDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        setsDao = db.wordsSetsDatabaseDao
+        setsDao = db.wordsSetsDao
     }
 
     @After

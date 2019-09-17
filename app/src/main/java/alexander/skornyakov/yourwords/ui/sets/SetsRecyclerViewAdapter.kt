@@ -40,7 +40,7 @@ class SetsRecyclerViewAdapter : ListAdapter<WordsSet, SetsRecyclerViewAdapter.Wo
 
 class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
     override fun areItemsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.setId == newItem.setId
     }
 
     override fun areContentsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {

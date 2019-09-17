@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "words_sets_table")
 data class WordsSet (
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L,
+    var setId: Long = 0L,
 
     @ColumnInfo(name = "name")
     var name: String = ""
+
 )

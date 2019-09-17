@@ -1,0 +1,24 @@
+package alexander.skornyakov.yourwords.ui.wordslist
+
+import alexander.skornyakov.yourwords.data.WordsDao
+import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.ui.sets.SetsViewModel
+import android.app.Application
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+
+class WordsListViewModelFactory(
+
+    private val wordsDao: WordsDao,
+
+    private val app: Application
+) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(WordsListViewModelFactory::class.java)) {
+            return WordsListViewModel(wordsDao, app) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
+}

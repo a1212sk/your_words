@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.WordsDatabase
-import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.data.WordsSetsDatabaseDao
+import alexander.skornyakov.yourwords.data.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import android.app.Application
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 private const val SPAN_COUNT = 2
 
@@ -33,7 +31,7 @@ class SetsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val app: Application = requireNotNull(this.activity).application
-        val wordsSetsDao: WordsSetsDatabaseDao = WordsDatabase.getInstance(app).wordsSetsDatabaseDao
+        val wordsSetsDao: WordsSetsDao = WordsDatabase.getInstance(app).wordsSetsDao
 
         //Set data.ViewModel var from xml
         val setsViewModelFactory = SetsViewModelFactory(wordsSetsDao,app)

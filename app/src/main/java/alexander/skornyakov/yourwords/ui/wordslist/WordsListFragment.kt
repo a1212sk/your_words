@@ -1,7 +1,11 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.data.WordsDao
+import alexander.skornyakov.yourwords.data.WordsDatabase
+import alexander.skornyakov.yourwords.data.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +31,10 @@ class WordsListFragment : Fragment() {
             false)
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProviders.of(this).get(WordsListViewModel::class.java)
+        val app: Application = requireNotNull(this.activity).application
+        val wordsDao: WordsDao = WordsDatabase.getInstance(app).wordsDao
+        val vmFactory = WordsListViewModelFactory(wordsDao,app)
+        viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 
         viewModel.navigateToCards.observe(this, Observer {

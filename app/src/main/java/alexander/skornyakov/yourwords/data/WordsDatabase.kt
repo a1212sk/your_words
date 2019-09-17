@@ -5,15 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import java.util.concurrent.Executors
 
 
-@Database(entities = [WordsSet::class], version = 1, exportSchema = false)
+@Database(entities = [WordsSet::class, Word::class], version = 1, exportSchema = false)
 abstract class WordsDatabase : RoomDatabase() {
 
-    abstract val wordsSetsDatabaseDao: WordsSetsDatabaseDao
+    abstract val wordsSetsDao: WordsSetsDao
+    abstract val wordsDao: WordsDao
 
     companion object {
 
@@ -28,10 +27,12 @@ abstract class WordsDatabase : RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         Executors.newSingleThreadScheduledExecutor()
                             .execute(Runnable {
-                                instance?.wordsSetsDatabaseDao?.let {
+                                instance?.wordsSetsDao?.let {
                                     DbHelper.prepopulateWordsSets(it)
                                 }
-
+                                instance?.wordsDao?.let {
+                                    DbHelper.prepopulateWords(it)
+                                }
                             })
                     }
 
