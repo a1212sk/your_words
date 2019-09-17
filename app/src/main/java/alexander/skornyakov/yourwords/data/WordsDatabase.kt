@@ -29,12 +29,7 @@ abstract class WordsDatabase : RoomDatabase() {
                         Executors.newSingleThreadScheduledExecutor()
                             .execute(Runnable {
                                 instance?.wordsSetsDatabaseDao?.let {
-                                    for(i in 0..100){
-                                        val ws = WordsSet()
-                                        ws.name = "Words set"
-                                        it.insert(ws)
-                                    }
-
+                                    DbHelper.prepopulateWordsSets(it)
                                 }
 
                             })
