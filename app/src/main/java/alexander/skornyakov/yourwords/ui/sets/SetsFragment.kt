@@ -40,11 +40,9 @@ class SetsFragment : Fragment() {
 
         val setsRecyclerViewAdapter = SetsRecyclerViewAdapter(
             SetsClickListener{ setID ->
-                setID?.let {
+                setID.let {
                     findNavController().navigate(SetsFragmentDirections.actionSetsFragmentToWordsListFragment(it))
-                    vm.goToWordsListCompleted()
                 }
-
             }
         )
 

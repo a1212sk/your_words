@@ -44,21 +44,18 @@ class WordsListFragment : Fragment(){
         viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 
-        viewModel.navigateToCards.observe(this, Observer {
-            if(it == true){
-                findNavController().navigate(R.id.action_wordsList_Fragment_to_cardsFragment)
-                viewModel.goToCardsCompleted()
-            }
-        })
+        val wordsListRecyclerViewAdapter = WordsListRecyclerViewAdapter(
+            WordsClickListener { wordId ->
+                wordId.let {
+                    findNavController().navigate(WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(it,selectedWordsSet))
 
-        val wordsListRecyclerViewAdapter = WordsListRecyclerViewAdapter()
+                }
+        })
         binding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = wordsListRecyclerViewAdapter
-            setOnClickListener {
 
-            }
         }
 
         viewModel.words.observe(viewLifecycleOwner, Observer {

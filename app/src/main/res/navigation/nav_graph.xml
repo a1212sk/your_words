@@ -39,5 +39,12 @@
     <fragment
         android:id="@+id/cardsFragment"
         android:name="alexander.skornyakov.yourwords.ui.cards.CardsFragment"
-        android:label="CardsFragment" />
+        android:label="CardsFragment" >
+        <argument
+            android:name="wordId"
+            app:argType="long"/>
+        <argument
+            android:name="setId"
+            app:argType="long"/>
+    </fragment>
 </navigation>

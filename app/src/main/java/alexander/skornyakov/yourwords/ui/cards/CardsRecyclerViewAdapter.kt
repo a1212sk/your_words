@@ -1,20 +1,16 @@
-package alexander.skornyakov.yourwords.ui.wordslist
+package alexander.skornyakov.yourwords.ui.cards
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.Word
-import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.databinding.SetsItemBinding
-import alexander.skornyakov.yourwords.databinding.WordslistItemBinding
-import alexander.skornyakov.yourwords.ui.sets.SetsRecyclerViewAdapter
+import alexander.skornyakov.yourwords.databinding.CardsItemBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
-    : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
+class CardsRecyclerViewAdapter
+    : ListAdapter<Word, CardsRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         return WordViewHolder.from(parent)
@@ -22,23 +18,22 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, clickListener)
+        holder.bind(item)
     }
 
-        class WordViewHolder private constructor(val binding: WordslistItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: Word, clickListener: WordsClickListener) {
+
+    class WordViewHolder private constructor(val binding: CardsItemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(item: Word) {
             binding.wordTextView.text = item.word
             binding.word = item
-            binding.clickListener = clickListener
             binding.executePendingBindings()
 
         }
-
         companion object {
             fun from(parent: ViewGroup): WordViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = WordslistItemBinding.inflate(layoutInflater,parent,false)
-                layoutInflater.inflate(R.layout.wordslist_item, parent, false)
+                val binding = CardsItemBinding.inflate(layoutInflater,parent,false)
+                layoutInflater.inflate(R.layout.cards_item, parent, false)
                 return WordViewHolder(binding)
             }
         }
@@ -54,12 +49,4 @@ class SetsDiffCallback : DiffUtil.ItemCallback<Word>(){
         return  oldItem == newItem
     }
 
-}
-
-class WordsClickListener(val clickListener: (wordId: Long) -> Unit) {
-    fun onClick(word: Word?){
-        word?.let {
-            clickListener(it.wordId)
-        }
-    }
 }
