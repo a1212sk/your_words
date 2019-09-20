@@ -27,7 +27,7 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
 
         class WordViewHolder private constructor(val binding: WordslistItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: Word, clickListener: WordsClickListener) {
-            binding.wordTextView.text = item.word
+            //binding.wordTextView.text = item.word
             binding.word = item
             binding.clickListener = clickListener
             binding.executePendingBindings()

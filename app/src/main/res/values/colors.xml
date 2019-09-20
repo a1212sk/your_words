@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorPrimary">#053550</color>
+    <color name="colorPrimaryDark">#042035</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="wordListItem">#3F76B5</color>
+    <color name="wordListItem">#1258A8</color>
+    <color name="meaning">#2A41669E</color>
+    <color name="card_bg">#85ACE2E3</color>
+    <color name="example_bg">#325394</color>
 </resources>

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
-                android:text="Word"
+                android:text="@{word.word}"
                 android:textAlignment="center"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"

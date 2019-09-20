@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlin.math.absoluteValue
+import androidx.recyclerview.widget.PagerSnapHelper
 
 class CardsFragment : Fragment(){
 
@@ -36,26 +36,10 @@ class CardsFragment : Fragment(){
         val selectedWordsSet = arguments?.getLong("setId")
         val selectedWord = arguments?.getLong("wordId")
 
-        val vmFactory = CardsViewModelFactory(wordsDao, app, selectedWordsSet!!)
+        val vmFactory = CardsViewModelFactory(wordsDao, app, selectedWordsSet!!, selectedWord!!)
 
         val vm = ViewModelProviders.of(this, vmFactory).get(CardsViewModel::class.java)
         binding.cardsViewModel = vm
-
-        val cardsRecyclerViewAdaptor = CardsRecyclerViewAdapter()
-        val horLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        binding.rv.apply {
-            setHasFixedSize(true)
-            layoutManager = horLinearLayoutManager
-            adapter = cardsRecyclerViewAdaptor
-        }
-
-        vm.words.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                cardsRecyclerViewAdaptor.submitList(it)
-                horLinearLayoutManager.scrollToPosition(selectedWord?.toInt()?.minus(1)!!)
-            }
-        })
 
         return binding.root
     }

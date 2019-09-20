@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModel
 class CardsViewModel(
     val db: WordsDao,
     app: Application,
-    selectedWordsSet: Long
+    selectedWordsSetId: Long,
+    selectedWordId: Long
 ): AndroidViewModel(app){
 
-    private val _words = db.getWordsBySetId(selectedWordsSet)
+    private val _words = db.getWordsBySetId(selectedWordsSetId)
     val words : LiveData<List<Word>>
         get() = _words
 
