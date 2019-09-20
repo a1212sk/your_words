@@ -5,7 +5,6 @@ import alexander.skornyakov.yourwords.data.WordsDao
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 
 class CardsViewModel(
     val db: WordsDao,
@@ -13,6 +12,10 @@ class CardsViewModel(
     selectedWordsSetId: Long,
     selectedWordId: Long
 ): AndroidViewModel(app){
+
+    private val _word = db.get(selectedWordId)
+    val word : LiveData<Word>?
+        get() = _word
 
     private val _words = db.getWordsBySetId(selectedWordsSetId)
     val words : LiveData<List<Word>>

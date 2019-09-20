@@ -12,10 +12,10 @@ interface WordsDao {
     fun insert(w: Word)
 
     @Update
-    fun update(w: WordsSet)
+    fun update(w: Word)
 
     @Query("SELECT * from words_table WHERE wordId = :key")
-    fun get(key: Long): Word?
+    fun get(key: Long): LiveData<Word>?
 
     @Query("DELETE FROM words_table")
     fun clear()
