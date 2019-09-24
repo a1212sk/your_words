@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.concurrent.Executors
 
 
-@Database(entities = [WordsSet::class, Word::class], version = 1, exportSchema = false)
+@Database(entities = [WordsSet::class, Word::class, Meaning::class], version = 1, exportSchema = false)
 abstract class WordsDatabase : RoomDatabase() {
 
     abstract val wordsSetsDao: WordsSetsDao

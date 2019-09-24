@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/cardsFragment"
-        android:name="alexander.skornyakov.yourwords.ui.cards.CardsFragment"
+        android:name="alexander.skornyakov.yourwords.ui.cards.WordFragment"
         android:label="CardsFragment" >
         <argument
             android:name="wordId"

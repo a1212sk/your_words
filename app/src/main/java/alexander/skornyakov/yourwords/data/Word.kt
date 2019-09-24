@@ -10,16 +10,12 @@ import org.jetbrains.annotations.NotNull
 )))
 data class Word (
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     var wordId: Long = 0L,
 
     @ColumnInfo(name="word")
     @NotNull
     val word: String,
-
-    @ColumnInfo(name="meaning")
-    @NotNull
-    val meaning: String,
 
     @ColumnInfo(name="wordset_id")
     @NotNull

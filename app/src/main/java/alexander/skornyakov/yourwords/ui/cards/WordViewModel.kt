@@ -1,12 +1,13 @@
 package alexander.skornyakov.yourwords.ui.cards
 
+import alexander.skornyakov.yourwords.data.Meaning
 import alexander.skornyakov.yourwords.data.Word
 import alexander.skornyakov.yourwords.data.WordsDao
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 
-class CardsViewModel(
+class WordViewModel(
     val db: WordsDao,
     app: Application,
     selectedWordsSetId: Long,
@@ -20,5 +21,9 @@ class CardsViewModel(
     private val _words = db.getWordsBySetId(selectedWordsSetId)
     val words : LiveData<List<Word>>
         get() = _words
+
+    private val _meanings = db.getMeaningsByWordId(selectedWordId)
+    val meanings : LiveData<List<Meaning>>
+        get() = _meanings
 
 }

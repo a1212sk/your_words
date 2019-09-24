@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class CardsViewModelFactory(
+class WordViewModelFactory(
     private val wordsDao: WordsDao,
     private val app: Application,
     private val selectedWordsSetId: Long,
@@ -13,8 +13,8 @@ class CardsViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CardsViewModel::class.java)) {
-            return CardsViewModel(wordsDao, app, selectedWordsSetId, selectedWordId) as T
+        if (modelClass.isAssignableFrom(WordViewModel::class.java)) {
+            return WordViewModel(wordsDao, app, selectedWordsSetId, selectedWordId) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

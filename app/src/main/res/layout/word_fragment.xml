@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 <data>
     <variable
-        name="cardsViewModel"
-        type="alexander.skornyakov.yourwords.ui.cards.CardsViewModel" />
+        name="wordViewModel"
+        type="alexander.skornyakov.yourwords.ui.cards.WordViewModel" />
 </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_marginTop="32dp"
-            android:text="@{cardsViewModel.word.word}"
+            android:text="@{wordViewModel.word.word}"
             android:textAlignment="center"
             android:textColor="@android:color/primary_text_light"
             android:textSize="36sp"
@@ -26,21 +26,20 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Word" />
 
-        <TextView
-            android:id="@+id/meaning"
+        <ScrollView
             android:layout_width="0dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="32dp"
-            android:text="@{cardsViewModel.word.meaning}"
-            android:textAlignment="center"
-            android:textColor="@android:color/primary_text_light"
-            android:textSize="18sp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/word"
-            tools:text="Meaning"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/word">
+
+            <LinearLayout
+                android:id="@+id/meanings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

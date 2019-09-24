@@ -9,7 +9,10 @@ import androidx.room.Update
 @Dao
 interface WordsDao {
     @Insert
-    fun insert(w: Word)
+    fun insertWord(w: Word)
+
+    @Insert
+    fun insertMeaning(m: Meaning)
 
     @Update
     fun update(w: Word)
@@ -25,4 +28,8 @@ interface WordsDao {
 
     @Query("SELECT * FROM words_table WHERE wordset_id = :key ORDER BY wordId ASC")
     fun getWordsBySetId(key: Long): LiveData<List<Word>>
+
+    @Query("SELECT * FROM meanings_table WHERE word_id = :key ORDER BY `order` ASC")
+    fun getMeaningsByWordId(key: Long): LiveData<List<Meaning>>
+
 }
