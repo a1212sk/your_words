@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull
 )
 data class Meaning (
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
     @ColumnInfo(name = "word_id")

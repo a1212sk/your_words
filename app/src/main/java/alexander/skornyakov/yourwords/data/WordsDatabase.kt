@@ -5,10 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import org.json.JSONObject
+import java.io.IOException
+import java.nio.charset.Charset
 import java.util.concurrent.Executors
 
 
-@Database(entities = [WordsSet::class, Word::class, Meaning::class], version = 1, exportSchema = false)
+@Database(entities = [WordsSet::class, Word::class, Meaning::class], version = 2, exportSchema = false)
 abstract class WordsDatabase : RoomDatabase() {
 
     abstract val wordsSetsDao: WordsSetsDao
@@ -19,6 +22,24 @@ abstract class WordsDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: WordsDatabase? = null
 
+        private fun loadJSONFromAsset(context: Context): String? {
+            //function to load the JSON from the Asset and return the object
+            var json: String? = null
+            val charset: Charset = Charsets.UTF_8
+            try {
+                val `is` = context.assets.open("db.json")
+                val size = `is`.available()
+                val buffer = ByteArray(size)
+                `is`.read(buffer)
+                `is`.close()
+                json = String(buffer, charset)
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+                return null
+            }
+            return json
+        }
+
         fun getInstance(context: Context): WordsDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -27,12 +48,34 @@ abstract class WordsDatabase : RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         Executors.newSingleThreadScheduledExecutor()
                             .execute(Runnable {
-                                instance?.wordsSetsDao?.let {
-                                    DbHelper.prepopulateWordsSets(it)
+                                var setID = 0
+                                var wordID = 0
+                                var meaningID = 0
+
+                                val jsonString = loadJSONFromAsset(context)
+                                val json = JSONObject(jsonString)
+                                val sets = json.getJSONArray("sets")
+                                for(i in 0..sets.length()-1){
+                                    val set = sets.getJSONObject(i)
+                                    val setName = set.getString("name")
+                                    val wordsSet = WordsSet(0, setName)
+                                    val wsId = instance?.wordsSetsDao?.insert(wordsSet)
+                                    val words = set.getJSONArray("words")
+                                    for(j in 0..words.length()-1){
+                                        val word = words.getJSONObject(j)
+                                        val wordName = word.getString("word")
+                                        val newWord = Word(0, wordName, wsId)
+                                        val wId = instance?.wordsDao?.insertWord(newWord)
+                                        val meanings = word.getJSONArray("meanings")
+                                        for(k in 0..meanings.length()-1){
+                                            val meaning = meanings.getJSONObject(k)
+                                            val meaningString = meaning.getString("meaning")
+                                            val newMeaning = Meaning(0, wId!!, meaningString, k)
+                                            instance?.wordsDao?.insertMeaning(newMeaning)
+                                        }
+                                    }
                                 }
-                                instance?.wordsDao?.let {
-                                    DbHelper.prepopulateWords(it)
-                                }
+
                             })
                     }
 

@@ -9,10 +9,10 @@ import androidx.room.Update
 @Dao
 interface WordsDao {
     @Insert
-    fun insertWord(w: Word)
+    fun insertWord(w: Word) : Long
 
     @Insert
-    fun insertMeaning(m: Meaning)
+    fun insertMeaning(m: Meaning) : Long
 
     @Update
     fun update(w: Word)

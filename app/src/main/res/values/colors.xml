@@ -7,4 +7,5 @@
     <color name="meaning">#2A41669E</color>
     <color name="card_bg">#85ACE2E3</color>
     <color name="example_bg">#325394</color>
+    <color name="transp">#00FFFFFF</color>
 </resources>

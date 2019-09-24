@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull
 )))
 data class Word (
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     var wordId: Long = 0L,
 
     @ColumnInfo(name="word")

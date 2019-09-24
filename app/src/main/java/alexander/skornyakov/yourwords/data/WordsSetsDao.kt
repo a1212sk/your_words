@@ -9,7 +9,7 @@ import androidx.room.Update
 @Dao
 interface WordsSetsDao {
     @Insert
-    fun insert(ws: WordsSet)
+    fun insert(ws: WordsSet) : Long
 
     @Update
     fun update(ws: WordsSet)
