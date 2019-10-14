@@ -7,7 +7,9 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.WordsDatabase
 import alexander.skornyakov.yourwords.data.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
+import android.app.AlertDialog
 import android.app.Application
+import android.content.DialogInterface
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -21,6 +23,22 @@ class SetsFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.sets_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(layoutInflater.inflate(R.layout.add_set_dialog,null))
+            .setTitle("Add new set")
+            .setPositiveButton("Create",
+                DialogInterface.OnClickListener{dialog,id->
+
+                })
+            .setNegativeButton("Cancel",
+                DialogInterface.OnClickListener{dialog,id->
+
+                })
+        builder.show()
+        return true
     }
 
     override fun onCreateView(
