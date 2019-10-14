@@ -3,14 +3,12 @@ package alexander.skornyakov.yourwords.ui.sets
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.WordsDatabase
 import alexander.skornyakov.yourwords.data.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import android.app.Application
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,11 +18,16 @@ private const val SPAN_COUNT = 2
 
 class SetsFragment : Fragment() {
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.sets_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         //Inflate xml
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
             inflater, R.layout.sets_fragment,container,false)
