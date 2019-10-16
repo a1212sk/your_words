@@ -11,6 +11,7 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.DialogInterface
 import android.view.*
+import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,8 @@ private const val SPAN_COUNT = 2
 
 class SetsFragment : Fragment() {
 
+    private lateinit var vm: SetsViewModel
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.sets_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -27,16 +30,21 @@ class SetsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val builder = AlertDialog.Builder(context)
-        builder.setView(layoutInflater.inflate(R.layout.add_set_dialog,null))
+        val view = layoutInflater.inflate(R.layout.add_set_dialog,null);
+        val editText = view.findViewById<EditText>(R.id.new_set_name)
+        builder.setView(view)
             .setTitle("Add new set")
             .setPositiveButton("Create",
-                DialogInterface.OnClickListener{dialog,id->
-
+                DialogInterface.OnClickListener{dialog, id->
+                    if(!editText.text.isNullOrEmpty()){
+                        vm.createSet(editText.text.toString())
+                    }
                 })
             .setNegativeButton("Cancel",
-                DialogInterface.OnClickListener{dialog,id->
+                DialogInterface.OnClickListener{dialog, id->
 
                 })
+
         builder.show()
         return true
     }
@@ -58,6 +66,7 @@ class SetsFragment : Fragment() {
         val setsViewModelFactory = SetsViewModelFactory(wordsSetsDao,app)
         val vm: SetsViewModel = ViewModelProviders.of(this, setsViewModelFactory).get(SetsViewModel::class.java)
         binding.setsViewModel = vm
+        this.vm = vm
 
         val setsRecyclerViewAdapter = SetsRecyclerViewAdapter(
             SetsClickListener{ setID ->
