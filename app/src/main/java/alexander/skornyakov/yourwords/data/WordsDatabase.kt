@@ -47,27 +47,25 @@ abstract class WordsDatabase : RoomDatabase() {
                 val rdc = object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         Executors.newSingleThreadScheduledExecutor()
-                            .execute(Runnable {
-                                var setID = 0
-                                var wordID = 0
-                                var meaningID = 0
+                            .execute {
 
                                 val jsonString = loadJSONFromAsset(context)
                                 val json = JSONObject(jsonString)
+
                                 val sets = json.getJSONArray("sets")
-                                for(i in 0..sets.length()-1){
+                                for(i in 0 until sets.length()){
                                     val set = sets.getJSONObject(i)
                                     val setName = set.getString("name")
                                     val wordsSet = WordsSet(0, setName)
                                     val wsId = instance?.wordsSetsDao?.insert(wordsSet)
                                     val words = set.getJSONArray("words")
-                                    for(j in 0..words.length()-1){
+                                    for(j in 0 until words.length()){
                                         val word = words.getJSONObject(j)
                                         val wordName = word.getString("word")
                                         val newWord = Word(0, wordName, wsId)
                                         val wId = instance?.wordsDao?.insertWord(newWord)
                                         val meanings = word.getJSONArray("meanings")
-                                        for(k in 0..meanings.length()-1){
+                                        for(k in 0 until meanings.length()){
                                             val meaning = meanings.getJSONObject(k)
                                             val meaningString = meaning.getString("meaning")
                                             val newMeaning = Meaning(0, wId!!, meaningString, k)
@@ -76,7 +74,7 @@ abstract class WordsDatabase : RoomDatabase() {
                                     }
                                 }
 
-                            })
+                            }
                     }
 
                     override fun onOpen(db: SupportSQLiteDatabase) {
