@@ -1,8 +1,8 @@
 package alexander.skornyakov.yourwords
 
-import alexander.skornyakov.yourwords.data.WordsDatabase
-import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.data.room.WordsDatabase
+import alexander.skornyakov.yourwords.data.room.WordsSet
+import alexander.skornyakov.yourwords.data.room.WordsSetsDao
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -31,7 +31,8 @@ class DdTest {
     @Before
     fun createDb(){
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(appContext,WordsDatabase::class.java)
+        db = Room.inMemoryDatabaseBuilder(appContext,
+            WordsDatabase::class.java)
             .allowMainThreadQueries()
             .build()
         setsDao = db.wordsSetsDao

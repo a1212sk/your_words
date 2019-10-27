@@ -1,9 +1,9 @@
 package alexander.skornyakov.yourwords.ui.cards
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.Meaning
-import alexander.skornyakov.yourwords.data.WordsDao
-import alexander.skornyakov.yourwords.data.WordsDatabase
+import alexander.skornyakov.yourwords.data.room.Meaning
+import alexander.skornyakov.yourwords.data.room.WordsDao
+import alexander.skornyakov.yourwords.data.room.WordsDatabase
 import alexander.skornyakov.yourwords.databinding.WordFragmentBinding
 import alexander.skornyakov.yourwords.databinding.WordMeaningItemBinding
 import android.app.Application

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.WordsDatabase
-import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.data.room.WordsDatabase
+import alexander.skornyakov.yourwords.data.room.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import android.app.AlertDialog
 import android.app.Application

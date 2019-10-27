@@ -1,6 +1,6 @@
 package alexander.skornyakov.yourwords.ui.sets
 
-import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.data.room.WordsSetsDao
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

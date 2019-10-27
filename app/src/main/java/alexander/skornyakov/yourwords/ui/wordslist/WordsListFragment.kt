@@ -1,11 +1,9 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.WordsDao
-import alexander.skornyakov.yourwords.data.WordsDatabase
-import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.data.room.WordsDao
+import alexander.skornyakov.yourwords.data.room.WordsDatabase
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
-import alexander.skornyakov.yourwords.ui.sets.SetsRecyclerViewAdapter
 import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import java.text.FieldPosition
 
 class WordsListFragment : Fragment(){
 

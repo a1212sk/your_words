@@ -1,6 +1,6 @@
 package alexander.skornyakov.yourwords.ui.cards
 
-import alexander.skornyakov.yourwords.data.WordsDao
+import alexander.skornyakov.yourwords.data.room.WordsDao
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

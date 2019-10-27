@@ -1,13 +1,11 @@
 package alexander.skornyakov.yourwords.ui.sets
 
-import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.data.WordsSetsDao
+import alexander.skornyakov.yourwords.data.room.WordsSet
+import alexander.skornyakov.yourwords.data.room.WordsSetsDao
 import android.app.Application
 import android.os.AsyncTask
-import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 
 class SetsViewModel (
     db: WordsSetsDao,

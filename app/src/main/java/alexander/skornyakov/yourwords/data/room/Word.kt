@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.data
+package alexander.skornyakov.yourwords.data.room
 
 import androidx.room.*
 import org.jetbrains.annotations.NotNull

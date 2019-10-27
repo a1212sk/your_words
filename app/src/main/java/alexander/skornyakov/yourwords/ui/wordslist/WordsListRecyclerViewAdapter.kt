@@ -1,14 +1,10 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.Word
-import alexander.skornyakov.yourwords.data.WordsSet
-import alexander.skornyakov.yourwords.databinding.SetsItemBinding
+import alexander.skornyakov.yourwords.data.room.Word
 import alexander.skornyakov.yourwords.databinding.WordslistItemBinding
-import alexander.skornyakov.yourwords.ui.sets.SetsRecyclerViewAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView

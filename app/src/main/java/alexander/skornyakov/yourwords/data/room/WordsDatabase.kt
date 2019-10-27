@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.data
+package alexander.skornyakov.yourwords.data.room
 
 import android.content.Context
 import androidx.room.Database
@@ -42,33 +42,51 @@ abstract class WordsDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): WordsDatabase {
             synchronized(this) {
-                var instance = INSTANCE
+                var instance =
+                    INSTANCE
 
                 val rdc = object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         Executors.newSingleThreadScheduledExecutor()
                             .execute {
 
-                                val jsonString = loadJSONFromAsset(context)
+                                val jsonString =
+                                    loadJSONFromAsset(
+                                        context
+                                    )
                                 val json = JSONObject(jsonString)
 
                                 val sets = json.getJSONArray("sets")
                                 for(i in 0 until sets.length()){
                                     val set = sets.getJSONObject(i)
                                     val setName = set.getString("name")
-                                    val wordsSet = WordsSet(0, setName)
+                                    val wordsSet =
+                                        WordsSet(
+                                            0,
+                                            setName
+                                        )
                                     val wsId = instance?.wordsSetsDao?.insert(wordsSet)
                                     val words = set.getJSONArray("words")
                                     for(j in 0 until words.length()){
                                         val word = words.getJSONObject(j)
                                         val wordName = word.getString("word")
-                                        val newWord = Word(0, wordName, wsId)
+                                        val newWord = Word(
+                                            0,
+                                            wordName,
+                                            wsId
+                                        )
                                         val wId = instance?.wordsDao?.insertWord(newWord)
                                         val meanings = word.getJSONArray("meanings")
                                         for(k in 0 until meanings.length()){
                                             val meaning = meanings.getJSONObject(k)
                                             val meaningString = meaning.getString("meaning")
-                                            val newMeaning = Meaning(0, wId!!, meaningString, k)
+                                            val newMeaning =
+                                                Meaning(
+                                                    0,
+                                                    wId!!,
+                                                    meaningString,
+                                                    k
+                                                )
                                             instance?.wordsDao?.insertMeaning(newMeaning)
                                         }
                                     }

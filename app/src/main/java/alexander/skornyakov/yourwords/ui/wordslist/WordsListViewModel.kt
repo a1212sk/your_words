@@ -1,8 +1,7 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
-import alexander.skornyakov.yourwords.data.Word
-import alexander.skornyakov.yourwords.data.WordsDao
-import alexander.skornyakov.yourwords.data.WordsSet
+import alexander.skornyakov.yourwords.data.room.Word
+import alexander.skornyakov.yourwords.data.room.WordsDao
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData

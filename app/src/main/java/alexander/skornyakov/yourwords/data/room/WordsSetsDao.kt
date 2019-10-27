@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.data
+package alexander.skornyakov.yourwords.data.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
