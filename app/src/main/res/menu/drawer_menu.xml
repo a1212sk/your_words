@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group >
-        <item android:title="Logout" />
-        <item android:title="Sets store" />
         <item android:title="My collection" />
+        <item android:title="Sets store" />
+        <item android:title="Logout" />
     </group>
 </menu>

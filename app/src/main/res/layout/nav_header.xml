@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mainViewModel"
+            type="alexander.skornyakov.yourwords.ui.main.MainViewModel" />
+    </data>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/fui_bgGitHub"
@@ -19,19 +25,22 @@
         android:id="@+id/navheader_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/username"
+        android:text="@{mainViewModel.auth.currentUser.displayName}"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        tools:text="@string/username" />
 
     <TextView
         android:id="@+id/navheader_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_mail_com"
+        android:text="@{mainViewModel.auth.currentUser.email}"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="14sp"
+        tools:text="@string/user_mail_com" />
 </LinearLayout>
+</layout>
