@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Your words</string>
     <string name="add_set">Add Set</string>
+    <string name="username">Username</string>
+    <string name="user_mail_com">user@mail.com</string>
+    <string name="user_photo">User photo</string>
 </resources>

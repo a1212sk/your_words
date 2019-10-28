@@ -12,24 +12,24 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="User photo"
+        android:contentDescription="@string/user_photo"
         app:srcCompat="@drawable/user_logo" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/navheader_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="@string/username"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/navheader_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="user@mail.com"
+        android:text="@string/user_mail_com"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
