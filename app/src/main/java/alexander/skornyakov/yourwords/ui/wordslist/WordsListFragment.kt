@@ -6,9 +6,7 @@ import alexander.skornyakov.yourwords.data.room.WordsDatabase
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
 import android.app.Application
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -63,7 +61,6 @@ class WordsListFragment : Fragment(){
 
         return binding.root
     }
-
 
 
 }

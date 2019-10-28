@@ -48,12 +48,16 @@ class MainActivity : AppCompatActivity() {
 
         auth()
 
-
+        setSupportActionBar(toolbar)
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph,drawer)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
 
     }
 
 
     private fun auth() {
+        //TODO internet access checking!!!
         val user = mAuth.currentUser
         if(user==null){
             val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
@@ -84,6 +88,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onSupportNavigateUp(): Boolean {
+        supportFragmentManager.popBackStack()
+        return true
+    }
 
     companion object {
         private const val RC_SIGN_IN = 123

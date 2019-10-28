@@ -17,6 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 
+
+
+
 private const val SPAN_COUNT = 2
 
 class SetsFragment : Fragment() {
@@ -29,6 +32,7 @@ class SetsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
         val builder = AlertDialog.Builder(context)
         val view = layoutInflater.inflate(R.layout.add_set_dialog,null);
         val editText = view.findViewById<EditText>(R.id.new_set_name)
@@ -53,6 +57,7 @@ class SetsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         setHasOptionsMenu(true)
         //Inflate xml
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
@@ -90,6 +95,8 @@ class SetsFragment : Fragment() {
 
         return binding.root
     }
+
+
 
 
 }
