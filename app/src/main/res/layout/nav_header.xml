@@ -25,7 +25,7 @@
         android:id="@+id/navheader_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{mainViewModel.auth.currentUser.displayName}"
+        android:text="@{mainViewModel.username}"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"

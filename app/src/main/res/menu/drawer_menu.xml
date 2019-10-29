@@ -4,6 +4,6 @@
     <group >
         <item android:title="My collection" />
         <item android:title="Sets store" />
-        <item android:title="Logout" />
+        <item android:id="@+id/signout_menu_item" android:title="Logout" />
     </group>
 </menu>

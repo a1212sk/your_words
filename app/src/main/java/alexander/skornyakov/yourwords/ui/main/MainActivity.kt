@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             false)
 
         val vmFactory = MainViewModelFactory(mAuth, application)
-        val vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
+        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
         binding.mainViewModel = vm
         setContentView(binding.root)
 
@@ -51,8 +52,20 @@ class MainActivity : AppCompatActivity() {
 
         val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         navHeaderBinding.mainViewModel = vm
-        navHeaderBinding.executePendingBindings()
         nav_view.addHeaderView(navHeaderBinding.root)
+        navHeaderBinding.lifecycleOwner = this
+        navHeaderBinding.executePendingBindings()
+
+        nav_view.setNavigationItemSelectedListener {
+            val id = it.itemId
+            if(id == R.id.signout_menu_item){
+                mAuth.signOut()
+                auth()
+
+
+            }
+            false
+        }
 
     }
 
@@ -89,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
+                vm.changeUsername(user?.displayName)
 
             } else {
                 auth()
