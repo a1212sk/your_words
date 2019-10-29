@@ -8,4 +8,7 @@
     <color name="card_bg">#85ACE2E3</color>
     <color name="example_bg">#325394</color>
     <color name="transp">#00FFFFFF</color>
+    <color name="email_textedit_background">#07527C</color>
+    <color name="white">#FFFFFF</color>
+    <color name="button_text_color">#EADDDD</color>
 </resources>
