@@ -6,6 +6,8 @@ import alexander.skornyakov.yourwords.databinding.NavHeaderBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.Window
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val binding = DataBindingUtil.inflate<MainActivityBinding>(
@@ -41,11 +44,24 @@ class MainActivity : AppCompatActivity() {
 
         setDrawer()
 
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.setsFragment), drawer)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+
         vm.hideTitlebar.observe(this, Observer {
             if(it==false){
-                val navController = findNavController(R.id.nav_host_fragment)
-                val appBarConfiguration = AppBarConfiguration(setOf(R.id.setsFragment), drawer)
-                toolbar.setupWithNavController(navController, appBarConfiguration)
+                toolbar.visibility = View.VISIBLE
+            }
+            else{
+                toolbar.visibility = View.GONE
+            }
+        })
+
+        vm.signOut.observe(this, Observer {
+            if(it==true){
+                navController.navigate(R.id.signInFragment)
+                vm.hideTitlebar()
+                vm.signOutCompleted()
             }
         })
 
@@ -61,7 +77,9 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             val id = it.itemId
             if (id == R.id.signout_menu_item) {
-                //TODO sign out
+                vm.mAuth?.value?.currentUser?.let {
+                    vm.signOut()
+                }
             }
             false
         }

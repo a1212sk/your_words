@@ -26,14 +26,11 @@ import android.content.Context
 import android.net.NetworkInfo
 import androidx.lifecycle.Observer
 
-
 class SignInFragment : Fragment() {
 
     private lateinit var viewModel: SignInViewModel
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mainViewModel : MainViewModel
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +59,6 @@ class SignInFragment : Fragment() {
                 if(it==true){
                     if(isInternetAvailable()) {
                         auth()
-
                     }
                     else{
                         Toast.makeText(context,"Check your internet connection!",Toast.LENGTH_LONG).show()
@@ -72,7 +68,6 @@ class SignInFragment : Fragment() {
         })
 
         //Sign up button clicked
-        //viewModel.signupAction.removeObservers(this)
         viewModel.signupAction.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it){
@@ -94,8 +89,6 @@ class SignInFragment : Fragment() {
                     activity?.let {
                         Utils.hideKeyboard(it)
                     }
-                    //TODO when go to sign up then go back to log in and log in error occured
-                    //Utils.hideKeyboard(activity!!)
                     mainViewModel.showTitlebar()
                     viewModel.completeSigninAction()
                     findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
