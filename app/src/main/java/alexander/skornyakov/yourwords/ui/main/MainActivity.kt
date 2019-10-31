@@ -100,18 +100,7 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        vm.mAuth.value?.addAuthStateListener{
-            if(it.currentUser!=null){
-                it.currentUser?.let {
-                    vm.username.value = it.displayName!!
-                    vm.email.value = it.email!!
-                }
-            }
-            else{
-                vm.username.value = ""
-                vm.email.value = ""
-            }
-        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

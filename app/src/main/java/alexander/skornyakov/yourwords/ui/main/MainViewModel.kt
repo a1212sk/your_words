@@ -55,5 +55,19 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
     val email : MutableLiveData<String>
         get() = _email
 
+    init{
+        this.mAuth.value?.addAuthStateListener{
+            if(it.currentUser!=null){
+                it.currentUser?.let {
+                    this.username.value = it.displayName!!
+                    this.email.value = it.email!!
+                }
+            }
+            else{
+                this.username.value = ""
+                this.email.value = ""
+            }
+        }
+    }
 
 }
