@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/signInFragment">
 
     <fragment
         android:id="@+id/setsFragment"
         android:name="alexander.skornyakov.yourwords.ui.sets.SetsFragment"
-        android:label="Sets"
-        tools:layout="@layout/sets_fragment">
+        android:label="Sets">
         <action
             android:id="@+id/action_setsFragment_to_wordsList_Fragment"
             app:destination="@id/wordsList_Fragment"
@@ -48,18 +47,29 @@
             app:argType="long"/>
     </fragment>
     <fragment
-        android:id="@+id/authFragment"
-        android:name="alexander.skornyakov.yourwords.ui.auth.AuthFragment"
-        android:label="auth_fragment"
-        tools:layout="@layout/auth_fragment" >
+        android:id="@+id/signInFragment"
+        android:name="alexander.skornyakov.yourwords.ui.auth.signin.SignInFragment"
+        android:label="Sign in">
         <action
-            android:id="@+id/action_authFragment_to_setsFragment"
+            android:id="@+id/action_signInFragment_to_setsFragment"
             app:destination="@id/setsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/authFragment"
+            app:popUpTo="@+id/signInFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/signInFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="alexander.skornyakov.yourwords.ui.auth.signup.SignUpFragment"
+        android:label="Sign up" />
 </navigation>

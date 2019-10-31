@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.auth
+package alexander.skornyakov.yourwords.ui.auth.signin
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.databinding.AuthFragmentBinding
+import alexander.skornyakov.yourwords.databinding.SignInFragmentBinding
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
@@ -27,11 +27,13 @@ import android.net.NetworkInfo
 import androidx.lifecycle.Observer
 
 
-class AuthFragment : Fragment() {
+class SignInFragment : Fragment() {
 
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: SignInViewModel
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mainViewModel : MainViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,24 +48,36 @@ class AuthFragment : Fragment() {
         mainViewModel = ViewModelProviders.of(activity!!,factory)[MainViewModel::class.java]
 
 
-        //authViewModel and layout init
-        val authViewModelFactory = AuthViewModelFactory(mAuth,app)
-        viewModel = ViewModelProviders.of(this, authViewModelFactory).get(AuthViewModel::class.java)
-        val binding = DataBindingUtil.inflate<AuthFragmentBinding>(inflater, R.layout.auth_fragment, container,false)
-        binding.authViewModel = viewModel
+        //signInViewModel and layout init
+        val signInViewModelFactory =
+            SignInViewModelFactory(mAuth, app)
+        viewModel = ViewModelProviders.of(this, signInViewModelFactory).get(SignInViewModel::class.java)
+        val binding = DataBindingUtil.inflate<SignInFragmentBinding>(inflater, R.layout.sign_in_fragment, container,false)
+        binding.signInViewModel = viewModel
         binding.lifecycleOwner = this
 
         //Sign in button clicked
-        viewModel.signinAction.observe(this, Observer{
+        viewModel.signinAction.observe(viewLifecycleOwner, Observer{
             GlobalScope.launch(Dispatchers.Main) {
                 if(it==true){
                     if(isInternetAvailable()) {
                         auth()
-                        viewModel.completeSigninAction()
+
                     }
                     else{
                         Toast.makeText(context,"Check your internet connection!",Toast.LENGTH_LONG).show()
                     }
+                }
+            }
+        })
+
+        //Sign up button clicked
+        //viewModel.signupAction.removeObservers(this)
+        viewModel.signupAction.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it){
+                    findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
+                    viewModel.completeSignupAction()
                 }
             }
         })
@@ -77,9 +91,14 @@ class AuthFragment : Fragment() {
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Utils.hideKeyboard(activity!!)
+                    activity?.let {
+                        Utils.hideKeyboard(it)
+                    }
+                    //TODO when go to sign up then go back to log in and log in error occured
+                    //Utils.hideKeyboard(activity!!)
                     mainViewModel.showTitlebar()
-                    findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToSetsFragment())
+                    viewModel.completeSigninAction()
+                    findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
                 } else {
                     Toast.makeText(context, "Wrong password or username!", Toast.LENGTH_LONG).show()
                 }

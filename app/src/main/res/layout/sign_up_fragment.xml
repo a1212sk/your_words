@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<data>
-    <variable
-        name="authViewModel"
-        type="alexander.skornyakov.yourwords.ui.auth.AuthViewModel" />
-</data>
+    <data>
+        <variable
+            name="signUpViewModel"
+            type="alexander.skornyakov.yourwords.ui.auth.signup.SignUpViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,17 +28,40 @@
             android:paddingBottom="5dp"
             android:textColor="@color/button_text_color"
             android:textSize="24sp"
-            android:text="@={authViewModel._email_edit}"
+            android:text="@={signUpViewModel._email_edit}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             android:autofillHints="" tools:targetApi="o"/>
 
         <EditText
+            android:id="@+id/login_text_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:background="@color/email_textedit_background"
+            android:ems="10"
+            android:hint="Login..."
+            android:inputType="textEmailAddress"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            android:text="@={signUpViewModel._email_edit}"
+            android:textColor="@color/button_text_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_text_edit"
+            tools:targetApi="o" />
+
+        <EditText
             android:id="@+id/password_text_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@color/email_textedit_background"
             android:ems="10"
             android:hint="@string/password_hint"
@@ -47,20 +70,42 @@
             android:paddingTop="5dp"
             android:paddingEnd="15dp"
             android:paddingBottom="5dp"
+            android:text="@={signUpViewModel._password_edit}"
             android:textColor="@color/button_text_color"
             android:textSize="24sp"
-            android:text="@={authViewModel._password_edit}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_text_edit"
-            android:autofillHints="" tools:targetApi="o"/>
+            app:layout_constraintTop_toBottomOf="@+id/login_text_edit"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/password_text_edit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:background="@color/email_textedit_background"
+            android:ems="10"
+            android:hint="Repeat password..."
+            android:inputType="textPassword"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            android:text="@={signUpViewModel._password_edit}"
+            android:textColor="@color/button_text_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_text_edit"
+            tools:targetApi="o" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/common_signin_button_text"
+            android:text="@string/sign_up"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="30sp"
@@ -76,38 +121,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="?attr/colorPrimaryDark"
-            android:text="@string/common_signin_button_text"
+            android:onClick="@{()->signUpViewModel.signUp()}"
+            android:text="SIGN UP"
             android:textColor="@color/button_text_color"
-            android:onClick="@{()->authViewModel.signIn()}"
             app:layout_constraintEnd_toEndOf="@+id/password_text_edit"
             app:layout_constraintStart_toStartOf="@+id/password_text_edit"
-            app:layout_constraintTop_toBottomOf="@+id/password_text_edit" />
-
-        <Button
-            android:id="@+id/sign_up_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="?attr/colorPrimaryDark"
-            android:text="@string/sign_up"
-            android:textColor="@color/button_text_color"
-            app:layout_constraintBottom_toBottomOf="@+id/new_password_button"
-            app:layout_constraintEnd_toEndOf="@+id/sign_in_button"
-            app:layout_constraintStart_toEndOf="@+id/new_password_button"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
-
-        <Button
-            android:id="@+id/new_password_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="?attr/colorPrimaryDark"
-            android:text="@string/reset_password"
-            android:textColor="@color/button_text_color"
-            app:layout_constraintEnd_toStartOf="@+id/sign_up_button"
-            app:layout_constraintStart_toStartOf="@+id/sign_in_button"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+            app:layout_constraintTop_toBottomOf="@+id/password_text_edit2" />
 
         <ImageView
             android:id="@+id/imageView2"

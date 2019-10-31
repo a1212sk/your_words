@@ -1,6 +1,5 @@
 package alexander.skornyakov.yourwords.util
 
-import android.app.Activity
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.FragmentActivity
