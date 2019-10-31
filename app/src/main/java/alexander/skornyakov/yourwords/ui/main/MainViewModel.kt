@@ -47,4 +47,13 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
         _drawerLocked.value = false
     }
 
+    private val _username = MutableLiveData<String>("")
+    val username : MutableLiveData<String>
+            get() = _username
+
+    private val _email = MutableLiveData<String>("")
+    val email : MutableLiveData<String>
+        get() = _email
+
+
 }

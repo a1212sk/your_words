@@ -25,22 +25,22 @@
         android:id="@+id/navheader_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/username"
+        android:text="@{mainViewModel.username}"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        tools:text="@string/username" />
+        tools:text="Username" />
 
     <TextView
         android:id="@+id/navheader_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_mail_com"
+        android:text="@{mainViewModel.email}"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        tools:text="@string/user_mail_com" />
+        tools:text="email@email.email" />
 </LinearLayout>
 </layout>

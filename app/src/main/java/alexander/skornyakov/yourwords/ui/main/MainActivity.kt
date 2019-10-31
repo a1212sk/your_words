@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //TODO set drawer items (username,emal)
+    //TODO set drawer items (username,email)
     private fun setDrawer() {
         val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         navHeaderBinding.mainViewModel = vm
@@ -98,6 +98,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             false
+        }
+
+        vm.mAuth.value?.addAuthStateListener{
+            if(it.currentUser!=null){
+                it.currentUser?.let {
+                    vm.username.value = it.displayName!!
+                    vm.email.value = it.email!!
+                }
+            }
+            else{
+                vm.username.value = ""
+                vm.email.value = ""
+            }
         }
     }
 
