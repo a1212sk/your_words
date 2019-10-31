@@ -96,6 +96,7 @@ class SignInFragment : Fragment() {
                         Utils.hideKeyboard(it)
                     }
                     mainViewModel.showTitlebar()
+                    mainViewModel.unlockDrawer()
                     viewModel.completeSigninAction()
                     findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
                 } else {

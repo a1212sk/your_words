@@ -35,4 +35,16 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
         _signOut.value = false
     }
 
+    private val _drawerLocked : MutableLiveData<Boolean> = MutableLiveData(true)
+    val drawerLocked : MutableLiveData<Boolean>
+        get() = _drawerLocked
+
+    fun lockDrawer(){
+        _drawerLocked.value = true
+    }
+
+    fun unlockDrawer(){
+        _drawerLocked.value = false
+    }
+
 }

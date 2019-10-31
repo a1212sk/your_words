@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
@@ -63,8 +64,18 @@ class MainActivity : AppCompatActivity() {
                     vm.mAuth.value!!.signOut()
                     navController.navigate(R.id.signInFragment)
                     vm.hideTitlebar()
+                    vm.lockDrawer()
                     vm.signOutCompleted()
                 }
+            }
+        })
+
+        vm.drawerLocked.observe(this, Observer {
+            if(it){
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+            else{
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             }
         })
 
