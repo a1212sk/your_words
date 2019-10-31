@@ -59,14 +59,18 @@ class MainActivity : AppCompatActivity() {
 
         vm.signOut.observe(this, Observer {
             if(it==true){
-                navController.navigate(R.id.signInFragment)
-                vm.hideTitlebar()
-                vm.signOutCompleted()
+                vm?.mAuth?.value?.currentUser?.let{
+                    vm.mAuth.value!!.signOut()
+                    navController.navigate(R.id.signInFragment)
+                    vm.hideTitlebar()
+                    vm.signOutCompleted()
+                }
             }
         })
 
     }
 
+    //TODO set drawer items (username,emal)
     private fun setDrawer() {
         val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         navHeaderBinding.mainViewModel = vm
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         navHeaderBinding.executePendingBindings()
 
         nav_view.setNavigationItemSelectedListener {
+            drawer.closeDrawers()
             val id = it.itemId
             if (id == R.id.signout_menu_item) {
                 vm.mAuth?.value?.currentUser?.let {

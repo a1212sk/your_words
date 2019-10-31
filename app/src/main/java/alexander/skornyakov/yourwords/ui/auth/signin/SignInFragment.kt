@@ -40,10 +40,16 @@ class SignInFragment : Fragment() {
         val app: Application = requireNotNull(this.activity).application
         mAuth = FirebaseAuth.getInstance()
 
+
         //mainViewModel init
         val factory = MainViewModelFactory(app)
         mainViewModel = ViewModelProviders.of(activity!!,factory)[MainViewModel::class.java]
 
+        //if has already signed in go to sets
+        if(mAuth.currentUser!=null){
+            mainViewModel.showTitlebar()
+            findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
+        }
 
         //signInViewModel and layout init
         val signInViewModelFactory =
