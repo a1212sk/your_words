@@ -4,4 +4,9 @@
     <string name="username">Username</string>
     <string name="user_mail_com">user@mail.com</string>
     <string name="user_photo">User photo</string>
+    <string name="reset_password">Reset password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email_hint">Email...</string>
+    <string name="password_hint">Password...</string>
+    <string name="person_picture">Person picture</string>
 </resources>

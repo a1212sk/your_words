@@ -14,4 +14,21 @@ class AuthViewModel(val auth: FirebaseAuth, app: Application) : AndroidViewModel
     fun changeUsername(username: String?){
         _username.value = username
     }
+
+    private var _signinAction = MutableLiveData(false)
+    val signinAction : MutableLiveData<Boolean?>
+        get() = _signinAction
+
+    fun signIn(){
+        _signinAction.value = true
+    }
+
+    fun completeSigninAction() {
+        _signinAction.value = false
+    }
+
+    var _email_edit = MutableLiveData<String>()
+
+    var _password_edit = MutableLiveData<String>()
+
 }

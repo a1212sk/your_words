@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,23 +15,17 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.main_activity.*
 
-
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var vm: MainViewModel
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-
+    //TODO hide titlebar on auth fragments
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        Log.d("SS----","firebase must be initialized...")
-
 
         val binding = DataBindingUtil.inflate<MainActivityBinding>(
             layoutInflater,
@@ -41,14 +36,20 @@ class MainActivity : AppCompatActivity() {
         val vmFactory = MainViewModelFactory(application)
         vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
         binding.mainViewModel = vm
+        binding.lifecycleOwner = this
         setContentView(binding.root)
-
-        setTitlebar()
 
         setDrawer()
 
-    }
+        vm.hideTitlebar.observe(this, Observer {
+            if(it==false){
+                val navController = findNavController(R.id.nav_host_fragment)
+                val appBarConfiguration = AppBarConfiguration(setOf(R.id.setsFragment), drawer)
+                toolbar.setupWithNavController(navController, appBarConfiguration)
+            }
+        })
 
+    }
 
     private fun setDrawer() {
         val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
@@ -60,18 +61,10 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
             val id = it.itemId
             if (id == R.id.signout_menu_item) {
-
                 //TODO sign out
             }
             false
         }
-    }
-
-    private fun setTitlebar() {
-        setSupportActionBar(toolbar)
-        val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
