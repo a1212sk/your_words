@@ -53,7 +53,7 @@ class SignUpFragment : Fragment() {
                         binding.passwordTextEdit,
                         binding.passwordTextEdit2
                     )
-                    if (fields.any { it.text.isNullOrEmpty() }) {
+                    if (fields.any { it.text.isNullOrEmpty() || !it.error.isNullOrEmpty()}) {
                         Toast.makeText(context, "All fields must be filled!", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -74,7 +74,6 @@ class SignUpFragment : Fragment() {
                 binding.signUpButton.alpha = 1f
             }
         })
-
 
         binding.emailTextEdit.doAfterTextChanged {
             val content = it.toString()
