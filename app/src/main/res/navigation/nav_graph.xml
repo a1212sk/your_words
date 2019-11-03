@@ -71,5 +71,15 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="alexander.skornyakov.yourwords.ui.auth.signup.SignUpFragment"
-        android:label="Sign up" />
+        android:label="Sign up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_setsFragment"
+            app:destination="@id/setsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/signInFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

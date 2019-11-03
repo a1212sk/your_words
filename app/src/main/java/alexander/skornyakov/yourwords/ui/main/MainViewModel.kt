@@ -59,8 +59,8 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
         this.mAuth.value?.addAuthStateListener{
             if(it.currentUser!=null){
                 it.currentUser?.let {
-                    this.username.value = it.displayName!!
-                    this.email.value = it.email!!
+                    this._username.value = it?.displayName
+                    this._email.value = it?.email
                 }
             }
             else{
@@ -68,6 +68,7 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
                 this.email.value = ""
             }
         }
+
     }
 
 }

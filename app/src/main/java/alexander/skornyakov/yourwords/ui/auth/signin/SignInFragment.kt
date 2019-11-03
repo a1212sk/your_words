@@ -63,7 +63,7 @@ class SignInFragment : Fragment() {
         viewModel.signinAction.observe(viewLifecycleOwner, Observer{
             GlobalScope.launch(Dispatchers.Main) {
                 if(it==true){
-                    if(isInternetAvailable()) {
+                    if(Utils.isInternetAvailable(context!!)) {
                         auth()
                     }
                     else{
@@ -103,26 +103,6 @@ class SignInFragment : Fragment() {
                     Toast.makeText(context, "Wrong password or username!", Toast.LENGTH_LONG).show()
                 }
             }
-        }
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        return activeNetwork?.isConnectedOrConnecting == true
-    }
-
-    private fun isInternetAvailable(): Boolean = runBlocking {
-        try {
-            if(isNetworkAvailable()) {
-                val address = withContext(Dispatchers.IO) { InetAddress.getByName("www.google.com") }
-                !address.equals("")
-            }
-            else{
-                false
-            }
-        } catch (e: UnknownHostException) {
-            false
         }
     }
 

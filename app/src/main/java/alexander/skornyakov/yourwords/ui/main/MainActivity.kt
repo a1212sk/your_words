@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-    //TODO hide titlebar on auth fragments
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //TODO set drawer items (username,email)
     private fun setDrawer() {
         val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         navHeaderBinding.mainViewModel = vm
@@ -99,7 +96,6 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
-
 
     }
 
