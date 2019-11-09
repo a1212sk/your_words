@@ -83,6 +83,13 @@ class SignInFragment : Fragment() {
             }
         })
 
+        viewModel.resetAction.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToResetPasswordFragment())
+                viewModel.completeResetAction()
+            }
+        })
+
         return binding.root
     }
 

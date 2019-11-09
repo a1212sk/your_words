@@ -3,6 +3,7 @@ package alexander.skornyakov.yourwords.ui.auth.signup
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -21,7 +22,7 @@ class SignUpViewModel(val app: Application, val auth: FirebaseAuth) : AndroidVie
     }
 
     private val _signUpAction = MutableLiveData<Boolean>(false)
-    val signUpAction: MutableLiveData<Boolean>
+    val signUpAction: LiveData<Boolean>
         get() = _signUpAction
 
     fun signUpActionComplete(){
@@ -48,7 +49,6 @@ class SignUpViewModel(val app: Application, val auth: FirebaseAuth) : AndroidVie
 
                                 }
                                 signUpActionComplete()
-
                             }
                         }else{
                             error.value = updateTask.exception.toString()
