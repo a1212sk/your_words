@@ -18,12 +18,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.coroutines.*
-import java.net.InetAddress
-import java.net.UnknownHostException
-
-import android.net.ConnectivityManager
-import android.content.Context
-import android.net.NetworkInfo
 import androidx.lifecycle.Observer
 
 class SignInFragment : Fragment() {
