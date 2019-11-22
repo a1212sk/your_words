@@ -5,7 +5,7 @@
     <data>
         <variable
             name="meaning"
-            type="alexander.skornyakov.yourwords.data.room.Meaning" />
+            type="alexander.skornyakov.yourwords.data.entity.Meaning" />
     </data>
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"

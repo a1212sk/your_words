@@ -1,9 +1,7 @@
 package alexander.skornyakov.yourwords.ui.cards
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.room.Meaning
-import alexander.skornyakov.yourwords.data.room.WordsDao
-import alexander.skornyakov.yourwords.data.room.WordsDatabase
+import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.databinding.WordFragmentBinding
 import alexander.skornyakov.yourwords.databinding.WordMeaningItemBinding
 import android.app.Application
@@ -32,11 +30,10 @@ class WordFragment : Fragment(){
         binding.lifecycleOwner = this
 
         val app: Application = requireNotNull(this.activity).application
-        val wordsDao: WordsDao = WordsDatabase.getInstance(app).wordsDao
         val selectedWordsSet = arguments?.getLong("setId")
         val selectedWord = arguments?.getLong("wordId")
 
-        val vmFactory = WordViewModelFactory(wordsDao, app, selectedWordsSet!!, selectedWord!!)
+        val vmFactory = WordViewModelFactory(app, selectedWordsSet!!, selectedWord!!)
 
         val vm = ViewModelProviders.of(this, vmFactory).get(WordViewModel::class.java)
         binding.wordViewModel = vm

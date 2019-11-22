@@ -1,8 +1,6 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.room.WordsDao
-import alexander.skornyakov.yourwords.data.room.WordsDatabase
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
 import android.app.Application
 import android.os.Bundle
@@ -33,8 +31,7 @@ class WordsListFragment : Fragment(){
 
 
         val app: Application = requireNotNull(this.activity).application
-        val wordsDao: WordsDao = WordsDatabase.getInstance(app).wordsDao
-        val vmFactory = WordsListViewModelFactory(wordsDao, app, selectedWordsSet!!)
+        val vmFactory = WordsListViewModelFactory(app, selectedWordsSet!!)
         viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 

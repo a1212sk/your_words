@@ -6,7 +6,7 @@
     <data>
         <variable
             name="wordsSet"
-            type="alexander.skornyakov.yourwords.data.room.WordsSet" />
+            type="alexander.skornyakov.yourwords.data.entity.WordsSet" />
         <variable
             name="clickListener"
             type="alexander.skornyakov.yourwords.ui.sets.SetsClickListener" />

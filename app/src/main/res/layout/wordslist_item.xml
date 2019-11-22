@@ -5,7 +5,7 @@
     <data>
         <variable
             name="word"
-            type="alexander.skornyakov.yourwords.data.room.Word" />
+            type="alexander.skornyakov.yourwords.data.entity.Word" />
         <variable
             name="clickListener"
             type="alexander.skornyakov.yourwords.ui.wordslist.WordsClickListener"/>

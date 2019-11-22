@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.room.WordsDatabase
-import alexander.skornyakov.yourwords.data.room.WordsSetsDao
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import android.app.AlertDialog
 import android.app.Application
@@ -65,10 +63,9 @@ class SetsFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val app: Application = requireNotNull(this.activity).application
-        val wordsSetsDao: WordsSetsDao = WordsDatabase.getInstance(app).wordsSetsDao
 
         //Set data.ViewModel var from xml
-        val setsViewModelFactory = SetsViewModelFactory(wordsSetsDao,app)
+        val setsViewModelFactory = SetsViewModelFactory(app)
         val vm: SetsViewModel = ViewModelProviders.of(this, setsViewModelFactory).get(SetsViewModel::class.java)
         binding.setsViewModel = vm
         this.vm = vm

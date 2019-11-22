@@ -1,7 +1,7 @@
 package alexander.skornyakov.yourwords.ui.wordslist
 
 import alexander.skornyakov.yourwords.R
-import alexander.skornyakov.yourwords.data.room.Word
+import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.databinding.WordslistItemBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
