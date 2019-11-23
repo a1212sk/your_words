@@ -41,7 +41,6 @@ class SignInFragment : Fragment() {
 
         //if has already signed in go to sets
         if(mAuth.currentUser!=null){
-            mainViewModel.showTitlebar()
             findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
         }
 
@@ -96,7 +95,6 @@ class SignInFragment : Fragment() {
                     activity?.let {
                         Utils.hideKeyboard(it)
                     }
-                    mainViewModel.showTitlebar()
                     mainViewModel.unlockDrawer()
                     viewModel.completeSigninAction()
                     findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())

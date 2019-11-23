@@ -14,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.main_activity.*
@@ -26,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val binding = DataBindingUtil.inflate<MainActivityBinding>(
@@ -43,9 +44,11 @@ class MainActivity : AppCompatActivity() {
 
         setDrawer()
 
+        setSupportActionBar(toolbar)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.setsFragment), drawer)
         toolbar.setupWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController,appBarConfiguration)
 
         vm.hideTitlebar.observe(this, Observer {
             if(it==false){
@@ -61,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                 vm?.mAuth?.value?.currentUser?.let{
                     vm.mAuth.value!!.signOut()
                     navController.navigate(R.id.signInFragment)
-                    vm.hideTitlebar()
                     vm.lockDrawer()
                     vm.signOutCompleted()
                 }
@@ -76,6 +78,21 @@ class MainActivity : AppCompatActivity() {
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             }
         })
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            val id = destination.id
+            if(id == R.id.signInFragment
+                || id == R.id.signUpFragment
+                || id == R.id.resetPasswordFragment)
+            {
+                vm.hideTitlebar() //TODO remove from vm
+            }
+            else{
+                vm.showTitlebar()
+            }
+        }
+
+
 
     }
 

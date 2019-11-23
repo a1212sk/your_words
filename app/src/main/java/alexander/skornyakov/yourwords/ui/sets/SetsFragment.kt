@@ -14,8 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-
-
+import kotlinx.android.synthetic.main.main_activity.*
 
 
 private const val SPAN_COUNT = 2
@@ -56,7 +55,7 @@ class SetsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        setHasOptionsMenu(true)
+
         //Inflate xml
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
             inflater, R.layout.sets_fragment,container,false)
@@ -89,6 +88,8 @@ class SetsFragment : Fragment() {
                 setsRecyclerViewAdapter.submitList(it)
             }
         })
+
+        setHasOptionsMenu(true)
 
         return binding.root
     }
