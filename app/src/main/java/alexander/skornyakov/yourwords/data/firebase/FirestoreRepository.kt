@@ -20,7 +20,8 @@ class FirestoreRepository {
     }
 
     fun removeWordSet(ws: WordsSet): Task<Void> {
-        var ref = firestore.collection("sets").document(ws.setId.toString())
+        var ref = firestore.collection("sets").document(ws.id.toString())
         return ref.delete()
     }
+
 }

@@ -4,10 +4,12 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository
 import alexander.skornyakov.yourwords.databinding.SetsFragmentBinding
 import android.app.AlertDialog
 import android.app.Application
 import android.content.DialogInterface
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
@@ -84,6 +86,7 @@ class SetsFragment : Fragment() {
         }
 
         vm.wordsSetList.observe(viewLifecycleOwner, Observer {
+
             it?.let {
                 setsRecyclerViewAdapter.submitList(it)
             }
@@ -93,8 +96,5 @@ class SetsFragment : Fragment() {
 
         return binding.root
     }
-
-
-
 
 }

@@ -30,7 +30,7 @@ class WordFragment : Fragment(){
         binding.lifecycleOwner = this
 
         val app: Application = requireNotNull(this.activity).application
-        val selectedWordsSet = arguments?.getLong("setId")
+        val selectedWordsSet = arguments?.getLong("id")
         val selectedWord = arguments?.getLong("wordId")
 
         val vmFactory = WordViewModelFactory(app, selectedWordsSet!!, selectedWord!!)

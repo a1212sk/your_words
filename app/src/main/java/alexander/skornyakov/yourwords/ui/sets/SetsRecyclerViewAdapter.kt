@@ -3,6 +3,7 @@ package alexander.skornyakov.yourwords.ui.sets
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import alexander.skornyakov.yourwords.databinding.SetsItemBinding
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -40,7 +41,7 @@ class SetsRecyclerViewAdapter(val clickListener: SetsClickListener) : ListAdapte
 
 class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
     override fun areItemsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
-        return oldItem.setId == newItem.setId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
@@ -49,10 +50,10 @@ class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
 
 }
 
-class SetsClickListener(val clickListener: (setId: Long) -> Unit) {
+class SetsClickListener(val clickListener: (setId: String) -> Unit) {
     fun onClick(set: WordsSet?){
         set?.let {
-            clickListener(it.setId)
+            clickListener(it.id)
         }
     }
 }

@@ -1,8 +1,10 @@
 package alexander.skornyakov.yourwords.data.entity
 
-data class WordsSet (
+import com.google.firebase.firestore.Exclude
 
-    var setId: Long = 0L,
+data class WordsSet(
+
+    @get:Exclude var id: String = "",
 
     var name: String = "",
 

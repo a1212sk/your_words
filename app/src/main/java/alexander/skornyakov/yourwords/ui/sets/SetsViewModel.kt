@@ -4,35 +4,43 @@ import alexander.skornyakov.yourwords.data.entity.WordsSet
 import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository
 import android.app.Application
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ListenerRegistration
 
 class SetsViewModel (app: Application): AndroidViewModel(app) {
 
     val repository = FirestoreRepository()
+    val currentUser = FirebaseAuth.getInstance().currentUser
 
     //Creates new set of words
     fun createSet(text: String) {
         val ws = WordsSet()
         ws.name = text.toString()
+        currentUser.let { ws.userID = it?.uid!! }
         AsyncTask.execute {
             repository.saveWordSet(ws)
         }
     }
 
-    private val _wordsSetList : MutableLiveData<List<WordsSet>> = MutableLiveData()
-
-    val wordsSetList : LiveData<List<WordsSet>>
+    private val _wordsSetList: MutableLiveData<List<WordsSet>> = MutableLiveData()
+    val wordsSetList: LiveData<List<WordsSet>>
         get() {
-            val list = mutableListOf<WordsSet>()
             repository.getWordSets().addSnapshotListener { snapshot, e ->
-                for (set in snapshot!!){
-                    list.add(set.toObject(WordsSet::class.java))
+                val list = mutableListOf<WordsSet>()
+                for (set in snapshot!!) {
+                    val ws = set.toObject(WordsSet::class.java)
+                    ws.id = set.id
+                    list.add(ws)
+                }
+                list.sortBy {
+                    it.name
                 }
                 _wordsSetList.value = list
             }
-
             return _wordsSetList
         }
 

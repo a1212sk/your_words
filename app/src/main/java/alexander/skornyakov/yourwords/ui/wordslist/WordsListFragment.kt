@@ -27,7 +27,7 @@ class WordsListFragment : Fragment(){
             false)
         binding.lifecycleOwner = this
 
-        val selectedWordsSet = arguments?.getLong("setId")
+        val selectedWordsSet = arguments?.getLong("id")
 
 
         val app: Application = requireNotNull(this.activity).application

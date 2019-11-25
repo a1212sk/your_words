@@ -33,7 +33,7 @@
             app:popUpTo="@+id/wordsList_Fragment" />
         <argument
             android:name="setId"
-            app:argType="long"/>
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/cardsFragment"
