@@ -10,9 +10,9 @@ class FirestoreRepository {
     private val firestore = FirebaseFirestore.getInstance()
     private val user = FirebaseAuth.getInstance().currentUser
 
-    fun saveWordSet(ws: WordsSet){
+    fun saveWordSet(ws: WordsSet): Task<Void>{
         var ref = firestore.collection("sets").document()
-        ref.set(ws)
+        return ref.set(ws)
     }
 
     fun getWordSets(): CollectionReference{

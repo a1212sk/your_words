@@ -13,6 +13,13 @@ import com.google.firebase.firestore.ListenerRegistration
 
 class SetsViewModel (app: Application): AndroidViewModel(app) {
 
+    private val _error = MutableLiveData<String>()
+    val error : LiveData<String>
+        get() = _error
+    fun clearError(){
+        _error.value=null
+    }
+
     val repository = FirestoreRepository()
     val currentUser = FirebaseAuth.getInstance().currentUser
 
@@ -22,7 +29,9 @@ class SetsViewModel (app: Application): AndroidViewModel(app) {
         ws.name = text.toString()
         currentUser.let { ws.userID = it?.uid!! }
         AsyncTask.execute {
-            repository.saveWordSet(ws)
+            repository.saveWordSet(ws).addOnFailureListener {
+                _error.value = it.toString()
+            }
         }
     }
 

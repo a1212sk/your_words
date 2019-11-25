@@ -12,6 +12,7 @@ import android.content.DialogInterface
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -89,6 +90,13 @@ class SetsFragment : Fragment() {
 
             it?.let {
                 setsRecyclerViewAdapter.submitList(it)
+            }
+        })
+
+        vm.error.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                vm.clearError()
             }
         })
 
