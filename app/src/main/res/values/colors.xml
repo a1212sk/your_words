@@ -11,4 +11,6 @@
     <color name="email_textedit_background">#07527C</color>
     <color name="white">#FFFFFF</color>
     <color name="button_text_color">#EADDDD</color>
+    <color name="delete_button">#C97878</color>
+    <color name="rename_button">#78A1AD</color>
 </resources>

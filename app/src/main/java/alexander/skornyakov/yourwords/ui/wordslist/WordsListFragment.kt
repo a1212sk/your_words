@@ -42,7 +42,7 @@ class WordsListFragment : Fragment(){
 
                 }
         })
-        binding.recyclerView.apply {
+        binding.setsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = wordsListRecyclerViewAdapter

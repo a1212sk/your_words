@@ -35,6 +35,14 @@ class SetsViewModel (app: Application): AndroidViewModel(app) {
         }
     }
 
+    fun deleteSet(ws: WordsSet){
+        AsyncTask.execute{
+            repository.removeWordSet(ws).addOnFailureListener {
+                _error.value = it.toString()
+            }
+        }
+    }
+
     private val _wordsSetList: MutableLiveData<List<WordsSet>> = MutableLiveData()
     val wordsSetList: LiveData<List<WordsSet>>
         get() {
