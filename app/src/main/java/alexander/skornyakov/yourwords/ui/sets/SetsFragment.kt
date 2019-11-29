@@ -73,14 +73,24 @@ class SetsFragment : Fragment() {
         this.vm = vm
 
         val setsRecyclerViewAdapter = SetsRecyclerViewAdapter(
-            SetsClickListener{ setID ->
-                setID.let {
-                    findNavController().navigate(SetsFragmentDirections.actionSetsFragmentToWordsListFragment(it))
+            SetsClickListener{ set ->
+                set.let {
+                    findNavController().navigate(SetsFragmentDirections.actionSetsFragmentToWordsListFragment(it.id))
                 }
+            },
+            SetsClickListener {set ->
+                Toast.makeText(context,set.toString(),Toast.LENGTH_LONG).show()
+            },
+            SetsClickListener {set ->
+                Toast.makeText(context,"RENAME "+set.toString(),Toast.LENGTH_LONG).show()
+            },
+            SetsClickListener {set ->
+                vm.deleteSet(set)
+                Toast.makeText(context,"DELETE "+set.toString(),Toast.LENGTH_LONG).show()
             }
         )
 
-        binding.recyclerView.apply {
+        binding.setsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, SPAN_COUNT)
             adapter = setsRecyclerViewAdapter
