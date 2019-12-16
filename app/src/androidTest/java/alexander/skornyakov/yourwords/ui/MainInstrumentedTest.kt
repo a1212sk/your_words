@@ -67,7 +67,7 @@ class MainInstrumentedTest {
     @Test
     fun createAndRemoveSets(){
         signIn()
-        for(i in 0..10) {
+        for(i in 0..5) {
             onView(withText("ADD SET")).perform(click())
             val text = Random.nextInt().toString()
             onView(withHint("Set name ...")).perform(typeText(text)) //type random number
