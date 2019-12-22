@@ -29,7 +29,7 @@ class MainInstrumentedTest {
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
-    val loginTimeConst = 1000L
+    val loginTimeConst = 2000L
     val waitAfterCreateSet = 500L
 
 

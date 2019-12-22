@@ -18,17 +18,19 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.main_activity.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: DaggerAppCompatActivity() {
 
     private lateinit var vm: MainViewModel
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        //firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val binding = DataBindingUtil.inflate<MainActivityBinding>(
             layoutInflater,

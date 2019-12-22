@@ -6,7 +6,9 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 
-@Component(modules = [AndroidSupportInjectionModule::class])
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    ActivityBuildersModule::class])
 interface AppComponent : AndroidInjector<BaseApplication>{
     @Component.Builder
     interface Builder{
