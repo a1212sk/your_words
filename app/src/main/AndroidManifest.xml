@@ -3,6 +3,7 @@
     package="alexander.skornyakov.yourwords">
 
     <application
+        android:name=".app.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
