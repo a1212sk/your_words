@@ -24,7 +24,6 @@ class SignUpViewModel
     var _password_edit1 = MutableLiveData<String>()
     var _password_edit2 = MutableLiveData<String>()
 
-    var registered = MutableLiveData<Boolean>(false)
     var error = MutableLiveData<String>()
 
     ////////////////////////////////////////////////////////////////////////
@@ -38,7 +37,7 @@ class SignUpViewModel
     val signUpAction: LiveData<Boolean>
         get() = _signUpAction
 
-    private fun signUpActionComplete() {
+    fun signUpActionComplete() {
         _signUpAction.value = false
     }
 
@@ -46,26 +45,7 @@ class SignUpViewModel
 
 
     fun signUpWithEmail(login: String, password: String, name: String) {
-        auth.createUserWithEmailAndPassword(login, password).addOnCompleteListener { signUpTask ->
-            if (signUpTask.isSuccessful) {
-                val user = auth.currentUser
-                val profileUpdate = UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build()
-                user?.updateProfile(profileUpdate)
-                    ?.addOnCompleteListener { updateTask ->
-                        if (updateTask.isSuccessful) {
-                            sessionManager.authenticate(login, password)
-                        } else {
-                            error.value = updateTask.exception.toString()
-                        }
-                        signUpActionComplete()
-                    }
-            } else {
-                error.value = signUpTask.exception.toString()
-                signUpActionComplete()
-            }
-        }
+        sessionManager.signUpWithEmail(login,password,name)
     }
 
 }

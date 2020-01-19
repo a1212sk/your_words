@@ -110,16 +110,6 @@ class SignUpFragment : DaggerFragment() {
             }
         }
 
-//        viewModel.registered.observe(this, Observer {
-//            if (it == true) {
-//                activity?.let {
-//                    Utils.hideKeyboard(it)
-//                }
-//                //TODO go to main
-//                Toast.makeText(context, "Go to main", Toast.LENGTH_LONG).show()
-//            }
-//        })
-
         viewModel.error.observe(this, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
@@ -127,10 +117,13 @@ class SignUpFragment : DaggerFragment() {
         sessionManager.getUser().observe(this, Observer {
             when(it.status){
                 AuthResource.AuthStatus.AUTHENTICATED->{
+                    viewModel.signUpActionComplete()
                     //TODO go to main
-                    Toast.makeText(context,"Registered. GO to main",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"Registered. GO to main "+
+                            sessionManager.getUser().value?.data?.email,Toast.LENGTH_LONG).show()
                 }
                 AuthResource.AuthStatus.ERROR->{
+                    viewModel.signUpActionComplete()
                     Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
                 }
             }
