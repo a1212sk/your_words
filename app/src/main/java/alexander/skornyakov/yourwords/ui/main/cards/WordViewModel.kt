@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.cards
+package alexander.skornyakov.yourwords.ui.main.cards
 
 import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.entity.Word

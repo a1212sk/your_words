@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.sets
+package alexander.skornyakov.yourwords.ui.main.sets
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.WordsSet
@@ -19,11 +19,16 @@ import kotlinx.coroutines.launch
 class SetsRecyclerViewAdapter(val clickListener: SetsClickListener,
                               val longClickListener: SetsClickListener,
                               val renameListener: SetsClickListener,
-                              val deleteListener: SetsClickListener)
-    : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
+                              val deleteListener: SetsClickListener
+)
+    : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(
+    SetsDiffCallback()
+){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        return WordViewHolder.from(parent)
+        return WordViewHolder.from(
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
@@ -64,7 +69,9 @@ class SetsRecyclerViewAdapter(val clickListener: SetsClickListener,
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = SetsItemBinding.inflate(layoutInflater,parent,false)
                 layoutInflater.inflate(R.layout.sets_item, parent, false)
-                return WordViewHolder(binding)
+                return WordViewHolder(
+                    binding
+                )
             }
         }
     }

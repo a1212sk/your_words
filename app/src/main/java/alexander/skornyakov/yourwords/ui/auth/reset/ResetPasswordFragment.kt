@@ -13,6 +13,7 @@ import alexander.skornyakov.yourwords.ui.auth.signin.SignInViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
+import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -20,8 +21,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.reset_password_fragment.*
+import javax.inject.Inject
 
-class ResetPasswordFragment : Fragment() {
+class ResetPasswordFragment @Inject constructor() : DaggerFragment() {
+
+    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
 
     private lateinit var viewModel: ResetPasswordViewModel
     private lateinit var mAuth: FirebaseAuth
@@ -32,48 +38,42 @@ class ResetPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val app: Application = requireNotNull(this.activity).application
-        mAuth = FirebaseAuth.getInstance()
-
-        val resetPasswordViewModelFactory = ResetPasswordViewModelFactory(app, mAuth)
-        viewModel = ViewModelProviders.of(this,resetPasswordViewModelFactory).get(ResetPasswordViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(ResetPasswordViewModel::class.java)
 
         val binding = DataBindingUtil.inflate<ResetPasswordFragmentBinding>(
             inflater,
             R.layout.reset_password_fragment,
             container,
-            false)
+            false
+        )
         binding.viewModel = viewModel
 
         viewModel.emailSent.observe(this, Observer {
-            if(it){
-                Toast.makeText(context,"Check your mail!",Toast.LENGTH_LONG).show()
+            if (it) {
+                Toast.makeText(context, "Check your mail!", Toast.LENGTH_LONG).show()
                 viewModel.resetEmailSent()
-                findNavController().navigate(ResetPasswordFragmentDirections.actionResetPasswordFragmentToSignInFragment())
+                findNavController().navigate(ResetPasswordFragmentDirections.actionResetPasswordFragment2ToSignInFragment2())
                 Utils.hideKeyboard(activity!!)
             }
         })
 
         viewModel.error.observe(this, Observer {
-            if(!it.isNullOrEmpty())
-            {
-                Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+            if (!it.isNullOrEmpty()) {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 viewModel.resetError()
             }
         })
 
-        binding.button.isEnabled = false
-        binding.button.alpha = 0.2f
+        Utils.disableButton(reset_button)
 
         binding.resetPasswordEditText.doAfterTextChanged {
             val content = it.toString()
-            if(!content.matches(emailPattern.toRegex())){
-                binding.resetPasswordEditText.error = "This is not a valid email!"
-                binding.button.isEnabled = false
-                binding.button.alpha = 0.2f
-            }else{
-                binding.button.isEnabled = true
-                binding.button.alpha = 1f
+            if (!content.matches(emailPattern.toRegex())) {
+                binding.resetPasswordEditText.error = getString(R.string.invalid_email)
+                Utils.disableButton(reset_button)
+            } else {
+                Utils.enableButton(reset_button)
             }
         }
 

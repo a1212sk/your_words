@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.cards
+package alexander.skornyakov.yourwords.ui.main.cards
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.Meaning
@@ -33,7 +33,12 @@ class WordFragment : Fragment(){
         val selectedWordsSet = arguments?.getLong("id")
         val selectedWord = arguments?.getLong("wordId")
 
-        val vmFactory = WordViewModelFactory(app, selectedWordsSet!!, selectedWord!!)
+        val vmFactory =
+            WordViewModelFactory(
+                app,
+                selectedWordsSet!!,
+                selectedWord!!
+            )
 
         val vm = ViewModelProviders.of(this, vmFactory).get(WordViewModel::class.java)
         binding.wordViewModel = vm

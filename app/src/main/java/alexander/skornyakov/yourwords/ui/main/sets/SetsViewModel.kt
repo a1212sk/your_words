@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.sets
+package alexander.skornyakov.yourwords.ui.main.sets
 
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository

@@ -1,23 +1,25 @@
 package alexander.skornyakov.yourwords.ui.auth.signin
 
+import alexander.skornyakov.yourwords.app.BaseApplication
+import alexander.skornyakov.yourwords.app.SessionManager
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class SignInViewModel(val auth: FirebaseAuth, app: Application) : AndroidViewModel(app) {
-    private var _username = MutableLiveData(auth.currentUser?.displayName)
-    val username: LiveData<String?>
-        get() = _username
+class SignInViewModel @Inject constructor() : ViewModel() {
 
-    fun changeUsername(username: String?){
-        _username.value = username
-    }
+    @Inject lateinit var application: BaseApplication
+    @Inject lateinit var sessionManager: SessionManager
+
+    //////////////////////////////////////////////////////////
+    //                  SIGN IN ACTION                      //
 
     private var _signinAction = MutableLiveData(false)
-    val signinAction : LiveData<Boolean?>
+    val signinAction : LiveData<Boolean>
         get() = _signinAction
 
     fun signIn(){
@@ -27,6 +29,10 @@ class SignInViewModel(val auth: FirebaseAuth, app: Application) : AndroidViewMod
     fun completeSigninAction() {
         _signinAction.value = false
     }
+
+    ///////////////////////////////////////////////////////////
+    //                  RESET ACTION                      //
+
 
     private var _resetAction = MutableLiveData(false)
     val resetAction : LiveData<Boolean>
@@ -40,8 +46,13 @@ class SignInViewModel(val auth: FirebaseAuth, app: Application) : AndroidViewMod
         _resetAction.value = false
     }
 
+    ///////////////////////////////////////////////////////////
+    //                  SIGN UP ACTION                      //
+
+
+
     private var _signupAction = MutableLiveData(false)
-    val signupAction : LiveData<Boolean?>
+    val signupAction : LiveData<Boolean>
         get() = _signupAction
 
     fun signUp(){
@@ -52,8 +63,20 @@ class SignInViewModel(val auth: FirebaseAuth, app: Application) : AndroidViewMod
         _signupAction.value = false
     }
 
-    var _email_edit = MutableLiveData<String>()
+    ///////////////////////////////////////////////////////////
 
+    //used in the layout
+    var _email_edit = MutableLiveData<String>()
+    //used in the layout
     var _password_edit = MutableLiveData<String>()
+
+    fun auth(){
+        val email = this._email_edit.value
+        val password = this._password_edit.value
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
+            sessionManager.authenticate(email,password)
+        }
+        completeSigninAction()
+    }
 
 }

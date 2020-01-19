@@ -5,7 +5,7 @@
     <data>
         <variable
             name="wordsListViewModel"
-            type="alexander.skornyakov.yourwords.ui.wordslist.WordsListViewModel" />
+            type="alexander.skornyakov.yourwords.ui.main.wordslist.WordsListViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

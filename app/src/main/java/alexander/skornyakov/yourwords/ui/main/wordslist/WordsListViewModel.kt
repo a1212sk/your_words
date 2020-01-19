@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.wordslist
+package alexander.skornyakov.yourwords.ui.main.wordslist
 
 import alexander.skornyakov.yourwords.data.entity.Word
 import android.app.Application

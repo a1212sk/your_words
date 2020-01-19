@@ -8,44 +8,52 @@ import android.view.View
 import android.view.ViewGroup
 
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignUpFragmentBinding
+import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import alexander.skornyakov.yourwords.ui.auth.signin.SignInFragmentDirections
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
+import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.sign_up_fragment.*
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class SignUpFragment : Fragment() {
+class SignUpFragment : DaggerFragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProviderFactory
     private lateinit var viewModel: SignUpViewModel
-    private lateinit var mainViewModel: MainViewModel
-    val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+"
+    @Inject lateinit var sessionManager: SessionManager
+    private val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val app = requireNotNull(this.activity).application
 
-        //mainViewModel init
-        val factory = MainViewModelFactory(app)
-        mainViewModel = ViewModelProviders.of(activity!!,factory)[MainViewModel::class.java]
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(SignUpViewModel::class.java)
 
-        val signUpViewModelFactory = SignUpViewModelFactory(mainViewModel.mAuth.value!!, app)
-        viewModel = ViewModelProviders.of(this, signUpViewModelFactory).get(SignUpViewModel::class.java)
-
-        val binding = DataBindingUtil.inflate<SignUpFragmentBinding>(inflater,R.layout.sign_up_fragment,container,false)
+        val binding = DataBindingUtil.inflate<SignUpFragmentBinding>(
+            inflater,
+            R.layout.sign_up_fragment,
+            container,
+            false
+        )
         binding.signUpViewModel = viewModel
         binding.lifecycleOwner = this
 
         viewModel.signUpAction.observe(this, Observer {
-            if(it==true) {
+            if (it == true) {
                 if (Utils.isInternetAvailable(context!!)) {
                     val fields = listOf(
                         binding.emailTextEdit,
@@ -53,76 +61,83 @@ class SignUpFragment : Fragment() {
                         binding.passwordTextEdit,
                         binding.passwordTextEdit2
                     )
-                    if (fields.any { it.text.isNullOrEmpty() || !it.error.isNullOrEmpty()}) {
+                    if (fields.any { it.text.isNullOrEmpty() || !it.error.isNullOrEmpty() }) {
                         Toast.makeText(context, "All fields must be filled!", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         val email = viewModel._email_edit.value!!
                         val pass = viewModel._password_edit1.value!!
                         val name = viewModel._name_edit.value!!
-                        binding.signUpButton.isEnabled = false
-                        binding.signUpButton.alpha = 0.2f
+                        Utils.disableButton(sign_up_button)
                         viewModel.signUpWithEmail(email, pass, name)
                     }
 
                 } else {
-                    Toast.makeText(context, "Check your internet connection!", Toast.LENGTH_LONG)
+                    Toast.makeText(context, getString(R.string.check_internet), Toast.LENGTH_LONG)
                         .show()
                 }
-            }else{
-                binding.signUpButton.isEnabled = true
-                binding.signUpButton.alpha = 1f
+            } else {
+                Utils.enableButton(sign_up_button)
             }
         })
 
         binding.emailTextEdit.doAfterTextChanged {
             val content = it.toString()
-            if(!content.matches(emailPattern.toRegex())){
-                binding.emailTextEdit.error = "This is not a valid email!"
+            if (!content.matches(emailPattern.toRegex())) {
+                binding.emailTextEdit.error = getString(R.string.invalid_email)
             }
         }
 
         binding.loginTextEdit.doAfterTextChanged {
             val content = it.toString()
-            if(content.isNullOrEmpty()){
-                binding.loginTextEdit.error = "You have to write your name!"
+            if (content.isNullOrEmpty()) {
+                binding.loginTextEdit.error = "Empty name!"
             }
         }
 
         binding.passwordTextEdit.doAfterTextChanged {
             val content = it.toString()
-            if(content.length < 6){
-                binding.passwordTextEdit.error = "Password's length must be more than 6 characters!"
+            if (content.length < 6) {
+                binding.passwordTextEdit.error = getString(R.string.pass_less_than_six)
             }
         }
 
         binding.passwordTextEdit2.doAfterTextChanged {
             val content = it.toString()
             val password = binding.passwordTextEdit.text.toString()
-            if(!content.equals(password)){
+            if (!content.equals(password)) {
                 binding.passwordTextEdit2.error = "Difference!"
             }
         }
 
-        viewModel.registered.observe(this, Observer {
-            if(it==true){
-                activity?.let {
-                    Utils.hideKeyboard(it)
-                }
-                mainViewModel.showTitlebar()
-                mainViewModel.unlockDrawer()
-                findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToSetsFragment())
-            }
-        })
+//        viewModel.registered.observe(this, Observer {
+//            if (it == true) {
+//                activity?.let {
+//                    Utils.hideKeyboard(it)
+//                }
+//                //TODO go to main
+//                Toast.makeText(context, "Go to main", Toast.LENGTH_LONG).show()
+//            }
+//        })
 
         viewModel.error.observe(this, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
 
+        sessionManager.getUser().observe(this, Observer {
+            when(it.status){
+                AuthResource.AuthStatus.AUTHENTICATED->{
+                    //TODO go to main
+                    Toast.makeText(context,"Registered. GO to main",Toast.LENGTH_LONG).show()
+                }
+                AuthResource.AuthStatus.ERROR->{
+                    Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
         return binding.root
     }
-
-
 
 
 }

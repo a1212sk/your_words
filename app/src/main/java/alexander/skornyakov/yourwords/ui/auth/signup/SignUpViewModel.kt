@@ -1,14 +1,24 @@
 package alexander.skornyakov.yourwords.ui.auth.signup
 
+import alexander.skornyakov.yourwords.app.BaseApplication
+import alexander.skornyakov.yourwords.app.SessionManager
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import javax.inject.Inject
 
-class SignUpViewModel(val app: Application, val auth: FirebaseAuth) : AndroidViewModel(app) {
+class SignUpViewModel
+@Inject constructor(
+    val app: BaseApplication,
+    val auth: FirebaseAuth,
+    val sessionManager: SessionManager
+) : ViewModel() {
+
     var _email_edit = MutableLiveData<String>()
     var _name_edit = MutableLiveData<String>()
     var _password_edit1 = MutableLiveData<String>()
@@ -17,7 +27,10 @@ class SignUpViewModel(val app: Application, val auth: FirebaseAuth) : AndroidVie
     var registered = MutableLiveData<Boolean>(false)
     var error = MutableLiveData<String>()
 
-    fun signUp(){
+    ////////////////////////////////////////////////////////////////////////
+    //                      SIGN UP ACTION                                //
+
+    fun signUp() {
         _signUpAction.value = true
     }
 
@@ -25,42 +38,34 @@ class SignUpViewModel(val app: Application, val auth: FirebaseAuth) : AndroidVie
     val signUpAction: LiveData<Boolean>
         get() = _signUpAction
 
-    fun signUpActionComplete(){
+    private fun signUpActionComplete() {
         _signUpAction.value = false
     }
 
-    fun signUpWithEmail(login: String, password: String, name: String){
-        auth.createUserWithEmailAndPassword(login,password).addOnCompleteListener{signUpTask->
-            if(signUpTask.isSuccessful){
+    ////////////////////////////////////////////////////////////////////////
+
+
+    fun signUpWithEmail(login: String, password: String, name: String) {
+        auth.createUserWithEmailAndPassword(login, password).addOnCompleteListener { signUpTask ->
+            if (signUpTask.isSuccessful) {
                 val user = auth.currentUser
                 val profileUpdate = UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
                     .build()
                 user?.updateProfile(profileUpdate)
-                    ?.addOnCompleteListener{updateTask->
-                        if(updateTask.isSuccessful){
-                            auth.signOut() //relogin to refresh the drawer user info
-                            auth.signInWithEmailAndPassword(login,password).addOnCompleteListener{loginTask->
-                                if(loginTask.isSuccessful){
-                                    Log.i("AUTH", "User {name} created")
-                                    registered.value = true
-                                }else{
-                                    error.value = loginTask.exception.toString()
-
-                                }
-                                signUpActionComplete()
-                            }
-                        }else{
+                    ?.addOnCompleteListener { updateTask ->
+                        if (updateTask.isSuccessful) {
+                            sessionManager.authenticate(login, password)
+                        } else {
                             error.value = updateTask.exception.toString()
                         }
                         signUpActionComplete()
                     }
-            }else{
+            } else {
                 error.value = signUpTask.exception.toString()
                 signUpActionComplete()
             }
         }
     }
-
 
 }

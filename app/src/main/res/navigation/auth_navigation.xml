@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@id/signInFragment2">
+
+    <fragment
+        android:id="@+id/signInFragment2"
+        android:name="alexander.skornyakov.yourwords.ui.auth.signin.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/sign_in_fragment">
+        <action
+            android:id="@+id/action_signInFragment2_to_signUpFragment2"
+            app:destination="@id/signUpFragment2" />
+        <action
+            android:id="@+id/action_signInFragment2_to_resetPasswordFragment2"
+            app:destination="@id/resetPasswordFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment2"
+        android:name="alexander.skornyakov.yourwords.ui.auth.signup.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/sign_up_fragment"/>
+    <fragment
+        android:id="@+id/resetPasswordFragment2"
+        android:name="alexander.skornyakov.yourwords.ui.auth.reset.ResetPasswordFragment"
+        android:label="reset_password_fragment"
+        tools:layout="@layout/reset_password_fragment" >
+        <action
+            android:id="@+id/action_resetPasswordFragment2_to_signInFragment2"
+            app:destination="@id/signInFragment2" />
+    </fragment>
+</navigation>

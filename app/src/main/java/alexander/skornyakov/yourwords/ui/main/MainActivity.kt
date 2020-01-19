@@ -65,7 +65,7 @@ class MainActivity: DaggerAppCompatActivity() {
             if(it==true){
                 vm?.mAuth?.value?.currentUser?.let{
                     vm.mAuth.value!!.signOut()
-                    navController.navigate(R.id.signInFragment)
+                    //navController.navigate(R.id.signInFragment)
                     vm.lockDrawer()
                     vm.signOutCompleted()
                 }
@@ -81,18 +81,18 @@ class MainActivity: DaggerAppCompatActivity() {
             }
         })
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            val id = destination.id
-            if(id == R.id.signInFragment
-                || id == R.id.signUpFragment
-                || id == R.id.resetPasswordFragment)
-            {
-                vm.hideTitlebar() //TODO remove from vm
-            }
-            else{
-                vm.showTitlebar()
-            }
-        }
+//        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+//            val id = destination.id
+//            if(id == R.id.signInFragment
+//                || id == R.id.signUpFragment
+//                || id == R.id.resetPasswordFragment)
+//            {
+//                vm.hideTitlebar() //TODO remove from vm
+//            }
+//            else{
+//                vm.showTitlebar()
+//            }
+//        }
 
 
 

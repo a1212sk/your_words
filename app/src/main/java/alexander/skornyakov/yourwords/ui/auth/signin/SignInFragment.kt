@@ -7,11 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.app.BaseApplication
+import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignInFragmentBinding
+import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
+import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
+import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
@@ -19,36 +25,35 @@ import com.google.firebase.auth.FirebaseAuth
 
 import kotlinx.coroutines.*
 import androidx.lifecycle.Observer
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.sign_in_fragment.*
+import javax.inject.Inject
 
-class SignInFragment : Fragment() {
+class SignInFragment : DaggerFragment() {
 
+    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
     private lateinit var viewModel: SignInViewModel
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var mainViewModel : MainViewModel
+    @Inject lateinit var application: BaseApplication
+    @Inject lateinit var firebaseAuth: FirebaseAuth
+    @Inject lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val app: Application = requireNotNull(this.activity).application
-        mAuth = FirebaseAuth.getInstance()
-
-
-        //mainViewModel init
-        val factory = MainViewModelFactory(app)
-        mainViewModel = ViewModelProviders.of(activity!!,factory)[MainViewModel::class.java]
-
-        //if has already signed in go to sets
-        if(mAuth.currentUser!=null){
-            findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
+        if(firebaseAuth.currentUser!=null){
+            Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
+            //TODO goto main
         }
 
-        //signInViewModel and layout init
-        val signInViewModelFactory =
-            SignInViewModelFactory(mAuth, app)
-        viewModel = ViewModelProviders.of(this, signInViewModelFactory).get(SignInViewModel::class.java)
-        val binding = DataBindingUtil.inflate<SignInFragmentBinding>(inflater, R.layout.sign_in_fragment, container,false)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(SignInViewModel::class.java)
+        val binding = DataBindingUtil.inflate<SignInFragmentBinding>(
+            inflater,
+            R.layout.sign_in_fragment,
+            container,
+            false)
         binding.signInViewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -57,10 +62,13 @@ class SignInFragment : Fragment() {
             GlobalScope.launch(Dispatchers.Main) {
                 if(it==true){
                     if(Utils.isInternetAvailable(context!!)) {
-                        auth()
+                        viewModel.auth()
                     }
                     else{
-                        Toast.makeText(context,"Check your internet connection!",Toast.LENGTH_LONG).show()
+                        Toast.makeText(context,
+                            "Check your internet connection!",
+                            Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
             }
@@ -68,42 +76,46 @@ class SignInFragment : Fragment() {
 
         //Sign up button clicked
         viewModel.signupAction.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it){
-                    findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
-                    viewModel.completeSignupAction()
-                }
+            if(it){
+                findNavController().navigate(
+                    SignInFragmentDirections.actionSignInFragment2ToSignUpFragment2())
+                viewModel.completeSignupAction()
             }
         })
 
         viewModel.resetAction.observe(viewLifecycleOwner, Observer {
             if(it){
-                findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToResetPasswordFragment())
+                findNavController().navigate(
+                    SignInFragmentDirections.actionSignInFragment2ToResetPasswordFragment2())
                 viewModel.completeResetAction()
             }
         })
 
+        subscribeObservers()
+
         return binding.root
     }
 
-    private fun auth() {
-        val email = viewModel._email_edit.value
-        val password = viewModel._password_edit.value
-        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    activity?.let {
-                        Utils.hideKeyboard(it)
-                    }
-                    mainViewModel.unlockDrawer()
-                    viewModel.completeSigninAction()
-                    findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToSetsFragment())
-                } else {
-                    Toast.makeText(context, "Wrong password or username!", Toast.LENGTH_LONG).show()
+    private fun subscribeObservers(){
+        sessionManager.getUser().observe(this, Observer {
+            when(it.status){
+                AuthResource.AuthStatus.AUTHENTICATED->{
+                    Toast.makeText(context,"Logged In !!!",Toast.LENGTH_LONG).show()
+                    Utils.disableButton(sign_in_button)
+                }
+                AuthResource.AuthStatus.LOADING->{
+                    Toast.makeText(context,"Loading...",Toast.LENGTH_SHORT).show()
+                    Utils.disableButton(sign_in_button)
+                }
+                AuthResource.AuthStatus.ERROR->{
+                    Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
+                    Utils.enableButton(sign_in_button)
                 }
             }
-        }
+
+        })
     }
+
 
 
 }

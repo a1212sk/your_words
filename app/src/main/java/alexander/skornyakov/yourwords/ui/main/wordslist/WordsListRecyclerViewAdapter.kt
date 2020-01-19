@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.wordslist
+package alexander.skornyakov.yourwords.ui.main.wordslist
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.Word
@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
-    : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
+    : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(
+    SetsDiffCallback()
+){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        return WordViewHolder.from(parent)
+        return WordViewHolder.from(
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
@@ -35,7 +39,9 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = WordslistItemBinding.inflate(layoutInflater,parent,false)
                 layoutInflater.inflate(R.layout.wordslist_item, parent, false)
-                return WordViewHolder(binding)
+                return WordViewHolder(
+                    binding
+                )
             }
         }
     }

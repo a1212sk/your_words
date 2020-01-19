@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.cards
+package alexander.skornyakov.yourwords.ui.main.cards
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,11 @@ class WordViewModelFactory(
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WordViewModel::class.java)) {
-            return WordViewModel(app, selectedWordsSetId, selectedWordId) as T
+            return WordViewModel(
+                app,
+                selectedWordsSetId,
+                selectedWordId
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -2,7 +2,7 @@ package alexander.skornyakov.yourwords.ui
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.ui.main.MainActivity
-import alexander.skornyakov.yourwords.ui.sets.SetsRecyclerViewAdapter
+import alexander.skornyakov.yourwords.ui.main.sets.SetsRecyclerViewAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.*

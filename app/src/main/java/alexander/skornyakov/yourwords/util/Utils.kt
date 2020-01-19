@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -43,6 +44,16 @@ class Utils {
             } catch (e: UnknownHostException) {
                 false
             }
+        }
+
+        fun disableButton(btn: Button){
+            btn.alpha = 0.5f
+            btn.isEnabled = false
+        }
+
+        fun enableButton(btn: Button){
+            btn.alpha = 1f
+            btn.isEnabled = true
         }
     }
 

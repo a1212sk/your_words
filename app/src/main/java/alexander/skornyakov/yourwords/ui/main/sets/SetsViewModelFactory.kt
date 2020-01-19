@@ -1,4 +1,4 @@
-package alexander.skornyakov.yourwords.ui.sets
+package alexander.skornyakov.yourwords.ui.main.sets
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

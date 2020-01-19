@@ -9,7 +9,7 @@
             type="alexander.skornyakov.yourwords.data.entity.WordsSet" />
         <variable
             name="clickListener"
-            type="alexander.skornyakov.yourwords.ui.sets.SetsClickListener" />
+            type="alexander.skornyakov.yourwords.ui.main.sets.SetsClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,7 +1,8 @@
-package alexander.skornyakov.yourwords.ui.wordslist
+package alexander.skornyakov.yourwords.ui.main.wordslist
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
+import alexander.skornyakov.yourwords.ui.main.wordslist.WordsListFragmentDirections
 import android.app.Application
 import android.os.Bundle
 import android.view.*
@@ -31,17 +32,27 @@ class WordsListFragment : Fragment(){
 
 
         val app: Application = requireNotNull(this.activity).application
-        val vmFactory = WordsListViewModelFactory(app, selectedWordsSet!!)
+        val vmFactory =
+            WordsListViewModelFactory(
+                app,
+                selectedWordsSet!!
+            )
         viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 
-        val wordsListRecyclerViewAdapter = WordsListRecyclerViewAdapter(
-            WordsClickListener { wordId ->
-                wordId.let {
-                    findNavController().navigate(WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(it,selectedWordsSet))
+        val wordsListRecyclerViewAdapter =
+            WordsListRecyclerViewAdapter(
+                WordsClickListener { wordId ->
+                    wordId.let {
+                        findNavController().navigate(
+                            WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(
+                                it,
+                                selectedWordsSet
+                            )
+                        )
 
-                }
-        })
+                    }
+                })
         binding.setsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)

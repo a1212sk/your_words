@@ -8,7 +8,7 @@
             type="alexander.skornyakov.yourwords.data.entity.Word" />
         <variable
             name="clickListener"
-            type="alexander.skornyakov.yourwords.ui.wordslist.WordsClickListener"/>
+            type="alexander.skornyakov.yourwords.ui.main.wordslist.WordsClickListener"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
