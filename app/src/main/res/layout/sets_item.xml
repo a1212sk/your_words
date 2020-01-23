@@ -16,7 +16,8 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(wordsSet)}">
+        >
+<!--        android:onClick="@{() -> clickListener.onClick(wordsSet)}">-->
 
 
         <androidx.cardview.widget.CardView

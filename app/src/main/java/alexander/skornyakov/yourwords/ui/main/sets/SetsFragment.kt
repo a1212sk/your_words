@@ -28,25 +28,29 @@ class SetsFragment : DaggerFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
+    private fun showAddNewSetDialog(){
         val builder = AlertDialog.Builder(context)
-        val view = layoutInflater.inflate(R.layout.add_set_dialog,null);
+        val view = layoutInflater.inflate(R.layout.add_set_dialog, null);
         val editText = view.findViewById<EditText>(R.id.new_set_name)
         builder.setView(view)
             .setTitle("Add new set")
-            .setPositiveButton("Create",
-                DialogInterface.OnClickListener{dialog, id->
-                    if(!editText.text.isNullOrEmpty()){
-                        vm.createSet(editText.text.toString())
-                    }
-                })
-            .setNegativeButton("Cancel",
-                DialogInterface.OnClickListener{dialog, id->
+            .setPositiveButton("Create"
+            ) { dialog, id ->
+                if (!editText.text.isNullOrEmpty()) {
+                    vm.createSet(editText.text.toString())
+                }
+            }
+            .setNegativeButton("Cancel"
+            ) { dialog, id ->
 
-                })
+            }
 
         builder.show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        showAddNewSetDialog()
         return true
     }
 
@@ -55,10 +59,10 @@ class SetsFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
         //Inflate xml
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
-            inflater, R.layout.sets_fragment,container,false)
+            inflater, R.layout.sets_fragment, container, false
+        )
         binding.lifecycleOwner = this
 
         val app: Application = requireNotNull(this.activity).application
@@ -67,36 +71,42 @@ class SetsFragment : DaggerFragment() {
         val setsViewModelFactory =
             SetsViewModelFactory(app)
         val vm: SetsViewModel = ViewModelProviders.of(this, setsViewModelFactory).get(
-            SetsViewModel::class.java)
+            SetsViewModel::class.java
+        )
         binding.setsViewModel = vm
         this.vm = vm
 
         val setsRecyclerViewAdapter =
             SetsRecyclerViewAdapter(
-                SetsClickListener { set ->
-                    set.let {
-                        findNavController().navigate(
-                            SetsFragmentDirections.actionSetsFragmentToWordsListFragment(
-                                it.id
-                            )
-                        )
+                SetsClickListener { view, set ->
+                    when (view.id) {
+                        R.id.constraintLayout -> {
+                            set.let {
+                                findNavController().navigate(
+                                    SetsFragmentDirections.actionSetsFragmentToWordsListFragment(
+                                        it.id
+                                    )
+                                )
+                            }
+                        }
+                        R.id.sets_rename_button -> {
+                            Toast.makeText(context, "RENAME " + set.toString(), Toast.LENGTH_LONG)
+                                .show()
+
+                        }
+                        R.id.sets_delete_button -> {
+                            vm.deleteSet(set)
+                            Toast.makeText(context, "DELETE " + set.toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
-                },
-                SetsClickListener { set ->
-                    Toast.makeText(context, set.toString(), Toast.LENGTH_LONG).show()
-                },
-                SetsClickListener { set ->
-                    Toast.makeText(context, "RENAME " + set.toString(), Toast.LENGTH_LONG).show()
-                },
-                SetsClickListener { set ->
-                    vm.deleteSet(set)
-                    Toast.makeText(context, "DELETE " + set.toString(), Toast.LENGTH_LONG).show()
                 }
             )
 
         binding.setsRecyclerView.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context,
+            layoutManager = GridLayoutManager(
+                context,
                 SPAN_COUNT
             )
             adapter = setsRecyclerViewAdapter
@@ -110,7 +120,7 @@ class SetsFragment : DaggerFragment() {
         })
 
         vm.error.observe(viewLifecycleOwner, Observer {
-            it?.let{
+            it?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 vm.clearError()
             }

@@ -16,10 +16,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SetsRecyclerViewAdapter(val clickListener: SetsClickListener,
-                              val longClickListener: SetsClickListener,
-                              val renameListener: SetsClickListener,
-                              val deleteListener: SetsClickListener
+class SetsRecyclerViewAdapter(val clickListener: SetsClickListener//,
+                            // val longClickListener: SetsClickListener//,
+//                              val renameListener: SetsClickListener,
+//                              val deleteListener: SetsClickListener
 )
     : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(
     SetsDiffCallback()
@@ -33,35 +33,44 @@ class SetsRecyclerViewAdapter(val clickListener: SetsClickListener,
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val item = getItem(position)!!
-        holder.bind(clickListener,longClickListener, renameListener, deleteListener, item)
+        holder.bind(clickListener, /*longClickListener, renameListener, deleteListener,*/ item)
     }
 
     class WordViewHolder private constructor(val binding: SetsItemBinding) : ViewHolder(binding.root){
 
+        fun enableSetButtons(){
+            binding.wordTextView.visibility = View.GONE
+            binding.setsDeleteButton.visibility = View.VISIBLE
+            binding.setsRenameButton.visibility = View.VISIBLE
+        }
+
+        fun disableSetButtons(){
+            binding.wordTextView.visibility = View.VISIBLE
+            binding.setsDeleteButton.visibility = View.GONE
+            binding.setsRenameButton.visibility = View.GONE
+        }
+
         fun bind(clickListener: SetsClickListener,
-                 longClickListener: SetsClickListener,
-                 renameListener: SetsClickListener,
-                 deleteListener: SetsClickListener,
+                 //longClickListener: SetsClickListener,
+//                 renameListener: SetsClickListener,
+//                 deleteListener: SetsClickListener,
                  item: WordsSet) {
             binding.wordsSet = item
             binding.wordTextView.text = item.name
-            binding.clickListener = clickListener
+           // binding.clickListener = clickListener
             binding.root.setOnLongClickListener{
-                longClickListener.onClick(binding.wordsSet)
-                binding.wordTextView.visibility = View.GONE
-                binding.setsDeleteButton.visibility = View.VISIBLE
-                binding.setsRenameButton.visibility = View.VISIBLE
+                //longClickListener.onClick(it,binding.wordsSet)
+                enableSetButtons()
                 GlobalScope.launch (Dispatchers.Main){
                     delay(2000)
-                    binding.wordTextView.visibility = View.VISIBLE
-                    binding.setsDeleteButton.visibility = View.GONE
-                    binding.setsRenameButton.visibility = View.GONE
+                    disableSetButtons()
                 }
 
                 true
             }
-            binding.setsRenameButton.setOnClickListener { renameListener.onClick(binding.wordsSet) }
-            binding.setsDeleteButton.setOnClickListener { deleteListener.onClick(binding.wordsSet) }
+            binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,binding.wordsSet)}
+            binding.setsRenameButton.setOnClickListener { clickListener.onClick(it, binding.wordsSet) }
+            binding.setsDeleteButton.setOnClickListener { clickListener.onClick(it, binding.wordsSet) }
             binding.executePendingBindings()
         }
         companion object {
@@ -88,10 +97,10 @@ class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
 
 }
 
-class SetsClickListener(val clickListener: (setId: WordsSet) -> Unit) {
-    fun onClick(set: WordsSet?){
+class SetsClickListener(val clickListener: (view: View, setId: WordsSet) -> Unit) {
+    fun onClick(view: View, set: WordsSet?){
         set?.let {
-            clickListener(it)
+            clickListener(view, it)
         }
     }
 }
