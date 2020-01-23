@@ -16,59 +16,44 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SetsRecyclerViewAdapter(val clickListener: SetsClickListener//,
-                            // val longClickListener: SetsClickListener//,
-//                              val renameListener: SetsClickListener,
-//                              val deleteListener: SetsClickListener
-)
-    : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(
-    SetsDiffCallback()
-){
+class SetsRecyclerViewAdapter(private val clickListener: SetsClickListener)
+    : ListAdapter<WordsSet, SetsRecyclerViewAdapter.WordViewHolder>(SetsDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        return WordViewHolder.from(
-            parent
-        )
+        return WordViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val item = getItem(position)!!
-        holder.bind(clickListener, /*longClickListener, renameListener, deleteListener,*/ item)
+        holder.bind(clickListener, item)
     }
 
     class WordViewHolder private constructor(val binding: SetsItemBinding) : ViewHolder(binding.root){
 
-        fun enableSetButtons(){
+        private fun enableSetButtons(){
             binding.wordTextView.visibility = View.GONE
             binding.setsDeleteButton.visibility = View.VISIBLE
             binding.setsRenameButton.visibility = View.VISIBLE
         }
 
-        fun disableSetButtons(){
+        private fun disableSetButtons(){
             binding.wordTextView.visibility = View.VISIBLE
             binding.setsDeleteButton.visibility = View.GONE
             binding.setsRenameButton.visibility = View.GONE
         }
 
-        fun bind(clickListener: SetsClickListener,
-                 //longClickListener: SetsClickListener,
-//                 renameListener: SetsClickListener,
-//                 deleteListener: SetsClickListener,
-                 item: WordsSet) {
+        fun bind(clickListener: SetsClickListener, item: WordsSet) {
             binding.wordsSet = item
             binding.wordTextView.text = item.name
-           // binding.clickListener = clickListener
             binding.root.setOnLongClickListener{
-                //longClickListener.onClick(it,binding.wordsSet)
                 enableSetButtons()
                 GlobalScope.launch (Dispatchers.Main){
                     delay(2000)
                     disableSetButtons()
                 }
-
                 true
             }
-            binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,binding.wordsSet)}
+            binding.constraintLayout.setOnClickListener { clickListener.onClick(it,binding.wordsSet) }
             binding.setsRenameButton.setOnClickListener { clickListener.onClick(it, binding.wordsSet) }
             binding.setsDeleteButton.setOnClickListener { clickListener.onClick(it, binding.wordsSet) }
             binding.executePendingBindings()
@@ -78,9 +63,7 @@ class SetsRecyclerViewAdapter(val clickListener: SetsClickListener//,
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = SetsItemBinding.inflate(layoutInflater,parent,false)
                 layoutInflater.inflate(R.layout.sets_item, parent, false)
-                return WordViewHolder(
-                    binding
-                )
+                return WordViewHolder(binding)
             }
         }
     }
@@ -94,7 +77,6 @@ class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
     override fun areContentsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
         return  oldItem == newItem
     }
-
 }
 
 class SetsClickListener(val clickListener: (view: View, setId: WordsSet) -> Unit) {

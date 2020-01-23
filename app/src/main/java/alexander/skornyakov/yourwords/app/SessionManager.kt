@@ -56,6 +56,20 @@ class SessionManager @Inject constructor(){
         }
     }
 
-    fun getUser()=user
+    fun getUser() : LiveData<AuthResource<FirebaseUser>>{
+        if (user.value==null){
+            if (firebaseAuth.currentUser!=null){
+                user.value = AuthResource.authenticated(firebaseAuth.currentUser)
+            }else{
+                user.value = AuthResource.logout()//NOT Authenticated status
+            }
+        }
+        return user
+    }
+
+    fun logOut() {
+        firebaseAuth.signOut()
+        user.value = AuthResource.logout()
+    }
 
 }

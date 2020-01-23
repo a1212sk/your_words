@@ -43,7 +43,7 @@ class SignInFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        if(firebaseAuth.currentUser!=null){
+        if(sessionManager.getUser().value?.status==AuthResource.AuthStatus.AUTHENTICATED){
             Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
             var intent = Intent(context,MainActivity::class.java)
             startActivity(intent)

@@ -1,17 +1,18 @@
 package alexander.skornyakov.yourwords.ui.main.sets
 
+import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository
-import android.app.Application
 import android.os.AsyncTask
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ListenerRegistration
+import javax.inject.Inject
 
-class SetsViewModel (app: Application): AndroidViewModel(app) {
+class SetsViewModel @Inject constructor() : ViewModel() {
+
+    @Inject lateinit var sessionManager: SessionManager
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String>
@@ -20,14 +21,14 @@ class SetsViewModel (app: Application): AndroidViewModel(app) {
         _error.value=null
     }
 
-    val repository = FirestoreRepository()
-    val currentUser = FirebaseAuth.getInstance().currentUser
+    @Inject lateinit var repository : FirestoreRepository
+    //val currentUser = sessionManager.getUser().value?.data
 
     //Creates new set of words
     fun createSet(text: String) {
         val ws = WordsSet()
         ws.name = text.toString()
-        currentUser.let { ws.userID = it?.uid!! }
+        sessionManager.getUser().value?.data.let { ws.userID = it?.uid!! }
         AsyncTask.execute {
             repository.saveWordSet(ws).addOnFailureListener {
                 _error.value = it.toString()

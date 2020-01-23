@@ -1,6 +1,7 @@
 package alexander.skornyakov.yourwords.ui.main
 
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.MainActivityBinding
 import alexander.skornyakov.yourwords.databinding.NavHeaderBinding
 import alexander.skornyakov.yourwords.ui.auth.AuthActivity
@@ -30,6 +31,7 @@ class MainActivity: DaggerAppCompatActivity() {
     private lateinit var vm: MainViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelProviderFactory
+    @Inject lateinit var sessionManager: SessionManager
 
    // @Inject lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -70,15 +72,17 @@ class MainActivity: DaggerAppCompatActivity() {
 
         vm.signOut.observe(this, Observer {
             if(it==true){
-                vm?.mAuth?.value?.currentUser?.let{
-                    vm.mAuth.value!!.signOut()
+               // vm?.mAuth?.value?.currentUser?.let{
+                    sessionManager.logOut()
                     var intent = Intent(this,AuthActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                     finish()
+
                     //navController.navigate(R.id.signInFragment)
                     //vm.lockDrawer()
                     //vm.signOutCompleted()
-                }
+               // }
             }
         })
 
