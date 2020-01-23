@@ -3,6 +3,9 @@ package alexander.skornyakov.yourwords.ui.main
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.MainActivityBinding
 import alexander.skornyakov.yourwords.databinding.NavHeaderBinding
+import alexander.skornyakov.yourwords.ui.auth.AuthActivity
+import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +29,9 @@ class MainActivity: DaggerAppCompatActivity() {
 
     private lateinit var vm: MainViewModel
 
-    @Inject lateinit var firebaseAnalytics: FirebaseAnalytics
+    @Inject lateinit var viewModelFactory: ViewModelProviderFactory
+
+   // @Inject lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,48 +43,53 @@ class MainActivity: DaggerAppCompatActivity() {
             container,
             false)
 
-        val vmFactory = MainViewModelFactory(application)
-        vm = ViewModelProviders.of(this, vmFactory).get(MainViewModel::class.java)
+        vm = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         binding.mainViewModel = vm
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
+        toolbar.visibility = View.VISIBLE
         setDrawer()
-
         setSupportActionBar(toolbar)
+
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.setsFragment), drawer)
         toolbar.setupWithNavController(navController, appBarConfiguration)
-        //setupActionBarWithNavController(navController,appBarConfiguration)
+        setupActionBarWithNavController(navController,appBarConfiguration)
 
-        vm.hideTitlebar.observe(this, Observer {
-            if(it==false){
-                toolbar.visibility = View.VISIBLE
-            }
-            else{
-                toolbar.visibility = View.GONE
-            }
-        })
+
+
+//        vm.hideTitlebar.observe(this, Observer {
+//            if(it==false){
+//                toolbar.visibility = View.VISIBLE
+//            }
+//            else{
+//                toolbar.visibility = View.GONE
+//            }
+//        })
 
         vm.signOut.observe(this, Observer {
             if(it==true){
                 vm?.mAuth?.value?.currentUser?.let{
                     vm.mAuth.value!!.signOut()
+                    var intent = Intent(this,AuthActivity::class.java)
+                    startActivity(intent)
+                    finish()
                     //navController.navigate(R.id.signInFragment)
-                    vm.lockDrawer()
-                    vm.signOutCompleted()
+                    //vm.lockDrawer()
+                    //vm.signOutCompleted()
                 }
             }
         })
 
-        vm.drawerLocked.observe(this, Observer {
-            if(it){
-                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            }
-            else{
-                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            }
-        })
+//        vm.drawerLocked.observe(this, Observer {
+//            if(it){
+//                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+//            }
+//            else{
+//                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+//            }
+//        })
 
 //        navController.addOnDestinationChangedListener { controller, destination, arguments ->
 //            val id = destination.id

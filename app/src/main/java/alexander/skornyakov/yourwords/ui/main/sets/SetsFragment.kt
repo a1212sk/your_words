@@ -10,16 +10,16 @@ import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.android.support.DaggerFragment
 
 
 private const val SPAN_COUNT = 2
 
-class SetsFragment : Fragment() {
+class SetsFragment : DaggerFragment() {
 
     private lateinit var vm: SetsViewModel
 

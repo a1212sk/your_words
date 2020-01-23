@@ -11,11 +11,12 @@ import alexander.skornyakov.yourwords.app.BaseApplication
 import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignInFragmentBinding
 import alexander.skornyakov.yourwords.ui.auth.AuthResource
+import alexander.skornyakov.yourwords.ui.main.MainActivity
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
-import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
+import android.content.Intent
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
@@ -44,7 +45,9 @@ class SignInFragment : DaggerFragment() {
 
         if(firebaseAuth.currentUser!=null){
             Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
-            //TODO goto main
+            var intent = Intent(context,MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
@@ -102,6 +105,7 @@ class SignInFragment : DaggerFragment() {
                 AuthResource.AuthStatus.AUTHENTICATED->{
                     Toast.makeText(context,"Logged In !!!",Toast.LENGTH_LONG).show()
                     Utils.disableButton(sign_in_button)
+                    gotoMainActivity()
                 }
                 AuthResource.AuthStatus.LOADING->{
                     Toast.makeText(context,"Loading...",Toast.LENGTH_SHORT).show()
@@ -114,6 +118,12 @@ class SignInFragment : DaggerFragment() {
             }
 
         })
+    }
+
+    fun gotoMainActivity(){
+        var intent = Intent(context,MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
 

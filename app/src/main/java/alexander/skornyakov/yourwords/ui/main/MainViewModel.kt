@@ -1,12 +1,15 @@
 package alexander.skornyakov.yourwords.ui.main
 
+import alexander.skornyakov.yourwords.app.BaseApplication
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class MainViewModel(app: Application): AndroidViewModel(app) {
+class MainViewModel @Inject constructor(app: BaseApplication): ViewModel(){
     private val _mAuth: MutableLiveData<FirebaseAuth> = MutableLiveData<FirebaseAuth>(FirebaseAuth.getInstance())
     val mAuth : LiveData<FirebaseAuth>
         get() = _mAuth
@@ -15,13 +18,13 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
     val hideTitlebar : MutableLiveData<Boolean>
         get() = _hideTitlebar
 
-    fun showTitlebar(){
-        _hideTitlebar.value = false
-    }
-
-    fun hideTitlebar(){
-        _hideTitlebar.value = true
-    }
+//    fun showTitlebar(){
+//        _hideTitlebar.value = false
+//    }
+//
+//    fun hideTitlebar(){
+//        _hideTitlebar.value = true
+//    }
 
     private var _signOut: MutableLiveData<Boolean> = MutableLiveData(false)
     val signOut: MutableLiveData<Boolean>
@@ -30,22 +33,22 @@ class MainViewModel(app: Application): AndroidViewModel(app) {
     fun signOut(){
         _signOut.value = true
     }
+//
+//    fun signOutCompleted(){
+//        _signOut.value = false
+//    }
 
-    fun signOutCompleted(){
-        _signOut.value = false
-    }
+//    private val _drawerLocked : MutableLiveData<Boolean> = MutableLiveData(true)
+//    val drawerLocked : MutableLiveData<Boolean>
+//        get() = _drawerLocked
 
-    private val _drawerLocked : MutableLiveData<Boolean> = MutableLiveData(true)
-    val drawerLocked : MutableLiveData<Boolean>
-        get() = _drawerLocked
-
-    fun lockDrawer(){
-        _drawerLocked.value = true
-    }
-
-    fun unlockDrawer(){
-        _drawerLocked.value = false
-    }
+//    fun lockDrawer(){
+//        _drawerLocked.value = true
+//    }
+//
+//    fun unlockDrawer(){
+//        _drawerLocked.value = false
+//    }
 
     private val _username = MutableLiveData<String>("")
     val username : MutableLiveData<String>

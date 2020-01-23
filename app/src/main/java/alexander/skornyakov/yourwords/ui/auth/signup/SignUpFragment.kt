@@ -1,30 +1,22 @@
 package alexander.skornyakov.yourwords.ui.auth.signup
 
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignUpFragmentBinding
 import alexander.skornyakov.yourwords.ui.auth.AuthResource
-import alexander.skornyakov.yourwords.ui.auth.signin.SignInFragmentDirections
-import alexander.skornyakov.yourwords.ui.main.MainViewModel
-import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doBeforeTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.sign_up_fragment.*
-import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class SignUpFragment : DaggerFragment() {

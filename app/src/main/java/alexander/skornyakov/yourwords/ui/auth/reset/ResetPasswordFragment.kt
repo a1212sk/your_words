@@ -11,7 +11,6 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.ResetPasswordFragmentBinding
 import alexander.skornyakov.yourwords.ui.auth.signin.SignInViewModel
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
-import alexander.skornyakov.yourwords.ui.main.MainViewModelFactory
 import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
