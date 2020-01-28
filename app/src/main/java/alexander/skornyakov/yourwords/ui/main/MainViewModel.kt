@@ -1,11 +1,9 @@
 package alexander.skornyakov.yourwords.ui.main
 
 import alexander.skornyakov.yourwords.app.BaseApplication
+import alexander.skornyakov.yourwords.app.SessionManager
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -14,9 +12,9 @@ class MainViewModel @Inject constructor(app: BaseApplication): ViewModel(){
     val mAuth : LiveData<FirebaseAuth>
         get() = _mAuth
 
-    private var _hideTitlebar = MutableLiveData<Boolean>(true)
-    val hideTitlebar : MutableLiveData<Boolean>
-        get() = _hideTitlebar
+//    private var _hideTitlebar = MutableLiveData<Boolean>(true)
+//    val hideTitlebar : MutableLiveData<Boolean>
+//        get() = _hideTitlebar
 
 //    fun showTitlebar(){
 //        _hideTitlebar.value = false
@@ -50,28 +48,37 @@ class MainViewModel @Inject constructor(app: BaseApplication): ViewModel(){
 //        _drawerLocked.value = false
 //    }
 
-    private val _username = MutableLiveData<String>("")
-    val username : MutableLiveData<String>
-            get() = _username
+    @Inject lateinit var sessionManager: SessionManager
 
-    private val _email = MutableLiveData<String>("")
-    val email : MutableLiveData<String>
-        get() = _email
+    //private val _username = MediatorLiveData<String>()
+    val username = MutableLiveData<String>()
+    val email = MutableLiveData<String>()
 
-    init{
-        this.mAuth.value?.addAuthStateListener{
-            if(it.currentUser!=null){
-                it.currentUser?.let {
-                    this._username.value = it?.displayName
-                    this._email.value = it?.email
-                }
-            }
-            else{
-                this.username.value = ""
-                this.email.value = ""
-            }
-        }
 
-    }
+
+//
+//    //private val _username = MutableLiveData<String>("")
+//    val username : MutableLiveData<String>
+//            get() = sessionManager.getUser().value.data.displayName
+//
+//    //private val _email = MutableLiveData<String>("")
+//    val email : MutableLiveData<String>
+//        get() = _email
+//
+//    init{
+//        this.mAuth.value?.addAuthStateListener{
+//            if(it.currentUser!=null){
+//                it.currentUser?.let {
+//                    this._username.value = it?.displayName
+//                    this._email.value = it?.email
+//                }
+//            }
+//            else{
+//                this.username.value = ""
+//                this.email.value = ""
+//            }
+//        }
+
+//    }
 
 }

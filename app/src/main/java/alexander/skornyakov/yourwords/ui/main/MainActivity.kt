@@ -108,8 +108,16 @@ class MainActivity: DaggerAppCompatActivity() {
 //            }
 //        }
 
+        subscribeObservers()
 
+    }
 
+    private fun subscribeObservers(){
+        vm.sessionManager.getUser().removeObservers(this)
+        vm.sessionManager.getUser().observe(this, Observer {
+            vm.username.value = it.data?.displayName
+            vm.email.value = it.data?.email
+        })
     }
 
     private fun setDrawer() {

@@ -4,8 +4,10 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignUpFragmentBinding
 import alexander.skornyakov.yourwords.ui.auth.AuthResource
+import alexander.skornyakov.yourwords.ui.main.MainActivity
 import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +64,9 @@ class SignUpFragment : DaggerFragment() {
                         val name = viewModel._name_edit.value!!
                         Utils.disableButton(sign_up_button)
                         viewModel.signUpWithEmail(email, pass, name)
+                        val intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                        activity?.finish()
                     }
 
                 } else {
