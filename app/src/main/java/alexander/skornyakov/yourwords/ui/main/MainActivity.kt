@@ -33,11 +33,8 @@ class MainActivity: DaggerAppCompatActivity() {
     @Inject lateinit var viewModelFactory: ViewModelProviderFactory
     @Inject lateinit var sessionManager: SessionManager
 
-   // @Inject lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val binding = DataBindingUtil.inflate<MainActivityBinding>(
             layoutInflater,
@@ -59,65 +56,17 @@ class MainActivity: DaggerAppCompatActivity() {
         toolbar.setupWithNavController(navController, appBarConfiguration)
         setupActionBarWithNavController(navController,appBarConfiguration)
 
-
-
-//        vm.hideTitlebar.observe(this, Observer {
-//            if(it==false){
-//                toolbar.visibility = View.VISIBLE
-//            }
-//            else{
-//                toolbar.visibility = View.GONE
-//            }
-//        })
-
         vm.signOut.observe(this, Observer {
             if(it==true){
-               // vm?.mAuth?.value?.currentUser?.let{
                     sessionManager.logOut()
                     var intent = Intent(this,AuthActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                     finish()
 
-                    //navController.navigate(R.id.signInFragment)
-                    //vm.lockDrawer()
-                    //vm.signOutCompleted()
-               // }
             }
         })
 
-//        vm.drawerLocked.observe(this, Observer {
-//            if(it){
-//                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-//            }
-//            else{
-//                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-//            }
-//        })
-
-//        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-//            val id = destination.id
-//            if(id == R.id.signInFragment
-//                || id == R.id.signUpFragment
-//                || id == R.id.resetPasswordFragment)
-//            {
-//                vm.hideTitlebar() //TODO remove from vm
-//            }
-//            else{
-//                vm.showTitlebar()
-//            }
-//        }
-
-        subscribeObservers()
-
-    }
-
-    private fun subscribeObservers(){
-        vm.sessionManager.getUser().removeObservers(this)
-        vm.sessionManager.getUser().observe(this, Observer {
-            vm.username.value = it.data?.displayName
-            vm.email.value = it.data?.email
-        })
     }
 
     private fun setDrawer() {

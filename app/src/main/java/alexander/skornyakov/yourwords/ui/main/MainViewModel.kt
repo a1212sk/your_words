@@ -2,27 +2,17 @@ package alexander.skornyakov.yourwords.ui.main
 
 import alexander.skornyakov.yourwords.app.BaseApplication
 import alexander.skornyakov.yourwords.app.SessionManager
+import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import android.app.Application
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(app: BaseApplication): ViewModel(){
+class MainViewModel @Inject constructor(val app: BaseApplication, val sessionManager: SessionManager): ViewModel(){
     private val _mAuth: MutableLiveData<FirebaseAuth> = MutableLiveData<FirebaseAuth>(FirebaseAuth.getInstance())
     val mAuth : LiveData<FirebaseAuth>
         get() = _mAuth
-
-//    private var _hideTitlebar = MutableLiveData<Boolean>(true)
-//    val hideTitlebar : MutableLiveData<Boolean>
-//        get() = _hideTitlebar
-
-//    fun showTitlebar(){
-//        _hideTitlebar.value = false
-//    }
-//
-//    fun hideTitlebar(){
-//        _hideTitlebar.value = true
-//    }
 
     private var _signOut: MutableLiveData<Boolean> = MutableLiveData(false)
     val signOut: MutableLiveData<Boolean>
@@ -31,54 +21,16 @@ class MainViewModel @Inject constructor(app: BaseApplication): ViewModel(){
     fun signOut(){
         _signOut.value = true
     }
-//
-//    fun signOutCompleted(){
-//        _signOut.value = false
-//    }
 
-//    private val _drawerLocked : MutableLiveData<Boolean> = MutableLiveData(true)
-//    val drawerLocked : MutableLiveData<Boolean>
-//        get() = _drawerLocked
+    val email : LiveData<String> = Transformations.map(sessionManager.getUser(), ::getEmail)
+    private fun getEmail(r : AuthResource<FirebaseUser>):String{
+        return r.data?.email ?: ""
+    }
 
-//    fun lockDrawer(){
-//        _drawerLocked.value = true
-//    }
-//
-//    fun unlockDrawer(){
-//        _drawerLocked.value = false
-//    }
+    val username : LiveData<String> = Transformations.map(sessionManager.getUser(), ::getUser)
+    private fun getUser(r : AuthResource<FirebaseUser>):String{
+        return r.data?.displayName ?: ""
+    }
 
-    @Inject lateinit var sessionManager: SessionManager
-
-    //private val _username = MediatorLiveData<String>()
-    val username = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
-
-
-
-//
-//    //private val _username = MutableLiveData<String>("")
-//    val username : MutableLiveData<String>
-//            get() = sessionManager.getUser().value.data.displayName
-//
-//    //private val _email = MutableLiveData<String>("")
-//    val email : MutableLiveData<String>
-//        get() = _email
-//
-//    init{
-//        this.mAuth.value?.addAuthStateListener{
-//            if(it.currentUser!=null){
-//                it.currentUser?.let {
-//                    this._username.value = it?.displayName
-//                    this._email.value = it?.email
-//                }
-//            }
-//            else{
-//                this.username.value = ""
-//                this.email.value = ""
-//            }
-//        }
-
-//    }
 
 }
