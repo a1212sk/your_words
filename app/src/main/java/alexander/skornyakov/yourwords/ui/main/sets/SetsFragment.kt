@@ -118,6 +118,7 @@ class SetsFragment : DaggerFragment() {
     }
 
     private fun renameWordSet(set: WordsSet) {
+        //TODO dialog
         Toast.makeText(context, "RENAME " + set.toString(), Toast.LENGTH_LONG).show()
     }
 
