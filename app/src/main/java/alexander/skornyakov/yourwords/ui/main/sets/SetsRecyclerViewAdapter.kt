@@ -44,7 +44,7 @@ class SetsRecyclerViewAdapter(private val clickListener: SetsClickListener)
 
         fun bind(clickListener: SetsClickListener, item: WordsSet) {
             binding.wordsSet = item
-            binding.wordTextView.text = item.name
+            //binding.wordTextView.text = item.name
             binding.root.setOnLongClickListener{
                 enableSetButtons()
                 GlobalScope.launch (Dispatchers.Main){
@@ -71,11 +71,11 @@ class SetsRecyclerViewAdapter(private val clickListener: SetsClickListener)
 
 class SetsDiffCallback : DiffUtil.ItemCallback<WordsSet>(){
     override fun areItemsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
-        return oldItem.id == newItem.id
+        return (oldItem.id == newItem.id) && (oldItem.name == newItem.name)
     }
 
     override fun areContentsTheSame(oldItem: WordsSet, newItem: WordsSet): Boolean {
-        return  oldItem == newItem
+        return  oldItem.name == newItem.name
     }
 }
 

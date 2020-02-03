@@ -3,17 +3,14 @@ package alexander.skornyakov.yourwords.ui.main.sets
 import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository
-import alexander.skornyakov.yourwords.generated.callback.OnClickListener
 import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,25 +47,39 @@ class SetsViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private lateinit var wordsSetListenerRegistration : ListenerRegistration
+    fun renameSet(ws: WordsSet,newName: String){
+
+        CoroutineScope(IO).launch {
+            val oldName = ws.name
+            repository.renameWordSet(ws,newName)
+        }
+    }
+
+    private fun initWordSetListener(){
+        //unsubscribe if not null
+        wordsSetListenerRegistration?.remove()
+
+        wordsSetListenerRegistration = repository.getWordSets()
+            .addSnapshotListener { snapshot, e ->
+                Log.d("SetsViewModel", "SnapshotListener worked out!!!")
+                val list = mutableListOf<WordsSet>()
+                for (set in snapshot!!) {
+                    val ws = set.toObject(WordsSet::class.java)
+                    ws.id = set.id
+                    list.add(ws)
+                }
+                list.sortBy {
+                    it.name
+                }
+                _wordsSetList.value = list
+            }
+    }
+    private var wordsSetListenerRegistration : ListenerRegistration? = null
     private val _wordsSetList: MutableLiveData<List<WordsSet>> = MutableLiveData()
     val wordsSetList: LiveData<List<WordsSet>>
         get() {
-            if(!::wordsSetListenerRegistration.isInitialized) {
-                wordsSetListenerRegistration = repository.getWordSets()
-                    .addSnapshotListener { snapshot, e ->
-                        Log.d("SetsViewModel", "SnapshotListener worked out!!!")
-                        val list = mutableListOf<WordsSet>()
-                        for (set in snapshot!!) {
-                            val ws = set.toObject(WordsSet::class.java)
-                            ws.id = set.id
-                            list.add(ws)
-                        }
-                        list.sortBy {
-                            it.name
-                        }
-                        _wordsSetList.value = list
-                }
+            if(wordsSetListenerRegistration==null) {
+                initWordSetListener()
             }
             return _wordsSetList
         }

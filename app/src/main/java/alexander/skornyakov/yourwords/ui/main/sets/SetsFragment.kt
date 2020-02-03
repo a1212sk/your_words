@@ -37,10 +37,31 @@ class SetsFragment : DaggerFragment() {
         val view = layoutInflater.inflate(R.layout.add_set_dialog, null);
         val editText = view.findViewById<EditText>(R.id.new_set_name)
         builder.setView(view)
-            .setTitle("Add new set")
+            .setTitle("Add a new set")
             .setPositiveButton("Create") { _, id ->
                 if (!editText.text.isNullOrEmpty()) {
                     vm.createSet(editText.text.toString())
+                }
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+            }
+        builder.show()
+    }
+
+    private fun showRenameSetDialog(wordsSet: WordsSet) {
+        val builder = AlertDialog.Builder(context)
+        val view = layoutInflater.inflate(R.layout.add_set_dialog, null);
+        val editText = view.findViewById<EditText>(R.id.new_set_name)
+        //editText.hint = wordsSet.name
+        editText.setText(wordsSet.name)
+        builder.setView(view)
+            .setTitle("Rename")
+            .setPositiveButton("Ok") { _, id ->
+                if (!editText.text.isNullOrEmpty()) {
+                    val newName = editText.text.toString()
+                    vm.renameSet(wordsSet,newName)
+                    //TODO update vm
+                    //vm.createSet(editText.text.toString())
                 }
             }
             .setNegativeButton("Cancel") { _, _ ->
@@ -118,8 +139,8 @@ class SetsFragment : DaggerFragment() {
     }
 
     private fun renameWordSet(set: WordsSet) {
-        //TODO dialog
-        Toast.makeText(context, "RENAME " + set.toString(), Toast.LENGTH_LONG).show()
+        showRenameSetDialog(set)
+        //Toast.makeText(context, "RENAME " + set.toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun deleteWordSet(vm: SetsViewModel, set: WordsSet) {

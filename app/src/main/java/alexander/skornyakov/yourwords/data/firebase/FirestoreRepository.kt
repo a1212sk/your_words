@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,6 +27,12 @@ class FirestoreRepository @Inject constructor(){
     fun removeWordSet(ws: WordsSet): Task<Void> {
         var ref = firestore.collection("sets").document(ws.id.toString())
         return ref.delete()
+    }
+
+    //returns true if success, false if error
+    fun renameWordSet(ws: WordsSet,newName: String) : Task<Void>{
+        val ref = firestore.collection("sets").document(ws.id)
+        return ref.set(hashMapOf("name" to newName), SetOptions.merge())
     }
 
 }

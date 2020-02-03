@@ -1,34 +1,31 @@
 package alexander.skornyakov.yourwords.ui.auth.signin
 
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.app.BaseApplication
 import alexander.skornyakov.yourwords.app.SessionManager
 import alexander.skornyakov.yourwords.databinding.SignInFragmentBinding
 import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import alexander.skornyakov.yourwords.ui.main.MainActivity
-import alexander.skornyakov.yourwords.ui.main.MainViewModel
 import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
-import android.app.Application
 import android.content.Intent
-import android.util.Log
-import android.widget.Button
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-
-import kotlinx.coroutines.*
-import androidx.lifecycle.Observer
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.sign_in_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class SignInFragment : DaggerFragment() {
 
@@ -46,8 +43,10 @@ class SignInFragment : DaggerFragment() {
         if(sessionManager.getUser().value?.status==AuthResource.AuthStatus.AUTHENTICATED){
             Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
             var intent = Intent(context,MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            activity?.finishAffinity()
             startActivity(intent)
-            activity?.finish()
+            //activity?.finish()
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
