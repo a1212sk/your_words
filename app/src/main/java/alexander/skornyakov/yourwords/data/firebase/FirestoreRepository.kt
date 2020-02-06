@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,8 +21,8 @@ class FirestoreRepository @Inject constructor(){
         return ref.set(ws)
     }
 
-    fun getWordSets(): CollectionReference{
-        return firestore.collection("sets")
+    fun getWordSetsByUserID(userID: String): Query{
+        return firestore.collection("sets").whereEqualTo("userID",userID)
     }
 
     fun removeWordSet(ws: WordsSet): Task<Void> {

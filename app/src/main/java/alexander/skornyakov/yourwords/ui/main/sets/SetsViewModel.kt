@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 class SetsViewModel @Inject constructor() : ViewModel() {
@@ -59,19 +60,23 @@ class SetsViewModel @Inject constructor() : ViewModel() {
         //unsubscribe if not null
         wordsSetListenerRegistration?.remove()
 
-        wordsSetListenerRegistration = repository.getWordSets()
+        val userID = sessionManager.getUser().value?.data?.uid
+            ?: throw RuntimeException("Cannot get the user!")
+        wordsSetListenerRegistration = repository.getWordSetsByUserID(userID)
             .addSnapshotListener { snapshot, e ->
-                Log.d("SetsViewModel", "SnapshotListener worked out!!!")
-                val list = mutableListOf<WordsSet>()
-                for (set in snapshot!!) {
-                    val ws = set.toObject(WordsSet::class.java)
-                    ws.id = set.id
-                    list.add(ws)
+                snapshot?.let {
+                    Log.d("SetsViewModel", "SnapshotListener worked out!!!")
+                    val list = mutableListOf<WordsSet>()
+                    for (set in snapshot!!) {
+                        val ws = set.toObject(WordsSet::class.java)
+                        ws.id = set.id
+                        list.add(ws)
+                    }
+                    list.sortBy {
+                        it.name
+                    }
+                    _wordsSetList.value = list
                 }
-                list.sortBy {
-                    it.name
-                }
-                _wordsSetList.value = list
             }
     }
     private var wordsSetListenerRegistration : ListenerRegistration? = null

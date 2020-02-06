@@ -63,18 +63,16 @@ class MainActivity: DaggerAppCompatActivity() {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                     finish()
-
             }
         })
-
     }
 
     private fun setDrawer() {
-        val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
-        navHeaderBinding.mainViewModel = vm
-        nav_view.addHeaderView(navHeaderBinding.root)
-        navHeaderBinding.lifecycleOwner = this
-        navHeaderBinding.executePendingBindings()
+        val navHeaderBinding = DataBindingUtil.bind<NavHeaderBinding>(nav_view.getHeaderView(0))
+        navHeaderBinding?.mainViewModel = vm
+        //nav_view.addHeaderView(navHeaderBinding.root)
+        navHeaderBinding?.lifecycleOwner = this
+        navHeaderBinding?.executePendingBindings()
 
         nav_view.setNavigationItemSelectedListener {
             drawer.closeDrawers()
