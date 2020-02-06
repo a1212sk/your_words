@@ -64,7 +64,7 @@ class ResetPasswordFragment @Inject constructor() : DaggerFragment() {
             }
         })
 
-        Utils.disableButton(reset_button)
+        Utils.disableButton(binding.resetButton)
 
         binding.resetPasswordEditText.doAfterTextChanged {
             val content = it.toString()
@@ -72,7 +72,7 @@ class ResetPasswordFragment @Inject constructor() : DaggerFragment() {
                 binding.resetPasswordEditText.error = getString(R.string.invalid_email)
                 Utils.disableButton(reset_button)
             } else {
-                Utils.enableButton(reset_button)
+                Utils.enableButton(binding.resetButton)
             }
         }
 

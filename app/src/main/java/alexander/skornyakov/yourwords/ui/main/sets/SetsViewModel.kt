@@ -18,6 +18,7 @@ import javax.inject.Inject
 class SetsViewModel @Inject constructor() : ViewModel() {
 
     @Inject lateinit var sessionManager: SessionManager
+    @Inject lateinit var repository : FirestoreRepository
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String>
@@ -26,7 +27,6 @@ class SetsViewModel @Inject constructor() : ViewModel() {
         _error.value=null
     }
 
-    @Inject lateinit var repository : FirestoreRepository
 
     //Creates new set of words
     fun createSet(text: String) {
@@ -49,7 +49,6 @@ class SetsViewModel @Inject constructor() : ViewModel() {
     }
 
     fun renameSet(ws: WordsSet,newName: String){
-
         CoroutineScope(IO).launch {
             val oldName = ws.name
             repository.renameWordSet(ws,newName)
