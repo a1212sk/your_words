@@ -37,6 +37,14 @@
         <argument
             android:name="setId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_wordsList_Fragment_to_newWordFragment"
+            app:destination="@id/newWordFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/wordsList_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/cardsFragment"
@@ -49,5 +57,22 @@
         <argument
             android:name="setId"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/newWordFragment"
+        android:name="alexander.skornyakov.yourwords.ui.main.newword.NewWordFragment"
+        android:label="New Word"
+        tools:layout="@layout/new_word_fragment">
+        <action
+            android:id="@+id/action_newWordFragment_to_wordsList_Fragment"
+            app:destination="@id/wordsList_Fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/setsFragment" />
+        <argument
+            android:name="setId"
+            app:argType="string" />
     </fragment>
 </navigation>

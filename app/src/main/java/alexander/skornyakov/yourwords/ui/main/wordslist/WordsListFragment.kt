@@ -5,9 +5,7 @@ import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -40,6 +38,9 @@ class WordsListFragment : DaggerFragment(){
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
             .get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
+
+        // Has option menu
+        setHasOptionsMenu(true)
 
         // Get word id
         val selectedWordsSet = arguments?.getString("setId") ?: throw RuntimeException("Set ID id wasn't passed!")
@@ -76,6 +77,23 @@ class WordsListFragment : DaggerFragment(){
         })
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.wordlist_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        goToCreateNewWordFragment()
+        return true
+    }
+
+    private fun goToCreateNewWordFragment() {
+        findNavController().navigate(
+            WordsListFragmentDirections.actionWordsListFragmentToNewWordFragment(viewModel.setId!!)
+        )
     }
 
 }

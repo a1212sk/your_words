@@ -2,6 +2,7 @@ package alexander.skornyakov.yourwords.di.main
 
 import alexander.skornyakov.yourwords.di.ViewModelKey
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
+import alexander.skornyakov.yourwords.ui.main.newword.NewWordViewModel
 import alexander.skornyakov.yourwords.ui.main.sets.SetsViewModel
 import alexander.skornyakov.yourwords.ui.main.wordslist.WordsListViewModel
 import androidx.lifecycle.ViewModel
@@ -26,5 +27,10 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(WordsListViewModel::class)
     abstract fun bindWordsListViewModel(viewModel: WordsListViewModel):ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewWordViewModel::class)
+    abstract fun bindNewWordViewModel(viewModel: NewWordViewModel):ViewModel
 
 }

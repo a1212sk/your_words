@@ -1,5 +1,6 @@
 package alexander.skornyakov.yourwords.data.firebase
 
+import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class FirestoreRepository @Inject constructor(){
 
-    private val firestore = FirebaseFirestore.getInstance()
+    @Inject lateinit var firestore : FirebaseFirestore
    // private val user = FirebaseAuth.getInstance().currentUser
 
     fun saveWordSet(ws: WordsSet): Task<Void>{
@@ -30,7 +31,6 @@ class FirestoreRepository @Inject constructor(){
         return ref.delete()
     }
 
-    //returns true if success, false if error
     fun renameWordSet(ws: WordsSet,newName: String) : Task<Void>{
         val ref = firestore.collection("sets").document(ws.id)
         return ref.set(hashMapOf("name" to newName), SetOptions.merge())
@@ -38,6 +38,16 @@ class FirestoreRepository @Inject constructor(){
 
     fun getWordListBySetID(setId: String) : Query{
         return firestore.collection("words").whereEqualTo("wordSetId",setId)
+    }
+
+    fun saveWord(w: Word):Task<Void>{
+        var ref = firestore.collection("words").document()
+        return ref.set(w)
+    }
+
+    fun renameWord(w: Word, newName: String):Task<Void>{
+        val ref = firestore.collection("words").document(w.id)
+        return ref.set(hashMapOf("name" to newName), SetOptions.merge())
     }
 
 }

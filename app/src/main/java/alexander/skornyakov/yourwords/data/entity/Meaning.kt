@@ -1,12 +1,14 @@
 package alexander.skornyakov.yourwords.data.entity
 
+import com.google.firebase.firestore.Exclude
+
 data class Meaning (
 
-    val id: Long = 0,
+    @get:Exclude var id: String = "",
 
-    val wordId: Long = 0,
+    var wordId: String = "",
 
-    val meaning: String,
+    var meaning: String,
 
-    val order: Int = 0
+    var order: Int = 0
 )

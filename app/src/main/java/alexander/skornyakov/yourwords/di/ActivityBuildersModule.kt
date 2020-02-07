@@ -4,6 +4,7 @@ import alexander.skornyakov.yourwords.di.auth.AuthFragmentBuildersModule
 import alexander.skornyakov.yourwords.di.auth.AuthModule
 import alexander.skornyakov.yourwords.di.auth.AuthViewModelsModule
 import alexander.skornyakov.yourwords.di.main.MainFragmentBuildersModule
+import alexander.skornyakov.yourwords.di.main.MainModule
 import alexander.skornyakov.yourwords.di.main.MainViewModelsModule
 import alexander.skornyakov.yourwords.ui.auth.AuthActivity
 import alexander.skornyakov.yourwords.ui.main.MainActivity
@@ -18,6 +19,7 @@ abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
         modules = [MainActivityModule::class,
             MainViewModelsModule::class,
+            MainModule::class,
             MainFragmentBuildersModule::class]
     )
     abstract fun contributeMainActivity(): MainActivity
