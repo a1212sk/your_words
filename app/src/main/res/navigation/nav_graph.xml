@@ -45,9 +45,9 @@
         tools:layout="@layout/word_fragment">
         <argument
             android:name="wordId"
-            app:argType="long"/>
+            app:argType="string"/>
         <argument
             android:name="setId"
-            app:argType="long"/>
+            app:argType="string"/>
     </fragment>
 </navigation>

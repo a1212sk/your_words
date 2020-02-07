@@ -4,6 +4,7 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.databinding.WordslistItemBinding
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,9 +29,8 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
         class WordViewHolder private constructor(val binding: WordslistItemBinding)
             : RecyclerView.ViewHolder(binding.root){
         fun bind(item: Word, clickListener: WordsClickListener) {
-            //binding.wordTextView.text = item.word
             binding.word = item
-            binding.clickListener = clickListener
+            binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,item.id) }
             binding.executePendingBindings()
 
         }
@@ -50,7 +50,7 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
 
 class SetsDiffCallback : DiffUtil.ItemCallback<Word>(){
     override fun areItemsTheSame(oldItem: Word, newItem: Word): Boolean {
-        return oldItem.wordId == newItem.wordId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Word, newItem: Word): Boolean {
@@ -59,10 +59,10 @@ class SetsDiffCallback : DiffUtil.ItemCallback<Word>(){
 
 }
 
-class WordsClickListener(val clickListener: (wordId: Long) -> Unit) {
-    fun onClick(word: Word?){
-        word?.let {
-            clickListener(it.wordId)
+class WordsClickListener(val clickListener: (view: View, wordId: String) -> Unit) {
+    fun onClick(view: View, wordId: String){
+        wordId?.let {
+            clickListener(view,wordId)
         }
     }
 }

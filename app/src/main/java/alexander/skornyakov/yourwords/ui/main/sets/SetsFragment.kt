@@ -60,8 +60,6 @@ class SetsFragment : DaggerFragment() {
                 if (!editText.text.isNullOrEmpty()) {
                     val newName = editText.text.toString()
                     vm.renameSet(wordsSet,newName)
-                    //TODO update vm
-                    //vm.createSet(editText.text.toString())
                 }
             }
             .setNegativeButton("Cancel") { _, _ ->

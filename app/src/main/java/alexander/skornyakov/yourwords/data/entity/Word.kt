@@ -1,11 +1,13 @@
 package alexander.skornyakov.yourwords.data.entity
 
+import com.google.firebase.firestore.Exclude
+
 data class Word (
 
-    var wordId: Long = 0L,
+    @get:Exclude var id: String = "",
 
-    val word: String,
+    var word: String = "",
 
-    val wordSetId: Long?
+    var wordSetId: String = ""
 
 )

@@ -2,6 +2,7 @@ package alexander.skornyakov.yourwords.ui.main.wordslist
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.WordslistFragmentBinding
+import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,15 +14,21 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
+import java.lang.RuntimeException
+import javax.inject.Inject
 
 class WordsListFragment : DaggerFragment(){
 
+    @Inject lateinit var viewModelProviderFactory: ViewModelProviderFactory
     private lateinit var viewModel: WordsListViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        // Inflation
         val binding : WordslistFragmentBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.wordslist_fragment,
@@ -29,48 +36,47 @@ class WordsListFragment : DaggerFragment(){
             false)
         binding.lifecycleOwner = this
 
-        val selectedWordsSet = arguments?.getLong("id")
-
-
-        val app: Application = requireNotNull(this.activity).application
-        val vmFactory =
-            WordsListViewModelFactory(
-                app,
-                selectedWordsSet!!
-            )
-        viewModel = ViewModelProviders.of(this, vmFactory).get(WordsListViewModel::class.java)
+        // Get view model and pass it to binding
+        viewModel = ViewModelProviders.of(this, viewModelProviderFactory)
+            .get(WordsListViewModel::class.java)
         binding.wordsListViewModel = viewModel
 
-        val wordsListRecyclerViewAdapter =
-            WordsListRecyclerViewAdapter(
-                WordsClickListener { wordId ->
-                    wordId.let {
-                        findNavController().navigate(
-                            WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(
-                                it,
-                                selectedWordsSet
-                            )
-                        )
+        // Get word id
+        val selectedWordsSet = arguments?.getString("setId") ?: throw RuntimeException("Set ID id wasn't passed!")
+        viewModel.setId = selectedWordsSet
 
-                    }
-                })
+        // Create words click listener
+        val wordsListClickListener = WordsClickListener { view, wordId ->
+            when(view.id) {
+                R.id.constraintLayout -> {
+                    findNavController().navigate(
+                        WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(
+                            wordId,
+                            selectedWordsSet
+                        )
+                    )
+                }
+            }
+        }
+
+        // Create and init adapter
+        val wordsListRecyclerViewAdapter =
+            WordsListRecyclerViewAdapter(wordsListClickListener)
         binding.setsRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = wordsListRecyclerViewAdapter
-
         }
 
+        // Observe words list and pass it to the adapter
         viewModel.words.observe(viewLifecycleOwner, Observer {
             it?.let {
                 wordsListRecyclerViewAdapter.submitList(it)
             }
         })
 
-
         return binding.root
     }
-
 
 }
 

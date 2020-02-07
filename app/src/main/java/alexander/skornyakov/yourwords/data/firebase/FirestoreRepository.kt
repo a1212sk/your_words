@@ -36,4 +36,8 @@ class FirestoreRepository @Inject constructor(){
         return ref.set(hashMapOf("name" to newName), SetOptions.merge())
     }
 
+    fun getWordListBySetID(setId: String) : Query{
+        return firestore.collection("words").whereEqualTo("wordSetId",setId)
+    }
+
 }
