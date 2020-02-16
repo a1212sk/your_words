@@ -28,24 +28,24 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
 
         class WordViewHolder private constructor(val binding: WordslistItemBinding)
             : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: Word, clickListener: WordsClickListener) {
-            binding.word = item
-            binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,item.id) }
-            binding.executePendingBindings()
+            fun bind(item: Word, clickListener: WordsClickListener) {
+                binding.word = item
+                binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,item.id) }
+                binding.executePendingBindings()
 
-        }
+            }
 
-        companion object {
-            fun from(parent: ViewGroup): WordViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = WordslistItemBinding.inflate(layoutInflater,parent,false)
-                layoutInflater.inflate(R.layout.wordslist_item, parent, false)
-                return WordViewHolder(
-                    binding
-                )
+            companion object {
+                fun from(parent: ViewGroup): WordViewHolder {
+                    val layoutInflater = LayoutInflater.from(parent.context)
+                    val binding = WordslistItemBinding.inflate(layoutInflater,parent,false)
+                    layoutInflater.inflate(R.layout.wordslist_item, parent, false)
+                    return WordViewHolder(
+                        binding
+                    )
+                }
             }
         }
-    }
 }
 
 class SetsDiffCallback : DiffUtil.ItemCallback<Word>(){
