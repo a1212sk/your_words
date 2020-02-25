@@ -48,7 +48,7 @@ class MeaningsAdapter(val meaningClickListener: MeaningClickListener) : ListAdap
 
 class DiffCalback : DiffUtil.ItemCallback<Meaning>() {
     override fun areItemsTheSame(oldItem: Meaning, newItem: Meaning): Boolean {
-        return oldItem.meaning == newItem.meaning
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Meaning, newItem: Meaning): Boolean {

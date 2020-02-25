@@ -25,7 +25,9 @@ class NewWordViewModel @Inject constructor(): ViewModel(){
         get()=_meaningsToBeRemoved
 
     fun addMeaningToBeRemoved(meaning: Meaning){
-        if(_meaningsToBeRemoved.value==null)_meaningsToBeRemoved.value = mutableListOf()
+        if(_meaningsToBeRemoved.value==null){
+            _meaningsToBeRemoved.value = mutableListOf()
+        }
         val list = _meaningsToBeRemoved.value?.toMutableList()
         list?.add(meaning)
         _meaningsToBeRemoved.postValue(list)
@@ -48,7 +50,7 @@ class NewWordViewModel @Inject constructor(): ViewModel(){
     fun removeMeaning(m: Meaning){
         val list = _meanings.value?.toMutableList()
         list?.remove(m)
-        _meanings.postValue(list)
+        _meanings.value = list
     }
 
     fun saveWord(): Task<Void>{
