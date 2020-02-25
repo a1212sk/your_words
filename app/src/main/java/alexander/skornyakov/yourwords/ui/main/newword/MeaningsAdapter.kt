@@ -4,12 +4,13 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.databinding.NewWordMeaningListItemBinding
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class MeaningsAdapter : ListAdapter<Meaning, MeaningsAdapter.MeaningViewHolder>(DiffCalback()) {
+class MeaningsAdapter(val meaningClickListener: MeaningClickListener) : ListAdapter<Meaning, MeaningsAdapter.MeaningViewHolder>(DiffCalback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -19,13 +20,17 @@ class MeaningsAdapter : ListAdapter<Meaning, MeaningsAdapter.MeaningViewHolder>(
 
     override fun onBindViewHolder(holder: MeaningsAdapter.MeaningViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item,meaningClickListener)
     }
 
 
     class MeaningViewHolder(val binding: NewWordMeaningListItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: Meaning){
+        fun bind(item: Meaning, meaningClickListener: MeaningClickListener){
             binding.meaning = item
+            binding.checkBox.isChecked = false
+            binding.checkBox.setOnClickListener{
+                meaningClickListener.onClick(it,binding.meaning)
+            }
             binding.executePendingBindings()
         }
 
@@ -50,4 +55,12 @@ class DiffCalback : DiffUtil.ItemCallback<Meaning>() {
         return oldItem.meaning == newItem.meaning
     }
 
+}
+
+class MeaningClickListener(val clickListener: (view: View, mId: Meaning) -> Unit) {
+    fun onClick(view: View, mId: Meaning?){
+        mId?.let {
+            clickListener(view, it)
+        }
+    }
 }

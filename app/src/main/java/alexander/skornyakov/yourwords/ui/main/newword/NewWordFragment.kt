@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -47,7 +48,18 @@ class NewWordFragment : DaggerFragment(){
         binding.vm = vm
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val adapter = MeaningsAdapter()
+        val meaningClickListener = MeaningClickListener{view, m ->
+            when(view.id){
+                R.id.checkBox->{
+                    if((view as CheckBox).isChecked){
+                        vm.addMeaningToBeRemoved(m)
+                    }else{
+                        vm.removeMeaningToBeRemoved(m)
+                    }
+                }
+            }
+        }
+        val adapter = MeaningsAdapter(meaningClickListener)
         binding.recyclerView.apply {
             //setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -55,10 +67,8 @@ class NewWordFragment : DaggerFragment(){
         }
 
         binding.saveButton.setOnClickListener {
-            //TODO check meanings
-
-            if(vm.word.value.isNullOrEmpty()){
-                Toast.makeText(context,"Empty word!",Toast.LENGTH_LONG).show()
+            if(vm.word.value.isNullOrEmpty() || vm.meanings.value==null || vm.meanings.value?.count()==0){
+                Toast.makeText(context,"Empty word or the meaning of the word!",Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             vm.saveWord().addOnSuccessListener {
@@ -73,9 +83,17 @@ class NewWordFragment : DaggerFragment(){
             showAddMeaningDialog()
         }
 
+        binding.removeMeaningButton.setOnClickListener {
+            vm.meaningsToBeRemoved.value?:return@setOnClickListener
+            for(mId in vm.meaningsToBeRemoved.value!!){
+                vm.removeMeaning(mId)
+            }
+            vm.meaningsToBeRemoved.value?.clear()
+        }
+
         vm.meanings.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Toast.makeText(context, it.joinToString(), Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, it.joinToString(), Toast.LENGTH_LONG).show()
                 adapter.submitList(it)
             }
         })
