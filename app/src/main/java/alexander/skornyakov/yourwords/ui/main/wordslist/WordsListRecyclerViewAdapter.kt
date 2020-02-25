@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
     : ListAdapter<Word, WordsListRecyclerViewAdapter.WordViewHolder>(
@@ -28,9 +32,32 @@ class WordsListRecyclerViewAdapter(val clickListener: WordsClickListener)
 
         class WordViewHolder private constructor(val binding: WordslistItemBinding)
             : RecyclerView.ViewHolder(binding.root){
+
+            private fun enableSetButtons(){
+                binding.wordTextView.visibility = View.GONE
+                binding.wordDeleteBtn.visibility = View.VISIBLE
+                binding.wordEditBtn.visibility = View.VISIBLE
+            }
+
+            private fun disableSetButtons(){
+                binding.wordTextView.visibility = View.VISIBLE
+                binding.wordDeleteBtn.visibility = View.GONE
+                binding.wordEditBtn.visibility = View.GONE
+            }
+
             fun bind(item: Word, clickListener: WordsClickListener) {
                 binding.word = item
+                binding.root.setOnLongClickListener{
+                    enableSetButtons()
+                    GlobalScope.launch (Dispatchers.Main){
+                        delay(2000)
+                        disableSetButtons()
+                    }
+                    true
+                }
                 binding.constraintLayout.setOnClickListener{ clickListener.onClick(it,item.id) }
+                binding.wordEditBtn.setOnClickListener{ clickListener.onClick(it,item.id) }
+                binding.wordDeleteBtn.setOnClickListener{ clickListener.onClick(it,item.id) }
                 binding.executePendingBindings()
 
             }

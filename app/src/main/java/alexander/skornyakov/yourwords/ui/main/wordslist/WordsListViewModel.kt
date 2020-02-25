@@ -9,6 +9,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.RuntimeException
 import javax.inject.Inject
 
@@ -53,6 +56,12 @@ class WordsListViewModel @Inject constructor(): ViewModel(){
                 wordList.sortBy { it.word }
                 _words.value = wordList
             }
+    }
+
+    fun removeWord(wordId:String){
+        CoroutineScope(Dispatchers.IO).launch{
+            repository.removeWord(wordId)
+        }
     }
 
     // must be initialized in fragment

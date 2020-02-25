@@ -57,6 +57,12 @@ class WordsListFragment : DaggerFragment(){
                         )
                     )
                 }
+                R.id.word_delete_btn -> {
+                    viewModel.removeWord(wordId)
+                }
+                R.id.word_edit_btn -> {
+
+                }
             }
         }
 

@@ -65,4 +65,9 @@ class FirestoreRepository @Inject constructor(){
         return ref.set(hashMapOf("name" to newName), SetOptions.merge())
     }
 
+    fun removeWord(wId: String):Task<Void>{
+        val ref = firestore.collection("words").document(wId)
+        return ref.delete()
+    }
+
 }
