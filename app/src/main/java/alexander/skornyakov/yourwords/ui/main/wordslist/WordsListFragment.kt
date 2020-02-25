@@ -32,7 +32,7 @@ class WordsListFragment : DaggerFragment(){
             R.layout.wordslist_fragment,
             container,
             false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         // Get view model and pass it to binding
         viewModel = ViewModelProviders.of(this, viewModelProviderFactory)

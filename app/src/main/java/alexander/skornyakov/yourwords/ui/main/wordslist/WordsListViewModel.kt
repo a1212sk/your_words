@@ -57,4 +57,9 @@ class WordsListViewModel @Inject constructor(): ViewModel(){
 
     // must be initialized in fragment
     var setId : String? = null
+
+    override fun onCleared() {
+        listenerRegistration?.remove()
+        super.onCleared()
+    }
 }
