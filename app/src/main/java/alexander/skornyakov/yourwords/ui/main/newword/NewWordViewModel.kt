@@ -29,10 +29,12 @@ class NewWordViewModel @Inject constructor(): ViewModel(){
     }
 
     fun saveWord(): Task<Void>{
+        //TODO save meanings as well
         val newWord = Word()
         newWord.word = word.value.toString()
         newWord.wordSetId = setID
-        return repository.saveWord(newWord)
+        val listOfMeanings = _meanings.value?.toList()
+        return repository.saveWord(newWord, listOfMeanings)
     }
 
 }

@@ -1,5 +1,7 @@
 package alexander.skornyakov.yourwords
 
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -15,3 +17,5 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 }
+
+

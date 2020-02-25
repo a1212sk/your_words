@@ -6,6 +6,7 @@ data class Meaning (
 
     @get:Exclude var id: String = "",
 
+    @get:Exclude
     var wordId: String = "",
 
     var meaning: String,

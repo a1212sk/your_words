@@ -1,5 +1,6 @@
 package alexander.skornyakov.yourwords.data.firebase
 
+import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import com.google.android.gms.tasks.Task
@@ -8,6 +9,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
+import java.lang.RuntimeException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,9 +42,16 @@ class FirestoreRepository @Inject constructor(){
         return firestore.collection("words").whereEqualTo("wordSetId",setId)
     }
 
-    fun saveWord(w: Word):Task<Void>{
+    fun saveWord(w: Word, meanings: List<Meaning>?):Task<Void>{
+        meanings ?: throw RuntimeException("There are no meanings!")
         var ref = firestore.collection("words").document()
-        return ref.set(w)
+        return ref.set(w).addOnCompleteListener {
+            for(m in meanings){
+                ref.collection("meanings").add(m).addOnFailureListener {
+                    throw RuntimeException(it.message)
+                }
+            }
+        }
     }
 
     fun renameWord(w: Word, newName: String):Task<Void>{

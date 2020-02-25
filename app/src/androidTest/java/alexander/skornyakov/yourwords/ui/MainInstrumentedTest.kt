@@ -1,35 +1,32 @@
 package alexander.skornyakov.yourwords.ui
 
-import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.ui.auth.AuthActivity
 import alexander.skornyakov.yourwords.ui.main.MainActivity
-import alexander.skornyakov.yourwords.ui.main.sets.SetsRecyclerViewAdapter
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.*
+import android.util.Log
+import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.appcompat.widget.Toolbar
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.contrib.NavigationViewActions
-import androidx.test.espresso.contrib.RecyclerViewActions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import org.hamcrest.CoreMatchers.allOf
-
-import org.junit.Before
-import kotlin.random.Random
+import java.util.regex.Matcher
 
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class MainInstrumentedTest {
     @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    val activityRule = ActivityTestRule(AuthActivity::class.java)
+
 
 
 //    val loginTimeConst = 2000L
