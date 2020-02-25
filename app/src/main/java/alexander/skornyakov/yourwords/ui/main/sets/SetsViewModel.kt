@@ -42,9 +42,7 @@ class SetsViewModel @Inject constructor() : ViewModel() {
 
     fun deleteSet(ws: WordsSet){
         AsyncTask.execute{
-            repository.removeWordSet(ws).addOnFailureListener {
-                _error.value = it.toString()
-            }
+            repository.removeWordSet(ws)
         }
     }
 
@@ -88,4 +86,8 @@ class SetsViewModel @Inject constructor() : ViewModel() {
             return _wordsSetList
         }
 
+    override fun onCleared() {
+        wordsSetListenerRegistration?.remove()
+        super.onCleared()
+    }
 }

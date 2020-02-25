@@ -28,9 +28,15 @@ class FirestoreRepository @Inject constructor(){
         return firestore.collection("sets").whereEqualTo("userID",userID)
     }
 
-    fun removeWordSet(ws: WordsSet): Task<Void> {
-        var ref = firestore.collection("sets").document(ws.id.toString())
-        return ref.delete()
+    fun removeWordSet(ws: WordsSet){
+        var sets = firestore.collection("sets").document(ws.id.toString())
+        var words = firestore.collection("words").whereEqualTo("wordSetId",ws.id)
+        var task = words.get().addOnSuccessListener {
+            for (w in it){
+                w.reference.delete().addOnFailureListener { throw RuntimeException("Cannot delete word") }
+            }
+            sets.delete()
+        }
     }
 
     fun renameWordSet(ws: WordsSet,newName: String) : Task<Void>{

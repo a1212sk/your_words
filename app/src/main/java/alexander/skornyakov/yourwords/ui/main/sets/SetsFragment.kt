@@ -142,7 +142,6 @@ class SetsFragment : DaggerFragment() {
     }
 
     private fun deleteWordSet(vm: SetsViewModel, set: WordsSet) {
-        //TODO delete words inside the set
         vm.deleteSet(set)
         //Toast.makeText(context, "DELETE " + set.toString(), Toast.LENGTH_LONG).show()
     }

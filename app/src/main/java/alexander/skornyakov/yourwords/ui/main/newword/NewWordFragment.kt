@@ -55,6 +55,8 @@ class NewWordFragment : DaggerFragment(){
         }
 
         binding.saveButton.setOnClickListener {
+            //TODO check meanings
+
             if(vm.word.value.isNullOrEmpty()){
                 Toast.makeText(context,"Empty word!",Toast.LENGTH_LONG).show()
                 return@setOnClickListener
