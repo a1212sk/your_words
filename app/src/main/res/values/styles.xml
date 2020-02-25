@@ -14,6 +14,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <style name="MyCheckbox" parent="android:Widget.DeviceDefault.Light.CompoundButton.CheckBox">
+        <item name="colorAccent">#fff</item>
+    </style>
 
 </resources>

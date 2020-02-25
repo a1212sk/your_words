@@ -13,5 +13,9 @@
     <color name="button_text_color">#EADDDD</color>
     <color name="delete_button">#C97878</color>
     <color name="rename_button">#78A1AD</color>
-    <color name="new_meaning_item_color">#8A3E68A8</color>
+    <color name="new_meaning_item_color">#FFEB3B</color>
+    <color name="new_word_meanings_bg">#FFC107</color>
+    <color name="new_word_word_bg">@android:color/secondary_text_dark</color>
+    <color name="new_word_meaning_font">#2E1A6D</color>
+    <color name="new_word_save_btn">#FF6F00</color>
 </resources>

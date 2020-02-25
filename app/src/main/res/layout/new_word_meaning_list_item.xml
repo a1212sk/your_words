@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/new_meaning_item_color"
+            app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
             app:contentPadding="10dp">
@@ -36,7 +37,7 @@
                     android:gravity="center"
                     android:text="@{meaning.meaning}"
                     android:textAlignment="textStart"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     tools:text="Word meaning" />
 
@@ -44,6 +45,7 @@
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:buttonTint="@color/white"
                     android:text="" />
             </LinearLayout>
 
