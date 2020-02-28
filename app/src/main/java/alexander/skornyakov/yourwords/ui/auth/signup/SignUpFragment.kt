@@ -63,10 +63,10 @@ class SignUpFragment : DaggerFragment() {
                         val pass = viewModel._password_edit1.value!!
                         val name = viewModel._name_edit.value!!
                         Utils.disableButton(sign_up_button)
-                        viewModel.signUpWithEmail(email, pass, name)
-                        val intent = Intent(context, MainActivity::class.java)
-                        startActivity(intent)
-                        activity?.finish()
+                        viewModel.signUpWithEmail(email, pass, name).addOnFailureListener {
+                            Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
+                            Utils.enableButton(sign_up_button)
+                        }
                     }
 
                 } else {
@@ -115,9 +115,11 @@ class SignUpFragment : DaggerFragment() {
             when(it.status){
                 AuthResource.AuthStatus.AUTHENTICATED->{
                     viewModel.signUpActionComplete()
-                    //TODO go to main
                     Toast.makeText(context,"Registered. GO to main "+
                             sessionManager.getUser().value?.data?.email,Toast.LENGTH_LONG).show()
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
                 }
                 AuthResource.AuthStatus.ERROR->{
                     viewModel.signUpActionComplete()

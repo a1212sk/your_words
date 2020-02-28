@@ -4,6 +4,8 @@ import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -35,8 +37,8 @@ class SessionManager @Inject constructor(){
         }
     }
 
-    fun signUpWithEmail(login: String, password: String, name: String) {
-        firebaseAuth.createUserWithEmailAndPassword(login, password).addOnCompleteListener { signUpTask ->
+    fun signUpWithEmail(login: String, password: String, name: String): Task<AuthResult> {
+        return firebaseAuth.createUserWithEmailAndPassword(login, password).addOnCompleteListener { signUpTask ->
             if (signUpTask.isSuccessful) {
                 val newUser = firebaseAuth.currentUser
                 val profileUpdate = UserProfileChangeRequest.Builder()

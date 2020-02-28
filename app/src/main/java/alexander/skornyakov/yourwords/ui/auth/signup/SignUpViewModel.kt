@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import javax.inject.Inject
@@ -44,8 +46,8 @@ class SignUpViewModel
     ////////////////////////////////////////////////////////////////////////
 
 
-    fun signUpWithEmail(login: String, password: String, name: String) {
-        sessionManager.signUpWithEmail(login,password,name)
+    fun signUpWithEmail(login: String, password: String, name: String) : Task<AuthResult> {
+        return sessionManager.signUpWithEmail(login,password,name)
     }
 
 }
