@@ -3,6 +3,7 @@ package alexander.skornyakov.yourwords.data.firebase
 import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.data.entity.WordsSet
+import androidx.databinding.ObservableArrayList
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -56,7 +57,7 @@ class FirestoreRepository @Inject constructor(){
                 val ds = it.result
                 word = ds?.toObject(Word::class.java)
                 word?.id = wId
-                word?.meanings = mutableListOf()
+                word?.meanings = ObservableArrayList()
                 word
             }
             //then get meanings and fill word object

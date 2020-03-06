@@ -39,6 +39,9 @@ class NewWordFragment : DaggerFragment(){
         selectedWordSet?:throw RuntimeException("SetID is not selected!")
         vm.setID = selectedWordSet
         val word = arguments?.getString("wordId")
+        word?.let{
+            vm.setWord(word)
+        }
 
         val binding = DataBindingUtil.inflate<NewWordFragmentBinding>(
             inflater,
@@ -46,9 +49,7 @@ class NewWordFragment : DaggerFragment(){
             container,
             false)
         binding.vm = vm
-        word?.let{
-            vm.setWord(word)
-        }
+
         binding.lifecycleOwner = viewLifecycleOwner
 
         val meaningClickListener = MeaningClickListener{view, m ->
