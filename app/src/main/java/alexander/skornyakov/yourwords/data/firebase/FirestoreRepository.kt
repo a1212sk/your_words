@@ -77,7 +77,12 @@ class FirestoreRepository @Inject constructor(){
     }
 
     fun saveWord(w: Word):Task<Void>{
-        var ref = firestore.collection("words").document(w.id)
+        var ref : DocumentReference? = null
+        if(w.id.isNullOrEmpty()){
+            ref = firestore.collection("words").document()
+        }
+        else ref = firestore.collection("words").document(w.id)
+
         return ref.set(w).addOnSuccessListener {
             ref.collection("meanings").get().addOnSuccessListener {
                 for(m in it){

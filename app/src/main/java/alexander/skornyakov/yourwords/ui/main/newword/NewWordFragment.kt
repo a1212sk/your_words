@@ -1,6 +1,7 @@
 package alexander.skornyakov.yourwords.ui.main.newword
 
 import alexander.skornyakov.yourwords.R
+import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.firebase.FirestoreRepository
 import alexander.skornyakov.yourwords.databinding.NewWordFragmentBinding
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
@@ -13,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController

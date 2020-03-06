@@ -15,6 +15,9 @@ class NewWordViewModel @Inject constructor(): ViewModel(){
     @Inject lateinit var repository: FirestoreRepository
 
     val word = MutableLiveData<Word>()
+    init{
+        word.value = Word()
+    }
     lateinit var setID : String
 
 //    private val _meanings = MutableLiveData<MutableList<Meaning>>()
