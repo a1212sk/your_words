@@ -100,7 +100,7 @@ class NewWordFragment : DaggerFragment(){
 
         vm.word.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Toast.makeText(context, "OBSERVER!", Toast.LENGTH_LONG).show()
+               // Toast.makeText(context, "OBSERVER!", Toast.LENGTH_LONG).show()
 //                vm.word.value?.meanings = it.meanings
                 adapter.submitList(it.meanings)
                 adapter.notifyDataSetChanged()
