@@ -3,12 +3,11 @@ package alexander.skornyakov.yourwords.data.firebase
 import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.data.entity.WordsSet
+import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import java.lang.RuntimeException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,16 +47,71 @@ class FirestoreRepository @Inject constructor(){
         return firestore.collection("words").whereEqualTo("wordSetId",setId)
     }
 
-    fun saveWord(w: Word, meanings: List<Meaning>?):Task<Void>{
-        meanings ?: throw RuntimeException("There are no meanings!")
-        var ref = firestore.collection("words").document()
-        return ref.set(w).addOnCompleteListener {
-            for(m in meanings){
-                ref.collection("meanings").add(m).addOnFailureListener {
-                    throw RuntimeException(it.message)
+    fun getWordById(wId: String): Task<Word>{
+        val refWord = firestore.collection("words").document(wId)
+        var word : Word? = null
+        return refWord.get() //Get the word
+            // fill word object
+            .continueWith {
+                val ds = it.result
+                word = ds?.toObject(Word::class.java)
+                word?.id = wId
+                word?.meanings = mutableListOf()
+                word
+            }
+            //then get meanings and fill word object
+            .continueWithTask {
+                refWord.collection("meanings").get().addOnSuccessListener {qs->
+                    for(m in qs){
+                        val meaning = m.toObject(Meaning::class.java)
+                        meaning.id = m.id
+                        word?.meanings?.add(meaning)
+                    }
+                }
+                //when meanings are filled return Task<Word>
+                .continueWith {
+                    word!!
+                }
+            }
+    }
+
+    fun saveWord(w: Word):Task<Void>{
+        var ref = firestore.collection("words").document(w.id)
+        return ref.set(w).addOnSuccessListener {
+            ref.collection("meanings").get().addOnSuccessListener {
+                for(m in it){
+                    m.reference.delete()
+                }
+                for(m in w.meanings){
+                    ref.collection("meanings").add(m)
                 }
             }
         }
+
+//
+//        return ref.set(w).continueWith {
+//            ref.collection("meanings").get()
+//
+//                .addOnSuccessListener {
+//                    val result = it.result
+//                    if (result != null) {
+//                        for (d in result) {
+//                            Tasks.await(d.reference.delete())
+//                        }
+//                    }
+//                }
+//            return@continueWith
+//        }
+
+//            .continueWith {
+//                    for(m in w.meanings){
+//                        ref.collection("meanings").add(m).addOnFailureListener {
+//                            throw RuntimeException(it.message)
+//                        }
+//                    }
+//
+//                }
+//        }
     }
 
     fun renameWord(w: Word, newName: String):Task<Void>{

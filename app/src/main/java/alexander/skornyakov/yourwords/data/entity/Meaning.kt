@@ -9,7 +9,7 @@ data class Meaning (
     @get:Exclude
     var wordId: String = "",
 
-    var meaning: String,
+    var meaning: String = "",
 
     var order: Int = 0
 )

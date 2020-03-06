@@ -8,6 +8,8 @@ data class Word (
 
     var word: String = "",
 
-    var wordSetId: String = ""
+    var wordSetId: String = "",
+
+    @get:Exclude var meanings: MutableList<Meaning> = mutableListOf()
 
 )

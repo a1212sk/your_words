@@ -89,6 +89,7 @@ class SetsFragment : DaggerFragment() {
         )
         binding.setsViewModel = vm
         this.vm = vm
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val setsClickListener = SetsClickListener { view, set ->
             when (view.id) {

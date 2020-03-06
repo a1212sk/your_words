@@ -10,6 +10,9 @@ import dagger.android.support.DaggerApplication
 import javax.inject.Inject
 
 class BaseApplication: DaggerApplication() {
+    @Inject
+    lateinit var sessionManager : SessionManager
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().app(this).build()
     }

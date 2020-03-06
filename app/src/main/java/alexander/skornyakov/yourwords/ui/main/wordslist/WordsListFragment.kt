@@ -61,7 +61,10 @@ class WordsListFragment : DaggerFragment(){
                     viewModel.removeWord(wordId)
                 }
                 R.id.word_edit_btn -> {
-
+                    //TODO go to edit
+                    findNavController().navigate(
+                        WordsListFragmentDirections.actionWordsListFragmentToNewWordFragment(viewModel.setId!!,wordId)
+                    )
                 }
             }
         }
@@ -98,7 +101,7 @@ class WordsListFragment : DaggerFragment(){
 
     private fun goToCreateNewWordFragment() {
         findNavController().navigate(
-            WordsListFragmentDirections.actionWordsListFragmentToNewWordFragment(viewModel.setId!!)
+            WordsListFragmentDirections.actionWordsListFragmentToNewWordFragment(viewModel.setId!!,null)
         )
     }
 

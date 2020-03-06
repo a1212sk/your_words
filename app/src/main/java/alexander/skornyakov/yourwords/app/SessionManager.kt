@@ -9,6 +9,10 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -60,11 +64,16 @@ class SessionManager @Inject constructor(){
 
     fun getUser() : LiveData<AuthResource<FirebaseUser>>{
         if (user.value==null){
-            if (firebaseAuth.currentUser!=null){
-                user.value = AuthResource.authenticated(firebaseAuth.currentUser)
-            }else{
-                user.value = AuthResource.logout()//NOT Authenticated status
+            GlobalScope.launch {
+                withContext(Dispatchers.Main){
+                    if (firebaseAuth.currentUser!=null){
+                        user.value = AuthResource.authenticated(firebaseAuth.currentUser)
+                    }else{
+                        user.value = AuthResource.logout()//NOT Authenticated status
+                    }
+                }
             }
+
         }
         return user
     }

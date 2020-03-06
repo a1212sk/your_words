@@ -27,18 +27,18 @@ class NewWordFragment : DaggerFragment(){
     private lateinit var vm: NewWordViewModel
     @Inject lateinit var viewModelFactory: ViewModelProviderFactory
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        vm = ViewModelProviders.of(this,viewModelFactory).get(NewWordViewModel::class.java)
 
+        /// Arguments
         val selectedWordSet = arguments?.getString("setId")
         selectedWordSet?:throw RuntimeException("SetID is not selected!")
-
-        vm = ViewModelProviders.of(this,viewModelFactory).get(NewWordViewModel::class.java)
         vm.setID = selectedWordSet
+        val word = arguments?.getString("wordId")
 
         val binding = DataBindingUtil.inflate<NewWordFragmentBinding>(
             inflater,
@@ -46,6 +46,9 @@ class NewWordFragment : DaggerFragment(){
             container,
             false)
         binding.vm = vm
+        word?.let{
+            vm.setWord(word)
+        }
         binding.lifecycleOwner = viewLifecycleOwner
 
         val meaningClickListener = MeaningClickListener{view, m ->
@@ -67,7 +70,8 @@ class NewWordFragment : DaggerFragment(){
         }
 
         binding.saveButton.setOnClickListener {
-            if(vm.word.value.isNullOrEmpty() || vm.meanings.value==null || vm.meanings.value?.count()==0){
+            val word = vm.word.value
+            if(word?.meanings == null || word.meanings.count()==0){
                 Toast.makeText(context,"Empty word or the meaning of the word!",Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
@@ -91,10 +95,12 @@ class NewWordFragment : DaggerFragment(){
             vm.meaningsToBeRemoved.value?.clear()
         }
 
-        vm.meanings.observe(viewLifecycleOwner, Observer {
+        vm.word.observe(viewLifecycleOwner, Observer {
             it?.let {
-                //Toast.makeText(context, it.joinToString(), Toast.LENGTH_LONG).show()
-                adapter.submitList(it)
+                Toast.makeText(context, "OBSERVER!", Toast.LENGTH_LONG).show()
+//                vm.word.value?.meanings = it.meanings
+                adapter.submitList(it.meanings)
+                adapter.notifyDataSetChanged()
             }
         })
 

@@ -7,18 +7,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 class NewWordViewModel @Inject constructor(): ViewModel(){
 
     @Inject lateinit var repository: FirestoreRepository
 
-    val word = MutableLiveData<String>()
+    val word = MutableLiveData<Word>()
     lateinit var setID : String
 
-    private val _meanings = MutableLiveData<MutableList<Meaning>>()
-    val meanings : LiveData<MutableList<Meaning>>
-        get()=_meanings
+//    private val _meanings = MutableLiveData<MutableList<Meaning>>()
+//    val meanings : LiveData<MutableList<Meaning>>
+//        get(){
+//            if(_meanings.value==null)_meanings.value = mutableListOf()
+//            return _meanings
+//        }
 
     private val _meaningsToBeRemoved = MutableLiveData<MutableList<Meaning>>()
     val meaningsToBeRemoved : LiveData<MutableList<Meaning>>
@@ -40,25 +44,43 @@ class NewWordViewModel @Inject constructor(): ViewModel(){
     }
 
     fun addMeaning(str: String){
+
         val meaning = Meaning(meaning = str)
-        if(_meanings.value==null)_meanings.value = mutableListOf()
-        val list = _meanings.value?.toMutableList()
-        list?.add(meaning)
-        _meanings.postValue(list)
+        word.value?.meanings?.add(meaning)
+        word.value = word.value
+//        if(_meanings.value==null)_meanings.value = mutableListOf()
+//        val list = _meanings.value?.toMutableList()
+//        list?.add(meaning)
+//        _meanings.postValue(list)
     }
 
     fun removeMeaning(m: Meaning){
-        val list = _meanings.value?.toMutableList()
-        list?.remove(m)
-        _meanings.value = list
+        word.value?.meanings?.remove(m)
+        word.value = word.value
+//        val list = _meanings.value?.toMutableList()
+//        list?.remove(m)
+//        _meanings.value = list
     }
 
     fun saveWord(): Task<Void>{
-        val newWord = Word()
-        newWord.word = word.value.toString()
-        newWord.wordSetId = setID
-        val listOfMeanings = _meanings.value?.toList()
-        return repository.saveWord(newWord, listOfMeanings)
+//        val newWord = Word()
+//        newWord.word = word.value.toString()
+//        newWord.wordSetId = setID
+        word.value?.wordSetId = setID
+        //val listOfMeanings = _meanings.value?.toList()
+        //word.value?:throw RuntimeException("word's value is null")
+
+        return repository.saveWord(word.value!!)
+
+    }
+
+    fun setWord(wordId: String) {
+        repository.getWordById(wordId).addOnSuccessListener {
+            it?.let {
+                word.value = it
+//                _meanings.postValue(word.value?.meanings)
+            }
+        }
     }
 
 }

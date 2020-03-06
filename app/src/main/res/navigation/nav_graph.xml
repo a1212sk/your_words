@@ -74,5 +74,9 @@
         <argument
             android:name="setId"
             app:argType="string" />
+        <argument
+            android:name="wordId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>
