@@ -2,6 +2,7 @@ package alexander.skornyakov.yourwords.di.main
 
 import alexander.skornyakov.yourwords.di.ViewModelKey
 import alexander.skornyakov.yourwords.ui.main.MainViewModel
+import alexander.skornyakov.yourwords.ui.main.cards.WordViewModel
 import alexander.skornyakov.yourwords.ui.main.newword.NewWordViewModel
 import alexander.skornyakov.yourwords.ui.main.sets.SetsViewModel
 import alexander.skornyakov.yourwords.ui.main.wordslist.WordsListViewModel
@@ -32,5 +33,10 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(NewWordViewModel::class)
     abstract fun bindNewWordViewModel(viewModel: NewWordViewModel):ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WordViewModel::class)
+    abstract fun bindWordViewModel(viewModel: WordViewModel):ViewModel
 
 }

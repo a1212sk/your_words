@@ -52,8 +52,7 @@ class WordsListFragment : DaggerFragment(){
                 R.id.constraintLayout -> {
                     findNavController().navigate(
                         WordsListFragmentDirections.actionWordsListFragmentToCardsFragment(
-                            wordId,
-                            selectedWordsSet
+                            wordId
                         )
                     )
                 }
@@ -61,7 +60,6 @@ class WordsListFragment : DaggerFragment(){
                     viewModel.removeWord(wordId)
                 }
                 R.id.word_edit_btn -> {
-                    //TODO go to edit
                     findNavController().navigate(
                         WordsListFragmentDirections.actionWordsListFragmentToNewWordFragment(viewModel.setId!!,wordId)
                     )

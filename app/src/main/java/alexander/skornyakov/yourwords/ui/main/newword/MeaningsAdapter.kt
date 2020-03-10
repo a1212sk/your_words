@@ -43,7 +43,6 @@ class MeaningsAdapter(val meaningClickListener: MeaningClickListener) : ListAdap
             }
         }
     }
-
 }
 
 class DiffCalback : DiffUtil.ItemCallback<Meaning>() {

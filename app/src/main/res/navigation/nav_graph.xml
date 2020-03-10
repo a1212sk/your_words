@@ -54,9 +54,6 @@
         <argument
             android:name="wordId"
             app:argType="string"/>
-        <argument
-            android:name="setId"
-            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/newWordFragment"

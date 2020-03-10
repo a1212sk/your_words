@@ -93,31 +93,6 @@ class FirestoreRepository @Inject constructor(){
                 }
             }
         }
-
-//
-//        return ref.set(w).continueWith {
-//            ref.collection("meanings").get()
-//
-//                .addOnSuccessListener {
-//                    val result = it.result
-//                    if (result != null) {
-//                        for (d in result) {
-//                            Tasks.await(d.reference.delete())
-//                        }
-//                    }
-//                }
-//            return@continueWith
-//        }
-
-//            .continueWith {
-//                    for(m in w.meanings){
-//                        ref.collection("meanings").add(m).addOnFailureListener {
-//                            throw RuntimeException(it.message)
-//                        }
-//                    }
-//
-//                }
-//        }
     }
 
     fun renameWord(w: Word, newName: String):Task<Void>{
