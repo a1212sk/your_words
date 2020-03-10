@@ -60,19 +60,18 @@ class FirestoreRepository @Inject constructor(){
                 word?.meanings = ObservableArrayList()
                 word
             }
-            //then get meanings and fill word object
             .continueWithTask {
-                refWord.collection("meanings").get().addOnSuccessListener {qs->
-                    for(m in qs){
+                refWord.collection("meanings").get().continueWith {qs->
+                    for(m in qs.result!!){
                         val meaning = m.toObject(Meaning::class.java)
                         meaning.id = m.id
                         word?.meanings?.add(meaning)
                     }
-                }
-                //when meanings are filled return Task<Word>
-                .continueWith {
                     word!!
                 }
+//                .continueWith {
+//                    word!!
+//                }
             }
     }
 

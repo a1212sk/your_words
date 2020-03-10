@@ -1,6 +1,7 @@
 package alexander.skornyakov.yourwords.di.main
 
-import alexander.skornyakov.yourwords.ui.main.cards.WordFragment
+import alexander.skornyakov.yourwords.ui.main.cards.WordCardFragment
+import alexander.skornyakov.yourwords.ui.main.cards.WordsFragment
 import alexander.skornyakov.yourwords.ui.main.newword.NewWordFragment
 import alexander.skornyakov.yourwords.ui.main.sets.SetsFragment
 import alexander.skornyakov.yourwords.ui.main.wordslist.WordsListFragment
@@ -17,9 +18,12 @@ abstract class MainFragmentBuildersModule {
     abstract fun contributeWordListFragment():WordsListFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeCardsFragment():WordFragment
+    abstract fun contributeCardsFragment():WordsFragment
 
     @ContributesAndroidInjector
     abstract fun contributeNewWordFragment():NewWordFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeWordCardFragment(): WordCardFragment
 
 }

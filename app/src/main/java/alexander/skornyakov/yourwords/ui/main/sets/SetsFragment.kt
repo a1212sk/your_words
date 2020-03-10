@@ -82,7 +82,6 @@ class SetsFragment : DaggerFragment() {
         val binding = DataBindingUtil.inflate<SetsFragmentBinding>(
             inflater, R.layout.sets_fragment, container, false
         )
-        binding.lifecycleOwner = this
 
         val vm: SetsViewModel = ViewModelProviders.of(this, viewModelFactory).get(
             SetsViewModel::class.java
