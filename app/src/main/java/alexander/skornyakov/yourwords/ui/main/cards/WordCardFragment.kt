@@ -50,7 +50,10 @@ class WordCardFragment : DaggerFragment() {
             it.let {
                 binding.word = it
                 binding.cardMeanings.layoutManager = LinearLayoutManager(context)
-                binding.cardMeanings.adapter = SimpleRVAdapter(it.meanings.toTypedArray())
+                val adapter = WordCardMeaningsRVAdapter()
+                adapter.submitList(it.meanings)
+                binding.cardMeanings.adapter = adapter
+
             }
         })
 
@@ -63,40 +66,6 @@ class WordCardFragment : DaggerFragment() {
             fragment.currentWordId = wordId
             return fragment
         }
-    }
-
-}
-
-class SimpleRVAdapter(private val dataSource: Array<Meaning>) :
-    RecyclerView.Adapter<SimpleRVAdapter.SimpleViewHolder>() {
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): SimpleViewHolder {
-        // create a new view
-        val view: View = TextView(parent.context)
-        return SimpleViewHolder(view)
-    }
-
-    class SimpleViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        var textView: TextView = itemView as TextView
-
-        init {
-            textView.textSize = 24f
-            textView.setTextColor(Color.WHITE)
-        }
-    }
-
-    override fun onBindViewHolder(
-        holder: SimpleViewHolder,
-        position: Int
-    ) {
-        holder.textView.text = dataSource[position].meaning
-    }
-
-    override fun getItemCount(): Int {
-        return dataSource.size
     }
 
 }
