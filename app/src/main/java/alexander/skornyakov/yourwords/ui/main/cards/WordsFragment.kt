@@ -43,9 +43,10 @@ class WordsFragment : DaggerFragment(){
         viewModel.words.observe(this, Observer {
             it.let{
                 pages = it.count()
-                binding.pager.adapter = ScreenSlidePagerAdapter(this,it)
+                val sortedWordList = it.sortedBy { it.word }
+                binding.pager.adapter = ScreenSlidePagerAdapter(this,sortedWordList)
                 binding.pager.setCurrentItem(
-                    it.indexOf(it.find { it.id == selectedWordId }),
+                    sortedWordList.indexOf(sortedWordList.find { it.id == selectedWordId }),
                     false)
             }
         })
