@@ -46,9 +46,10 @@ class WordsFragment : DaggerFragment(){
 
         viewModel.words.observe(this, Observer {
             it.let{
-                //Toast.makeText(context,it.joinToString("\n\n"),Toast.LENGTH_LONG).show()
                 pages = it.count()
                 binding.pager.adapter = ScreenSlidePagerAdapter(this,it)
+
+                //TODO set position to selectedWordId
             }
         })
 

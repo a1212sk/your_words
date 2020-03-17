@@ -4,6 +4,7 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.databinding.FragmentWordCardBinding
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -79,11 +80,11 @@ class SimpleRVAdapter(private val dataSource: Array<Meaning>) :
 
     class SimpleViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var textView: TextView
+        var textView: TextView = itemView as TextView
 
         init {
-            textView = itemView as TextView
             textView.textSize = 24f
+            textView.setTextColor(Color.WHITE)
         }
     }
 
