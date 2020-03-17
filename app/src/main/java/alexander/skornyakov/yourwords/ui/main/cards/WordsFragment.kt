@@ -8,16 +8,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.word_fragment.*
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 class WordsFragment : DaggerFragment(){
@@ -48,8 +44,9 @@ class WordsFragment : DaggerFragment(){
             it.let{
                 pages = it.count()
                 binding.pager.adapter = ScreenSlidePagerAdapter(this,it)
-
-                //TODO set position to selectedWordId
+                binding.pager.setCurrentItem(
+                    it.indexOf(it.find { it.id == selectedWordId }),
+                    false)
             }
         })
 

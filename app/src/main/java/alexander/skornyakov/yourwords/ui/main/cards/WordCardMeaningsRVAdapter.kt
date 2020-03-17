@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 class WordCardMeaningsRVAdapter :
     ListAdapter<Meaning,WordCardMeaningsRVAdapter.ViewHolder>(SetsDiffCallback()) {
 
-
-
     class ViewHolder private constructor(val binding: WordCardMeaningsItemBinding)
         : RecyclerView.ViewHolder(binding.root){
 
