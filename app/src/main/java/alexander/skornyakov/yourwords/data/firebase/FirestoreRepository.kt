@@ -35,7 +35,13 @@ class FirestoreRepository @Inject constructor(){
         var words = firestore.collection("words").whereEqualTo("wordSetId",ws.id)
         var task = words.get().addOnSuccessListener {
             for (w in it){
-                w.reference.delete().addOnFailureListener { throw RuntimeException("Cannot delete word") }
+                w.reference.collection("meanings").get()
+                   .addOnSuccessListener {
+                        for(m in it){
+                            m.reference.delete()
+                        }
+                        w.reference.delete()
+                    }
             }
             sets.delete()
         }
@@ -71,9 +77,6 @@ class FirestoreRepository @Inject constructor(){
                     }
                     word!!
                 }
-//                .continueWith {
-//                    word!!
-//                }
             }
     }
 
@@ -103,6 +106,12 @@ class FirestoreRepository @Inject constructor(){
 
     fun removeWord(wId: String):Task<Void>{
         val ref = firestore.collection("words").document(wId)
+        ref.collection("meanings").get()
+            .addOnSuccessListener {
+                for(m in it){
+                    m.reference.delete()
+                }
+            }
         return ref.delete()
     }
 
