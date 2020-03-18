@@ -38,7 +38,9 @@ class WordCardFragment : DaggerFragment() {
         binding.cardMeanings.adapter = adapter
 
         val viewModel = ViewModelProviders.of(this,factory).get(WordCardViewModel::class.java)
-        viewModel.setWordId(currentWordId)
+        if(::currentWordId.isInitialized) {
+            viewModel.setWordId(currentWordId)
+        }
 
         viewModel.word.observe(this, Observer {
             it.let {
