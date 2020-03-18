@@ -4,12 +4,11 @@ import alexander.skornyakov.yourwords.data.entity.Meaning
 import alexander.skornyakov.yourwords.data.entity.Word
 import alexander.skornyakov.yourwords.data.entity.WordsSet
 import androidx.databinding.ObservableArrayList
-import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
-import java.lang.RuntimeException
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,9 +18,12 @@ class FirestoreRepository @Inject constructor(){
     @Inject lateinit var firestore : FirebaseFirestore
    // private val user = FirebaseAuth.getInstance().currentUser
 
-    fun saveWordSet(ws: WordsSet): Task<Void>{
+    fun saveWordSet(ws: WordsSet): Task<String>{
         var ref = firestore.collection("sets").document()
-        return ref.set(ws)
+        val id = ref.id
+        return ref.set(ws).continueWith {
+            return@continueWith id
+        }
     }
 
     fun getWordSetsByUserID(userID: String): Query{

@@ -41,7 +41,7 @@ class SignInFragment : DaggerFragment() {
     ): View? {
 
         if(sessionManager.getUser().value?.status==AuthResource.AuthStatus.AUTHENTICATED){
-            Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
+//            Toast.makeText(context,"Go to main activity",Toast.LENGTH_LONG).show()
             var intent = Intent(context,MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             activity?.finishAffinity()
@@ -102,7 +102,7 @@ class SignInFragment : DaggerFragment() {
         sessionManager.getUser().observe(this, Observer {
             when(it.status){
                 AuthResource.AuthStatus.AUTHENTICATED->{
-                    Toast.makeText(context,"Logged In !!!",Toast.LENGTH_LONG).show()
+//                    Toast.makeText(context,"Logged In !!!",Toast.LENGTH_LONG).show()
                     Utils.disableButton(sign_in_button)
                     gotoMainActivity()
                 }

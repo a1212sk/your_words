@@ -2,7 +2,6 @@ package alexander.skornyakov.yourwords.app
 
 import alexander.skornyakov.yourwords.ui.auth.AuthResource
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -21,6 +20,8 @@ class SessionManager @Inject constructor(){
 
     private val user : MutableLiveData<AuthResource<FirebaseUser>> = MutableLiveData()
     @Inject lateinit var firebaseAuth: FirebaseAuth
+
+    val isNewUser: MutableLiveData<Boolean> = MutableLiveData()
 
     fun authenticate(email: String, password: String) {
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
@@ -45,6 +46,10 @@ class SessionManager @Inject constructor(){
         return firebaseAuth.createUserWithEmailAndPassword(login, password).addOnCompleteListener { signUpTask ->
             if (signUpTask.isSuccessful) {
                 val newUser = firebaseAuth.currentUser
+
+                val isNew = signUpTask.result?.additionalUserInfo?.isNewUser
+                isNewUser.value = isNew
+
                 val profileUpdate = UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
                     .build()
