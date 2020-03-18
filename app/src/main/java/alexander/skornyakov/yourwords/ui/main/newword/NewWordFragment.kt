@@ -6,9 +6,7 @@ import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
@@ -68,18 +66,9 @@ class NewWordFragment : DaggerFragment(){
             this.adapter = adapter
         }
 
+        //TODO make the save button in the top right corner (option menu)
         binding.saveButton.setOnClickListener {
-            val word = vm.word.value
-            if(word?.meanings == null || word.meanings.count()==0){
-                Toast.makeText(context,"Empty word or the meaning of the word!",Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            vm.saveWord().addOnSuccessListener {
-                findNavController().navigateUp()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
-            }
+            saveWord()
         }
 
         binding.addMeaningButton.setOnClickListener {
@@ -101,7 +90,23 @@ class NewWordFragment : DaggerFragment(){
             }
         })
 
+        setHasOptionsMenu(true)
+
         return binding.root
+    }
+
+    private fun saveWord() {
+        val word = vm.word.value
+        if(word?.meanings == null || word.meanings.count()==0){
+            Toast.makeText(context,"Empty word or the meaning of the word!",Toast.LENGTH_LONG).show()
+            return
+        }
+        vm.saveWord().addOnSuccessListener {
+                findNavController().navigateUp()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context,it.message,Toast.LENGTH_LONG).show()
+            }
     }
 
     private fun showAddMeaningDialog() {
@@ -122,5 +127,16 @@ class NewWordFragment : DaggerFragment(){
         builder.show()
         view.findViewById<EditText>(R.id.new_set_name).requestFocus()
         Utils.showKeyboard(activity!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.save_word_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        saveWord()
+        return true
     }
 }
