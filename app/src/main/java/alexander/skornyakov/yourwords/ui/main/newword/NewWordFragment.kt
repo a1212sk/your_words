@@ -2,6 +2,7 @@ package alexander.skornyakov.yourwords.ui.main.newword
 
 import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.NewWordFragmentBinding
+import alexander.skornyakov.yourwords.util.Utils
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.app.AlertDialog
 import android.os.Bundle
@@ -112,11 +113,14 @@ class NewWordFragment : DaggerFragment(){
             .setPositiveButton("Add") { _, id ->
                 if (!editText.text.isNullOrEmpty()) {
                     vm.addMeaning(editText.text.toString())
+                    Utils.hideKeyboard(activity!!)
                 }
             }
-                //TODO hide keyboard
             .setNegativeButton("Cancel") { _, _ ->
+                Utils.hideKeyboard(activity!!)
             }
         builder.show()
+        view.findViewById<EditText>(R.id.new_set_name).requestFocus()
+        Utils.showKeyboard(activity!!)
     }
 }

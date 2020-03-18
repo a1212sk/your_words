@@ -15,15 +15,24 @@ import java.net.UnknownHostException
 class Utils {
     companion object{
         fun hideKeyboard(activity: FragmentActivity) {
-            val inputMethodManager =
-                activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm: InputMethodManager =
+                activity.baseContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+//            val inputMethodManager =
+//                activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//
+//            // Check if no view has focus
+//            val currentFocusedView = activity.currentFocus
+//            currentFocusedView?.let {
+//                inputMethodManager.hideSoftInputFromWindow(
+//                    activity.window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+//            }
+        }
 
-            // Check if no view has focus
-            val currentFocusedView = activity.currentFocus
-            currentFocusedView?.let {
-                inputMethodManager.hideSoftInputFromWindow(
-                    currentFocusedView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            }
+        fun showKeyboard(activity: FragmentActivity) {
+            val imm: InputMethodManager =
+                activity.baseContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }
 
          fun isNetworkAvailable(context: Context): Boolean {
