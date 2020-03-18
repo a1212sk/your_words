@@ -64,6 +64,7 @@ class MainActivity: DaggerAppCompatActivity() {
             }
         })
 
+        //Prepopulation
         sessionManager.isNewUser.observe(this, Observer {
             if(it){
                 Log.d("MainActivity","New User")
@@ -71,6 +72,7 @@ class MainActivity: DaggerAppCompatActivity() {
                     "db.json",
                     sessionManager.getUser().value?.data?.uid!!,
                     this)
+                sessionManager.isNewUser.postValue(false)
             }
         })
         //for debug: sessionManager.isNewUser.value = true
