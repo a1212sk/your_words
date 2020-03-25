@@ -18,4 +18,11 @@
         <item name="colorAccent">#fff</item>
     </style>
 
+    <style name="SoundBtnStyle" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@color/transp</item>
+        <item name="srcCompat">@drawable/sound_btn_selector</item>
+    </style>
+
+
+
 </resources>

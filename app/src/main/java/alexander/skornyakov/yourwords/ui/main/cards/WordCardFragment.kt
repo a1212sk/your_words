@@ -4,6 +4,7 @@ import alexander.skornyakov.yourwords.R
 import alexander.skornyakov.yourwords.databinding.FragmentWordCardBinding
 import alexander.skornyakov.yourwords.viewmodels.ViewModelProviderFactory
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class WordCardFragment : DaggerFragment() {
 
     @Inject lateinit var factory: ViewModelProviderFactory
+    @Inject lateinit var tts: TextToSpeech
 
     private lateinit var currentWordId : String
 
@@ -48,6 +50,11 @@ class WordCardFragment : DaggerFragment() {
                 adapter.submitList(it.meanings)
             }
         })
+
+        binding.sndBtn.setOnClickListener {
+            if (!::tts.isInitialized)println("tts is not initialized!")
+            else tts.speak(viewModel.word.value?.word, TextToSpeech.QUEUE_FLUSH, null)
+        }
 
         return binding.root
     }
